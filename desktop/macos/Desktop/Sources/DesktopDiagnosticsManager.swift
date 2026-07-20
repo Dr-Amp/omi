@@ -863,17 +863,15 @@ final class DesktopDiagnosticsManager {
     return result
   }
 
-  #if DEBUG
-    func resetForTests() {
-      lock.lock()
-      snapshots.removeAll()
-      betaTrailSnapshots.removeAll()
-      consecutiveNearZeroPTTTurns = 0
-      lastPTTWatchdogIncidentAt = nil
-      lastUserVisibleSentryIncidentAt.removeAll()
-      lock.unlock()
-    }
-  #endif
+  func resetForTests() {
+    lock.lock()
+    snapshots.removeAll()
+    betaTrailSnapshots.removeAll()
+    consecutiveNearZeroPTTTurns = 0
+    lastPTTWatchdogIncidentAt = nil
+    lastUserVisibleSentryIncidentAt.removeAll()
+    lock.unlock()
+  }
 
   private func shouldCaptureIncident(area: String, failureClass: String) -> Bool {
     let key = "\(area):\(failureClass)"
