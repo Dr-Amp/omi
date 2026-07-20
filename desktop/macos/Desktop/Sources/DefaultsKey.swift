@@ -35,6 +35,8 @@ enum DefaultsKey: String {
   case automationOwnerABackup = "automation_swap_owner_a_backup"
   case chatBridgeMode = "chatBridgeMode"
   case multiChatEnabled = "multiChatEnabled"
+  case playwrightUseExtension = "playwrightUseExtension"
+  case playwrightExtensionToken = "playwrightExtensionToken"
   case aiChatWorkingDirectory = "aiChatWorkingDirectory"
   case hasCompletedOnboarding = "hasCompletedOnboarding"
   case onboardingStep = "onboardingStep"

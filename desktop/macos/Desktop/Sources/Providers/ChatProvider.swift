@@ -82,8 +82,8 @@ struct ChatRunAccountingPolicy: Equatable {
   let recordsPersonalProviderUsage: Bool
 
   init(pinnedAdapterID: String) {
-    usesOmiAccountQuota = pinnedAdapterID == AgentAdapterId.piMono.rawValue
-    recordsPersonalProviderUsage = pinnedAdapterID == AgentAdapterId.acp.rawValue
+    usesOmiAccountQuota = pinnedAdapterID == AgentAdapterId.rx4.rawValue
+    recordsPersonalProviderUsage = false
   }
 }
 
@@ -159,10 +159,10 @@ private struct ChatJournalTerminalTarget {
 
 extension UserDefaults {
   @objc dynamic var multiChatEnabled: Bool {
-    return bool(forKey: "multiChatEnabled")
+    return bool(forKey: .multiChatEnabled)
   }
   @objc dynamic var playwrightUseExtension: Bool {
-    return bool(forKey: "playwrightUseExtension")
+    return bool(forKey: .playwrightUseExtension)
   }
 }
 
@@ -537,7 +537,7 @@ enum ToolCallStatus: CaseIterable {
 
   static func fromBridgeStatus(_ status: String) -> ToolCallStatus {
     switch status {
-    case "started", "progress":
+    case "started":
       return .running
     case "failed", "cancelled", "interrupted":
       return .failed
@@ -918,19 +918,6 @@ enum ChatTurnOwner: Equatable {
   case taskChat(String)
   case agentPill(UUID)
 
-  /// Per-turn reasoning-effort lane relayed to the desktop gateway.
-  /// Typed chat runs "adaptive": the model decides how much to think per
-  /// question (including explicit "think properly / take 5 minutes" asks).
-  /// PTT/voice runs "fast": thinking off, low effort, latency-optimized.
-  /// Background surfaces (task chat, agent pills) keep the legacy behavior.
-  var reasoningEffort: String? {
-    switch self {
-    case .floatingVoice: return "fast"
-    case .mainChat, .floatingDefault: return "adaptive"
-    case .taskChat, .agentPill: return nil
-    }
-  }
-
   func canInterrupt(_ activeOwner: ChatTurnOwner) -> Bool {
     switch (self, activeOwner) {
     case (.floatingDefault, .floatingDefault),
@@ -1122,7 +1109,7 @@ class ChatProvider: ObservableObject {
   private var activeChatClientTurnId: (generation: Int, id: String)?
   private var activeStopReason: (generation: Int, reason: ChatTurnStopReason)?
 
-  /// Set to a send's generation when the 60s watchdog fires for it, *before*
+  /// Set to a send's generation when the 180s watchdog fires for it, *before*
   /// the watchdog interrupts the bridge. `interrupt()` resumes the in-flight
   /// request with `BridgeError.stopped`, which the send-loop catch would
   /// otherwise treat as a silent user stop — so the catch checks this marker to
@@ -1135,8 +1122,6 @@ class ChatProvider: ObservableObject {
   private var sendToolStallAbortGeneration: Int?
 
   private static let perToolStallAbortMs = 90_000
-  private static let genericWatchdogInactivityMs = 60_000
-  private static let genericWatchdogPollMs = 5_000
 
   /// Set to true during onboarding so the ACP session ID is persisted for restart recovery.
   var isOnboarding = false
@@ -1221,24 +1206,25 @@ class ChatProvider: ObservableObject {
   /// Tracks the harness mode the bridge is actually running (NOT the @AppStorage preference).
   /// @AppStorage("chatBridgeMode") can be updated by other views sharing the same key,
   /// so comparing against it in switchBridgeMode() would always match → no-op.
-  private var activeBridgeHarness: String = "piMono"
+  private var activeBridgeHarness: String = "rx4"
   /// Orders rapid preference changes without treating them as runtime lifecycle.
   /// The kernel applies each preference only when creating future sessions.
   private var profilePreferenceChangeGeneration: UInt64 = 0
 
   enum BridgeMode: String {
+    case rx4
     case omiAI = "agentSDK"  // Legacy, auto-migrated to piMono
     case userClaude = "claudeCode"
     case piMono = "piMono"
     case hermes = "hermes"
     case openClaw = "openclaw"
   }
-  @AppStorage("chatBridgeMode") var bridgeMode: String = BridgeMode.piMono.rawValue
+  @AppStorage("chatBridgeMode") var bridgeMode: String = BridgeMode.rx4.rawValue
 
   /// Future-session preference hint for startup/UI only. A live send must use
   /// `ChatRunAccountingPolicy` from its resolved immutable session profile.
   var isUsingOmiAccountProvider: Bool {
-    resolvedHarnessMode() == "piMono"
+    resolvedHarnessMode() == "rx4"
   }
 
   nonisolated static func harnessMode(for mode: BridgeMode) -> String {
@@ -1246,11 +1232,7 @@ class ChatProvider: ObservableObject {
   }
 
   private func resolvedHarnessMode() -> String {
-    if let override = bridgeHarnessOverride {
-      return override.rawValue
-    }
-    let mode = UserDefaults.standard.string(forKey: "chatBridgeMode") ?? BridgeMode.piMono.rawValue
-    return Self.harnessMode(for: BridgeMode(rawValue: mode) ?? .piMono)
+    AgentHarnessMode.rx4.rawValue
   }
 
   /// The legacy "$50 lifetime Omi AI spend" upgrade nudge (`showOmiThresholdAlert`)
@@ -1343,10 +1325,11 @@ class ChatProvider: ObservableObject {
   private var cachedDatabaseSchema: String = ""
   private var schemaLoaded = false
 
-  // MARK: - CLAUDE.md (reference only) & Skills (Global)
+  // MARK: - CLAUDE.md & Skills (Global)
   @Published var claudeMdContent: String?
   @Published var claudeMdPath: String?
   @Published var discoveredSkills: [(name: String, description: String, path: String)] = []
+  @AppStorage("claudeMdEnabled") var claudeMdEnabled = true
   @AppStorage("disabledSkillsJSON") private var disabledSkillsJSON: String = ""
 
   // MARK: - Project-level CLAUDE.md & Skills
@@ -1381,6 +1364,7 @@ class ChatProvider: ObservableObject {
   @Published var projectClaudeMdContent: String?
   @Published var projectClaudeMdPath: String?
   @Published var projectDiscoveredSkills: [(name: String, description: String, path: String)] = []
+  @AppStorage("projectClaudeMdEnabled") var projectClaudeMdEnabled = true
 
   // MARK: - Dev Mode
   @AppStorage("devModeEnabled") var devModeEnabled = false
@@ -1406,14 +1390,14 @@ class ChatProvider: ObservableObject {
     isRestoringDraft = false
     log("ChatProvider initialized, will start Claude bridge on first use")
 
-    // Migrate legacy "agentSDK" persisted mode to the new default "piMono".
+    // Migrate legacy agent harness preferences to the sole Rust runtime.
     // Pre-6594 installs may have the old agentSDK tag saved; the settings
     // picker no longer offers it, so leaving it stored would leave the UI
     // in an inconsistent state.
-    let stored = UserDefaults.standard.string(forKey: "chatBridgeMode")
-    if stored == BridgeMode.omiAI.rawValue {
-      UserDefaults.standard.set(BridgeMode.piMono.rawValue, forKey: "chatBridgeMode")
-      log("ChatProvider: migrated legacy agentSDK bridgeMode -> piMono")
+    let stored = UserDefaults.standard.string(forKey: .chatBridgeMode)
+    if stored != BridgeMode.rx4.rawValue {
+      UserDefaults.standard.set(BridgeMode.rx4.rawValue, forKey: .chatBridgeMode)
+      log("ChatProvider: migrated legacy bridgeMode -> rx4")
     }
 
     // Observe changes to multiChatEnabled setting
@@ -1855,7 +1839,7 @@ class ChatProvider: ObservableObject {
         [
           "workingDirectory": workspacePath,
           "databaseSchema": cachedDatabaseSchema,
-          "skillCatalog": skillContextProjection(),
+          "enabledSkills": getEnabledSkillNames().sorted(),
         ],
         nil
       ),
@@ -1937,8 +1921,8 @@ class ChatProvider: ObservableObject {
 
   /// Switch between bridge modes (Omi AI via piMono, or user's Claude OAuth)
   func switchBridgeMode(to mode: BridgeMode) async {
-    let resolvedMode: BridgeMode = (mode == .omiAI) ? .piMono : mode
-    let newHarness = Self.harnessMode(for: resolvedMode)
+    let resolvedMode: BridgeMode = .rx4
+    let newHarness = AgentHarnessMode.rx4.rawValue
     let previousHarness = activeBridgeHarness
     guard newHarness != previousHarness else { return }
     log("ChatProvider: Updating future-session profile from \(previousHarness) to \(resolvedMode.rawValue)")
@@ -1956,10 +1940,9 @@ class ChatProvider: ObservableObject {
       guard let adapterId = AgentRuntimeProcess.adapterId(forHarnessMode: newHarness) else {
         throw BridgeError.agentError("Unknown AI runtime mode: \(newHarness)")
       }
-      let usesNativeModelChoice = newHarness == "hermes" || newHarness == "openclaw"
       let configured = try await resolvedAgentClient().configureDefaultExecutionProfile(
         adapterId: adapterId,
-        modelProfile: usesNativeModelChoice ? nil : ModelQoS.Claude.chat,
+        modelProfile: ModelQoS.Claude.chat,
         workingDirectory: effectiveAgentWorkingDirectory()
       )
       guard preferenceChange == profilePreferenceChangeGeneration else { return }
@@ -2910,7 +2893,7 @@ class ChatProvider: ObservableObject {
     )
   }
 
-  /// Discover CLAUDE.md for Settings reference only, plus skills for the compact agent catalog.
+  /// Discover ~/.claude/CLAUDE.md, skills from ~/.claude/skills/, and project-level equivalents
   func discoverClaudeConfig() async {
     let workspace = aiChatWorkingDirectory
     let result = await Task.detached(priority: .utility) {
@@ -2953,6 +2936,13 @@ class ChatProvider: ObservableObject {
       }
     }
     return ""
+  }
+
+  /// Get the set of enabled skill names (all skills minus explicitly disabled ones)
+  func getEnabledSkillNames() -> Set<String> {
+    let allSkillNames = Set(discoveredSkills.map { $0.name } + projectDiscoveredSkills.map { $0.name })
+    let disabled = getDisabledSkillNames()
+    return allSkillNames.subtracting(disabled)
   }
 
   /// Get the set of explicitly disabled skill names from UserDefaults
@@ -3432,14 +3422,12 @@ class ChatProvider: ObservableObject {
       target.onFinalized?(false)
       return false
     }
-    let accepted = await journalWriteCoordinator.retryTerminalization {
-      await self.finishJournalUpdate(
-        messageId: target.assistantMessageId,
-        status: status,
-        surface: target.surface,
-        ownerID: target.ownerID
-      )
-    }
+    let accepted = await finishJournalUpdate(
+      messageId: target.assistantMessageId,
+      status: status,
+      surface: target.surface,
+      ownerID: target.ownerID
+    )
     journalOwnerByMessageID.removeValue(forKey: target.assistantMessageId)
     target.onFinalized?(accepted)
     return accepted
@@ -3465,8 +3453,8 @@ class ChatProvider: ObservableObject {
     let resultResources =
       queryResult.artifacts.map(ChatResource.artifact)
       + queryResult.completionDeltaArtifacts.map(ChatResource.artifact)
-    let accepted = await journalWriteCoordinator.retryTerminalization {
-      await self.kernelTurnProjection.terminalizeTurn(
+    let accepted =
+      await kernelTurnProjection.terminalizeTurn(
         surface: target.surface,
         turnId: target.assistantMessageId,
         message: message,
@@ -3477,7 +3465,6 @@ class ChatProvider: ObservableObject {
         acceptedResources: resultResources,
         ownerID: target.ownerID
       ) != nil
-    }
     journalOwnerByMessageID.removeValue(forKey: target.assistantMessageId)
     target.onFinalized?(accepted)
     return accepted
@@ -3844,123 +3831,112 @@ class ChatProvider: ObservableObject {
       showOmiThresholdAlert = true
     }
 
-    // The generic watchdog owns only a silent bridge with no active tool.
-    // Active tools must reach their 90s no-progress watchdog first so their
-    // terminal cause and correlation survive the bridge interruption.
-    let turnStartMs = ChatProvider.monotonicNowMs()
-    let stallDetector = StallDetector(thresholds: .v1Defaults, startedAtMs: turnStartMs)
+    // Safety-net watchdog: if this specific send is still "in flight"
+    // 3 minutes from now, something in the bridge / stream pipeline has
+    // hung (commonly: stale ACP subprocess after laptop sleep emits a
+    // "stray turn_end" that Swift's waitForMessage never sees). Force-
+    // release isSending so the user's next query isn't silently dropped
+    // by the "already sending" guard. The generation check means the
+    // watchdog only fires if no later send has replaced this one.
     let watchdogAIMessageId = Self.messageIds(forAttemptId: turnAttemptId).assistant
-    let genericWatchdogTask = Task { [weak self] in
-      while !Task.isCancelled {
-        do {
-          try await Task.sleep(nanoseconds: UInt64(Self.genericWatchdogPollMs) * 1_000_000)
-        } catch {
-          return
-        }
-        let nowMs = ChatProvider.monotonicNowMs()
-        let canFire = await stallDetector.isSilentWithoutActiveTools(
-          durationMs: Self.genericWatchdogInactivityMs,
-          atMs: nowMs
-        )
-        guard canFire, let self else { continue }
-        let stillStuck = await MainActor.run { () -> Bool in
-          guard
-            self.isSending,
-            self.sendGeneration == sendGen,
-            self.activeBridgeSendGeneration == sendGen
-          else { return false }
-          log("ChatProvider: generic watchdog fired after 60s of silence — bridge is stuck; force-resetting")
-          // Mark this generation before interrupting: interrupt() resumes the
-          // in-flight request with `.stopped`, and the catch below uses this
-          // marker to surface the timeout instead of silently dropping the turn.
-          if turnLifecycle.revoke(.watchdogTimeout) {
-            self.sendWatchdogFiredGeneration = sendGen
-          } else if turnLifecycle.revocationReason == .toolStall {
-            log("ChatProvider: send watchdog preserving earlier tool-stall terminal cause")
-          }
-          return true
-        }
-        guard stillStuck else { return }
-        await self.resolvedAgentClient().interrupt()
-        // Fallback for the "stray turn_end" case where interrupt() does not
-        // route through the catch (no active request to resume): if the lock is
-        // somehow still held, force-release it and surface the timeout here.
-        // Deliberately does NOT clear sendWatchdogFiredGeneration — only the
-        // catch clears it, so if this fallback wins the race with the catch, the
-        // catch still sees the marker and surfaces the timeout instead of
-        // re-silencing the turn. A stale marker is harmless: generations only
-        // increase, so it never matches a later send.
-        let shouldTerminalizeJournal = await MainActor.run { () -> Bool in
-          guard self.isSending, self.sendGeneration == sendGen else { return false }
-          let revocationReason = turnLifecycle.revocationReason
-          let toolStallAbortFired =
-            self.sendToolStallAbortGeneration == sendGen
-            || revocationReason == .toolStall
-          let watchdogFired =
-            self.sendWatchdogFiredGeneration == sendGen
-            || revocationReason == .watchdogTimeout
-
-          // Preserve already-delivered output, but make every visible row
-          // terminal before releasing the provider for another send.
-          self.streamingBuffer.cancelPendingFlush()
-          self.flushStreamingBuffer()
-          var partialResponse = false
-          if let index = self.messages.firstIndex(where: { $0.id == watchdogAIMessageId }) {
-            partialResponse =
-              !self.messages[index].text.isEmpty
-              || !self.messages[index].contentBlocks.isEmpty
-            if partialResponse {
-              self.messages[index].isStreaming = false
-              ToolCallBlockUpdater.completeRemainingToolCalls(
-                in: &self.messages[index].contentBlocks,
-                terminalStatus: ChatProvider.lateResultToolStatus(
-                  watchdogFired: watchdogFired,
-                  toolStallAbortFired: toolStallAbortFired,
-                  stopReason: turnLifecycle.stopReason
-                )
-              )
-            } else {
-              self.messages.remove(at: index)
-            }
-          }
-
-          let traceReason = toolStallAbortFired ? "tool_stall" : "watchdog_timeout"
-          tracer?.mark("forced_terminal_fallback", metadata: ["reason": traceReason])
-          tracer?.end("ttft")
-          tracer?.end("generation")
-          tracer?.end("llm_request")
-          tracer?.finalize(tokenCount: 0, model: model ?? self.modelOverride)
-
-          if let terminalMessage = ChatProvider.stoppedTurnErrorMessage(
-            watchdogFired: watchdogFired,
-            toolStallAbortFired: toolStallAbortFired
-          ) {
-            self.currentError = nil
-            self.errorMessage = terminalMessage
-          }
-          if !telemetryAttempt.isTerminal {
-            if toolStallAbortFired {
-              telemetryAttempt.fail(errorClass: .toolStall, partialResponse: partialResponse)
-            } else if watchdogFired {
-              telemetryAttempt.fail(errorClass: .timeout, partialResponse: partialResponse)
-            } else {
-              telemetryAttempt.finish(
-                stopReason: turnLifecycle.stopReason ?? self.stopReason(for: sendGen),
-                partialResponse: partialResponse
-              )
-            }
-          }
-          self.clearChatTelemetryState(for: sendGen)
-          _ = self.releaseSendLock(sendGeneration: sendGen)
-          return true
-        }
-        if shouldTerminalizeJournal {
-          _ = await self.finishJournalTarget(generation: sendGen, status: .failed)
-        }
+    Task { [weak self] in
+      do {
+        try await Task.sleep(nanoseconds: 180_000_000_000)
+      } catch {
         return
       }
+      guard let self else { return }
+      let stillStuck = await MainActor.run { () -> Bool in
+        guard self.isSending, self.sendGeneration == sendGen else { return false }
+        log("ChatProvider: send watchdog fired at 180s — bridge is stuck; force-resetting")
+        // Mark this generation before interrupting: interrupt() resumes the
+        // in-flight request with `.stopped`, and the catch below uses this
+        // marker to surface the timeout instead of silently dropping the turn.
+        if turnLifecycle.revoke(.watchdogTimeout) {
+          self.sendWatchdogFiredGeneration = sendGen
+        } else if turnLifecycle.revocationReason == .toolStall {
+          log("ChatProvider: send watchdog preserving earlier tool-stall terminal cause")
+        }
+        return true
+      }
+      guard stillStuck else { return }
+      await self.resolvedAgentClient().interrupt()
+      // Fallback for the "stray turn_end" case where interrupt() does not
+      // route through the catch (no active request to resume): if the lock is
+      // somehow still held, force-release it and surface the timeout here.
+      // Deliberately does NOT clear sendWatchdogFiredGeneration — only the
+      // catch clears it, so if this fallback wins the race with the catch, the
+      // catch still sees the marker and surfaces the timeout instead of
+      // re-silencing the turn. A stale marker is harmless: generations only
+      // increase, so it never matches a later send.
+      let shouldTerminalizeJournal = await MainActor.run { () -> Bool in
+        guard self.isSending, self.sendGeneration == sendGen else { return false }
+        let revocationReason = turnLifecycle.revocationReason
+        let toolStallAbortFired =
+          self.sendToolStallAbortGeneration == sendGen
+          || revocationReason == .toolStall
+        let watchdogFired =
+          self.sendWatchdogFiredGeneration == sendGen
+          || revocationReason == .watchdogTimeout
+
+        // Preserve already-delivered output, but make every visible row
+        // terminal before releasing the provider for another send.
+        self.streamingBuffer.cancelPendingFlush()
+        self.flushStreamingBuffer()
+        var partialResponse = false
+        if let index = self.messages.firstIndex(where: { $0.id == watchdogAIMessageId }) {
+          partialResponse =
+            !self.messages[index].text.isEmpty
+            || !self.messages[index].contentBlocks.isEmpty
+          if partialResponse {
+            self.messages[index].isStreaming = false
+            ToolCallBlockUpdater.completeRemainingToolCalls(
+              in: &self.messages[index].contentBlocks,
+              terminalStatus: ChatProvider.lateResultToolStatus(
+                watchdogFired: watchdogFired,
+                toolStallAbortFired: toolStallAbortFired,
+                stopReason: turnLifecycle.stopReason
+              )
+            )
+          } else {
+            self.messages.remove(at: index)
+          }
+        }
+
+        let traceReason = toolStallAbortFired ? "tool_stall" : "watchdog_timeout"
+        tracer?.mark("forced_terminal_fallback", metadata: ["reason": traceReason])
+        tracer?.end("ttft")
+        tracer?.end("generation")
+        tracer?.end("llm_request")
+        tracer?.finalize(tokenCount: 0, model: model ?? self.modelOverride)
+
+        if let terminalMessage = ChatProvider.stoppedTurnErrorMessage(
+          watchdogFired: watchdogFired,
+          toolStallAbortFired: toolStallAbortFired
+        ) {
+          self.currentError = nil
+          self.errorMessage = terminalMessage
+        }
+        if !telemetryAttempt.isTerminal {
+          if toolStallAbortFired {
+            telemetryAttempt.fail(errorClass: .toolStall, partialResponse: partialResponse)
+          } else if watchdogFired {
+            telemetryAttempt.fail(errorClass: .timeout, partialResponse: partialResponse)
+          } else {
+            telemetryAttempt.finish(
+              stopReason: turnLifecycle.stopReason ?? self.stopReason(for: sendGen),
+              partialResponse: partialResponse
+            )
+          }
+        }
+        self.clearChatTelemetryState(for: sendGen)
+        _ = self.releaseSendLock(sendGeneration: sendGen)
+        return true
+      }
+      if shouldTerminalizeJournal {
+        _ = await self.finishJournalTarget(generation: sendGen, status: .failed)
+      }
     }
-    defer { genericWatchdogTask.cancel() }
 
     // Wait for staged attachments to finish uploading so we can include their
     // server IDs in the saved-message metadata. The bubble shows immediately
@@ -4090,6 +4066,18 @@ class ChatProvider: ObservableObject {
     var correlatedTerminalResult: AgentClient.QueryResult?
     var agentQueryStarted = false
 
+    // Stall detection.
+    // The detector observes every bridge event (text deltas, tool
+    // activity, etc.) and a 500ms periodic tick task surfaces stall
+    // promotions even during silent gaps. Transitions become
+    // ToolCallStatus updates on individual tool-call blocks; the
+    // banner appears via ToolCallsGroup's hasStalledTool check.
+    let turnStartMs = ChatProvider.monotonicNowMs()
+    let stallDetector = StallDetector(
+      thresholds: .v1Defaults,
+      startedAtMs: turnStartMs
+    )
+
     // Refresh data inputs each turn. The kernel renders these sources under
     // its own pinned policy; Swift never supplies a system instruction.
     await refreshMemoriesForPrompt()
@@ -4115,24 +4103,13 @@ class ChatProvider: ObservableObject {
         let screenContextReason = ScreenContextAutoIncludePolicy.reason(
           userText: trimmedText,
           systemPromptStyle: systemPromptStyle,
-          turnOwner: turnOwner,
-          onboardingActive: !UserDefaults.standard.bool(forKey: DefaultsKey.hasCompletedOnboarding)
+          turnOwner: turnOwner
         )
       {
         let screenRecordingGranted = CGPreflightScreenCaptureAccess()
         if !screenRecordingGranted && !screenContextReason.isExplicitScreenRequest {
           // Ambient floating/task-agent turns are allowed to use screen context when already granted,
           // but they must not manufacture a screen-permission request for generic utterances.
-          // Still tell the model WHY there is no screen context, so a
-          // screen-dependent question gets an honest "enable Screen
-          // Recording" lead-in instead of a silently blind answer.
-          screenPayload = [
-            "permission": [
-              "screen_recording": "not_granted"
-            ],
-            "reason": "ambient_surface_context",
-            "context": ScreenContextWorkContextBuilder.ambientPermissionUnavailablePayload(),
-          ]
         } else {
           screenContextEligibleForTurn = true
           let screenContextPayload: [String: Any]
@@ -4227,15 +4204,10 @@ class ChatProvider: ObservableObject {
           // synthetic key so the detector's per-tool timer fires.
           let trackedId = ChatProvider.stallTrackingId(toolUseId: toolUseId, name: name)
           let toolStatus = ChatProvider.mapBridgeToolStatus(status)
-          let detectorKind: StallDetector.EventKind
-          switch status {
-          case "started":
-            detectorKind = .toolStarted(id: trackedId)
-          case "progress":
-            detectorKind = .toolProgress(id: trackedId)
-          default:
-            detectorKind = .toolCompleted(id: trackedId)
-          }
+          let detectorKind: StallDetector.EventKind =
+            toolStatus == .running
+            ? .toolStarted(id: trackedId)
+            : .toolCompleted(id: trackedId)
           // Trace mutation is admitted through the same generation gate
           // as UI mutation, so a revoked callback cannot extend a turn.
           let traceToolName =
@@ -4266,12 +4238,12 @@ class ChatProvider: ObservableObject {
             toolUseId: toolUseId,
             input: input
           )
-          if status == "started" {
+          if toolStatus == .running {
             toolTiming.toolNames.append(name)
             responseMetrics.recordToolRequested(name: name)
             toolTiming.toolStartTimes[trackedId] = Date()
             if name.contains("browser") || name.contains("playwright") {
-              let token = UserDefaults.standard.string(forKey: "playwrightExtensionToken") ?? ""
+              let token = UserDefaults.standard.string(forKey: .playwrightExtensionToken) ?? ""
               if token.isEmpty {
                 log(
                   "ChatProvider: Browser tool \(ChatTelemetryDimension.toolName(name)) "
@@ -4297,9 +4269,7 @@ class ChatProvider: ObservableObject {
                 FloatingControlBarManager.shared.showTemporarily()
               }
             }
-          } else if toolStatus != .running,
-            let startTime = toolTiming.toolStartTimes.removeValue(forKey: trackedId)
-          {
+          } else if let startTime = toolTiming.toolStartTimes.removeValue(forKey: trackedId) {
             if toolStatus == .completed {
               let durationMs = Int(Date().timeIntervalSince(startTime) * 1000)
               AnalyticsManager.shared.chatToolCallCompleted(toolName: name, durationMs: durationMs)
@@ -4362,7 +4332,7 @@ class ChatProvider: ObservableObject {
             }
           }
           if !issuedToolStallAbort {
-            let overdueToolIds = await stallDetector.toolIdsWithoutProgress(
+            let overdueToolIds = await stallDetector.toolIdsExceeding(
               durationMs: Self.perToolStallAbortMs,
               atMs: nowMs
             )
@@ -4373,8 +4343,8 @@ class ChatProvider: ObservableObject {
                 self.sendToolStallAbortGeneration = sendGen
                 turnLifecycle.revoke(.toolStall)
                 log(
-                  "ChatProvider: tool no-progress guard fired at \(Self.perToolStallAbortMs / 1_000)s "
-                    + "(active_tools=\(overdueToolIds.count)); interrupting bridge"
+                  "ChatProvider: tool stall guard fired at \\(Self.perToolStallAbortMs / 1_000)s "
+                    + "(active_tools=\\(overdueToolIds.count)); interrupting bridge"
                 )
                 return true
               }
@@ -4428,7 +4398,6 @@ class ChatProvider: ObservableObject {
         return nil
       }
 
-      _ = await stallDetector.step(kind: .other, atMs: ChatProvider.monotonicNowMs())
       activeBridgeSendGeneration = sendGen
       agentQueryStarted = true
       let queryResult: AgentClient.QueryResult
@@ -4442,7 +4411,6 @@ class ChatProvider: ObservableObject {
           attachments: Self.queryAttachments(attachmentsForMessage),
           producingTurnId: aiMessageId,
           expectedContext: kernelContext.snapshot.freshness,
-          reasoningEffort: turnOwner.reasoningEffort,
           onTextDelta: textDeltaHandler,
           onToolActivity: toolActivityHandler,
           onThinkingDelta: thinkingDeltaHandler,
@@ -5640,7 +5608,7 @@ class ChatProvider: ObservableObject {
   }
 
   /// The banner text to show when a turn ends with `BridgeError.stopped`.
-  /// A user-initiated Stop is silent (`nil`). But when the 60s send watchdog
+  /// A user-initiated Stop is silent (`nil`). But when the 180s send watchdog
   /// fired for the turn, the `.stopped` came from the watchdog's own interrupt —
   /// the turn timed out, so surface "Response took too long" rather than letting
   /// it vanish. Extracted so the watchdog-vs-user-stop distinction is unit-tested.
@@ -5649,7 +5617,7 @@ class ChatProvider: ObservableObject {
     toolStallAbortFired: Bool = false
   ) -> String? {
     if toolStallAbortFired {
-      return "A tool stopped reporting progress. Try again."
+      return "A tool took too long. Try again."
     }
     return watchdogFired ? "Response took too long. Try again." : nil
   }
@@ -6022,7 +5990,7 @@ class ChatProvider: ObservableObject {
         registerControlOnlyRuntime: {
           try await runtime.registerClient(
             clientId: probeClientID,
-            harnessMode: "piMono",
+            harnessMode: "rx4",
             authorizationSnapshot: authorization)
         },
         synchronizeOwner: {
