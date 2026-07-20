@@ -19,6 +19,7 @@ jobs:
       should_run: ${{ steps.changed.outputs.should_run }}
       should_release_compile: ${{ steps.changed.outputs.should_release_compile }}
       should_notification_release_regression: ${{ steps.changed.outputs.should_notification_release_regression }}
+      skip_changelog: ${{ steps.changed.outputs.skip_changelog }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -77,7 +78,14 @@ jobs:
             SHOULD_NOTIFICATION_RELEASE_REGRESSION=true
           fi
           echo "should_notification_release_regression=$SHOULD_NOTIFICATION_RELEASE_REGRESSION" >> "$GITHUB_OUTPUT"
-          echo "desktop_swift=$DESKTOP_SWIFT package_swift=$PACKAGE_SWIFT package_resolved=$PACKAGE_RESOLVED should_run=$SHOULD_RUN should_release_compile=$SHOULD_RELEASE_COMPILE should_notification_release_regression=$SHOULD_NOTIFICATION_RELEASE_REGRESSION"
+
+          SKIP_CHANGELOG=false
+          if [ "${{ github.event_name }}" = "pull_request" ] && [ "${{ contains(github.event.pull_request.labels.*.name, 'no-changelog-needed') }}" = "true" ]; then
+            SKIP_CHANGELOG=true
+          fi
+          echo "skip_changelog=$SKIP_CHANGELOG" >> "$GITHUB_OUTPUT"
+
+          echo "desktop_swift=$DESKTOP_SWIFT package_swift=$PACKAGE_SWIFT package_resolved=$PACKAGE_RESOLVED should_run=$SHOULD_RUN should_release_compile=$SHOULD_RELEASE_COMPILE should_notification_release_regression=$SHOULD_NOTIFICATION_RELEASE_REGRESSION skip_changelog=$SKIP_CHANGELOG"
 
   # The Swift test suite and the macOS-only manifest checks have no runtime
   # dependency on one another. Keeping them in separate jobs puts their slow
@@ -114,7 +122,12 @@ jobs:
 
       - name: Run macOS-scoped manifest checks
         run: |
-          python3 .github/scripts/run_checks.py --lane ci --platform macos --base "${{ needs.changes.outputs.diff_base }}" --skip-pr-body-checks
+          python3 .github/scripts/run_checks.py \
+            --lane ci \
+            --platform macos \
+            --base "${{ needs.changes.outputs.diff_base }}" \
+            --skip-pr-body-checks \
+            ${{ needs.changes.outputs.skip_changelog == 'true' && '--skip-changelog' || '' }}
 
       - name: Save Swift formatter and linter tools after checks
         if: ${{ always() && steps.swift-tools-cache.outputs.cache-hit != 'true' }}
