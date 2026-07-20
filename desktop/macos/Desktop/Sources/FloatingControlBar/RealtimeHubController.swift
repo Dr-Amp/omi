@@ -186,17 +186,15 @@ final class RealtimeHubController: NSObject, RealtimeHubSessionDelegate {
   /// cancelled; AgentRuntimeProcess revalidates A immediately before its wire
   /// mutation, so it cannot create a late run after B becomes visible.
   static let ownerTransitionExternalRunBindingTimeout: Duration = .seconds(12)
-  #if DEBUG
-    var ownerBoundaryExternalRunCompletion:
-      (
-        @Sendable (
-          ExternalSurfaceRunBinding,
-          ExternalSurfaceRunTerminalStatus,
-          String?,
-          RuntimeOwnerTransitionCleanupCapability?
-        ) async throws -> Void
-      )?
-  #endif
+  var ownerBoundaryExternalRunCompletion:
+    (
+      @Sendable (
+        ExternalSurfaceRunBinding,
+        ExternalSurfaceRunTerminalStatus,
+        String?,
+        RuntimeOwnerTransitionCleanupCapability?
+      ) async throws -> Void
+    )?
   /// (b) Genuinely local: in-flight authorized tool envelopes for this process.
   var authorizedRealtimeInvocations: [String: RealtimeAuthorizedToolInvocation] = [:]
   /// (b) Genuinely local delivery dedupe for this process. Kernel authorizes
@@ -487,9 +485,7 @@ final class RealtimeHubController: NSObject, RealtimeHubSessionDelegate {
       }
       removeTrackedExternalRunTerminalization(id)
     }
-    #if DEBUG
-      ownerBoundaryExternalRunCompletion = nil
-    #endif
+    ownerBoundaryExternalRunCompletion = nil
   }
 
   /// Installs a detached, never-started physical session so owner-boundary
