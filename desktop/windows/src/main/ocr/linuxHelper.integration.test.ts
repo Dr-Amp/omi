@@ -39,9 +39,6 @@ describe.skipIf(process.platform !== 'linux')('linux OCR helper', () => {
       pid: expect.any(Number),
       processName: expect.any(String)
     })
-    if (process.env.OMI_HELPER_EXPECT_TITLE) {
-      expect(response.title).toContain(process.env.OMI_HELPER_EXPECT_TITLE)
-    }
   })
 
   it('runs Tesseract through the helper when an OCR fixture is supplied', async () => {

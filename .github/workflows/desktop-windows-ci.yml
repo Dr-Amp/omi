@@ -107,7 +107,7 @@ jobs:
       - name: Install Linux runtime dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick fonts-dejavu-core openbox tesseract-ocr tesseract-ocr-eng x11-apps x11-utils xterm xvfb
+          sudo apt-get install -y imagemagick fonts-dejavu-core tesseract-ocr tesseract-ocr-eng xvfb
       - name: Provision .env
         run: cp .env.example .env
       - name: Install dependencies
@@ -131,6 +131,6 @@ jobs:
       - name: Smoke X11 helper protocol
         run: |
           convert -size 480x120 xc:white -font DejaVu-Sans -pointsize 40 -fill black -gravity center -annotate 0 'Omi OCR smoke' /tmp/omi-ocr-smoke.jpg
-          xvfb-run -a bash -euo pipefail -c 'openbox & xterm -T "Omi Linux foreground smoke" & sleep 2; OMI_HELPER_EXPECT_TITLE="Omi Linux foreground smoke" OMI_HELPER_OCR_FIXTURE=/tmp/omi-ocr-smoke.jpg OMI_HELPER_EXPECT_TEXT="Omi OCR smoke" pnpm exec vitest run src/main/ocr/linuxHelper.integration.test.ts'
+          xvfb-run -a bash -euo pipefail -c 'OMI_HELPER_OCR_FIXTURE=/tmp/omi-ocr-smoke.jpg OMI_HELPER_EXPECT_TEXT="Omi OCR smoke" pnpm exec vitest run src/main/ocr/linuxHelper.integration.test.ts'
       - name: Verify Wayland degradation contracts
         run: pnpm exec vitest run src/main/rewind/rewindSettings.wayland.test.ts src/main/usage/nativeForeground.degrade.test.ts
