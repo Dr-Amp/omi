@@ -1,6 +1,7 @@
-import { readFileSync } from 'fs'
 import { helperProcess } from '../ocr/helperProcess'
 import { unindexedRewindFrames, setRewindFrameOcr } from '../ipc/db'
+import { rewindRoot } from './paths'
+import { readRewindFrame } from './frameFile'
 
 const BACKFILL_INTERVAL_MS = 4000
 const BATCH = 5
@@ -8,7 +9,7 @@ const BATCH = 5
 let timer: NodeJS.Timeout | null = null
 let running = false
 
-async function backfill(): Promise<void> {
+export async function backfillRewindOcr(): Promise<void> {
   if (running) return
   running = true
   try {
@@ -17,7 +18,7 @@ async function backfill(): Promise<void> {
       if (f.id == null) continue
       let jpeg: Buffer
       try {
-        jpeg = readFileSync(f.imagePath)
+        jpeg = await readRewindFrame(rewindRoot(), f.imagePath)
       } catch {
         setRewindFrameOcr(f.id, '') // image gone; mark indexed so we stop retrying
         continue
@@ -32,5 +33,5 @@ async function backfill(): Promise<void> {
 
 export function startRewindOcr(): void {
   if (timer) clearInterval(timer)
-  timer = setInterval(() => void backfill(), BACKFILL_INTERVAL_MS)
+  timer = setInterval(() => void backfillRewindOcr(), BACKFILL_INTERVAL_MS)
 }
