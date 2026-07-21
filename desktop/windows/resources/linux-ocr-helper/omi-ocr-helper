@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * Linux OCR + window-info helper for Omi.
+ * Linux OCR helper for Omi.
  * Drop-in replacement for win-ocr-helper.exe, speaking the same stdio protocol
  * (src/main/ocr/helperProtocol.ts):
  *   Request : [uint32 LE length][1 byte opcode][payload]
@@ -8,14 +8,15 @@
  *   OP_OCR=1    payload=JPEG bytes -> {"ok":true,"fullText","lines":[]}
  *                                  or {"ok":false,"code","message"}
  *   OP_WINDOW=2 payload=empty      -> {"app","title","pid","processName"}
- * Backed by the `tesseract` CLI for OCR and `xprop`/`/proc` for window info.
+ * OCR uses tesseract. WINDOW stays protocol-compatible but returns empty
+ * metadata so capture uses the canonical linuxForeground/nativeForeground seam.
  * One request at a time (the supervisor serializes), never throws.
  */
 'use strict'
 const { execFileSync } = require('child_process')
-const { writeFileSync, unlinkSync, readlinkSync } = require('fs')
+const { writeFileSync, unlinkSync } = require('fs')
 const { tmpdir } = require('os')
-const { join, basename } = require('path')
+const { join } = require('path')
 
 const OP_OCR = 1
 const OP_WINDOW = 2
@@ -39,29 +40,8 @@ function ocr(jpeg) {
   }
 }
 
-function xprop(args) {
-  return execFileSync('xprop', args, { encoding: 'utf8', timeout: 600 })
-}
 function windowInfo() {
-  let title = '', pid = 0, processName = '', app = ''
-  try {
-    const idm = xprop(['-root', '_NET_ACTIVE_WINDOW']).match(/window id # (0x[0-9a-fA-F]+)/)
-    const win = idm && !/^0x0+$/.test(idm[1]) ? idm[1] : null
-    if (win) {
-      const nm = xprop(['-id', win, '_NET_WM_NAME']).match(/_NET_WM_NAME\([^)]*\) = "((?:[^"\\]|\\.)*)"/)
-      if (nm) title = nm[1].replace(/\\(["\\])/g, '$1')
-      const pm = xprop(['-id', win, '_NET_WM_PID']).match(/_NET_WM_PID\(CARDINAL\) = (\d+)/)
-      if (pm) {
-        pid = Number(pm[1])
-        try {
-          const exe = readlinkSync(`/proc/${pid}/exe`)
-          processName = basename(exe)
-          app = processName
-        } catch (_) { /* process gone / perm */ }
-      }
-    }
-  } catch (_) { /* X unavailable */ }
-  return { app: app || processName, title, pid, processName }
+  return { app: '', title: '', pid: 0, processName: '' }
 }
 
 function writeFrame(obj) {
