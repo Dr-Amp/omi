@@ -9871,4 +9871,10 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'ஆடியோ, டிரான்ஸ்கிரிப்ட் மற்றும் உரையாடல் உள்ளடக்கம் இந்த சாதனத்திலேயே இருக்கும். உரையாடல்கள் உள்ளூரில் மட்டுமே சேமிக்கப்படும்; சுருக்கங்கள், பகிர்வு மற்றும் பிற கிளவுட் அம்சங்கள் கிடைக்காது.';
+
+  @override
+  String get localOnlyBadgeLabel => 'உள்ளூர்';
+
+  @override
+  String get localOnlyActionUnavailable => 'உள்ளூர் மட்டும் உரையாடல்களுக்கு கிடைக்கவில்லை';
 }

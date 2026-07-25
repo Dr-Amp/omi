@@ -3179,5 +3179,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "文字起こしのみ",
     "sttPrivacyPolicyTranscriptOnlyDescription": "生の音声はこのデバイスに残ります。要約とアクションアイテムが引き続き機能するよう、文字起こしはOmiに送信されます。",
     "sttPrivacyPolicyLocalOnlyTitle": "ローカルのみ",
-    "sttPrivacyPolicyLocalOnlyDescription": "音声、文字起こし、会話の内容はこのデバイスに残ります。会話はローカルにのみ保存され、要約、共有、その他のクラウド機能は利用できません。"
+    "sttPrivacyPolicyLocalOnlyDescription": "音声、文字起こし、会話の内容はこのデバイスに残ります。会話はローカルにのみ保存され、要約、共有、その他のクラウド機能は利用できません。",
+    "localOnlyBadgeLabel": "ローカル",
+    "localOnlyActionUnavailable": "ローカル専用の会話では利用できません"
 }

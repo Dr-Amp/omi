@@ -9795,4 +9795,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Audio, transcript, and conversation content stay on this device. Conversations are saved locally only; summaries, sharing, and other cloud features are unavailable.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Local';
+
+  @override
+  String get localOnlyActionUnavailable => 'Not available for local-only conversations';
 }

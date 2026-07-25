@@ -9813,4 +9813,10 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Ses, döküm ve konuşma içeriği bu cihazda kalır. Konuşmalar yalnızca yerel olarak kaydedilir; özetler, paylaşım ve diğer bulut özellikleri kullanılamaz.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Yerel';
+
+  @override
+  String get localOnlyActionUnavailable => 'Yalnızca yerel görüşmeler için kullanılamaz';
 }

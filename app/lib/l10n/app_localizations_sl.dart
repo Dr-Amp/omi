@@ -9829,4 +9829,10 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Zvok, prepis in vsebina pogovora ostanejo v tej napravi. Pogovori se shranjujejo samo lokalno; povzetki, deljenje in druge oblačne funkcije niso na voljo.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokalno';
+
+  @override
+  String get localOnlyActionUnavailable => 'Ni na voljo za pogovore samo lokalno';
 }

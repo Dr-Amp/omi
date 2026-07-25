@@ -9634,4 +9634,10 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       '音声、文字起こし、会話の内容はこのデバイスに残ります。会話はローカルにのみ保存され、要約、共有、その他のクラウド機能は利用できません。';
+
+  @override
+  String get localOnlyBadgeLabel => 'ローカル';
+
+  @override
+  String get localOnlyActionUnavailable => 'ローカル専用の会話では利用できません';
 }

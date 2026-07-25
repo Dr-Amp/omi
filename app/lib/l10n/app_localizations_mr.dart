@@ -9810,4 +9810,10 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'ऑडिओ, ट्रान्सक्रिप्ट आणि संभाषणाची सामग्री या डिव्हाइसवरच राहते. संभाषणे फक्त स्थानिक पातळीवर जतन केली जातात; सारांश, शेअरिंग आणि इतर क्लाउड वैशिष्ट्ये उपलब्ध नाहीत.';
+
+  @override
+  String get localOnlyBadgeLabel => 'स्थानिक';
+
+  @override
+  String get localOnlyActionUnavailable => 'फक्त स्थानिक संभाषणांसाठी उपलब्ध नाही';
 }

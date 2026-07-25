@@ -655,6 +655,12 @@ class SharedPreferencesUtil {
 
   /// Clears persisted user identity and server-backed display caches while
   /// preserving device, onboarding, permissions, and offline recording state.
+  ///
+  /// Deliberately does not touch `local_conversations/` on disk
+  /// (`LocalConversationRepository`, `app/lib/services/local_conversations/`):
+  /// `localOnly` conversation history is device-scoped, not account-scoped,
+  /// and is documented as surviving sign-out — see the decision comment on
+  /// `ConversationProvider.clearUserData()`.
   void clearUserDisplayCache() {
     final ownerUid = uid;
     if (ownerUid.isNotEmpty) _scopeLegacyUserData(ownerUid);

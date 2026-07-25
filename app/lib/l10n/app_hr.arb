@@ -10790,5 +10790,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Samo prijepis",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Neobrađeni zvuk ostaje na ovom uređaju. Prijepis se i dalje šalje u Omi kako bi sažeci i zadaci nastavili raditi.",
     "sttPrivacyPolicyLocalOnlyTitle": "Samo lokalno",
-    "sttPrivacyPolicyLocalOnlyDescription": "Zvuk, prijepis i sadržaj razgovora ostaju na ovom uređaju. Razgovori se spremaju samo lokalno; sažeci, dijeljenje i druge značajke u oblaku nisu dostupne."
+    "sttPrivacyPolicyLocalOnlyDescription": "Zvuk, prijepis i sadržaj razgovora ostaju na ovom uređaju. Razgovori se spremaju samo lokalno; sažeci, dijeljenje i druge značajke u oblaku nisu dostupne.",
+    "localOnlyBadgeLabel": "Lokalno",
+    "localOnlyActionUnavailable": "Nije dostupno za razgovore samo na uređaju"
 }

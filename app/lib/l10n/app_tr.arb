@@ -3238,5 +3238,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Yalnızca döküm",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Ham ses bu cihazda kalır. Döküm, özetlerin ve eylem öğelerinin çalışmaya devam etmesi için yine de Omi'ye gönderilir.",
     "sttPrivacyPolicyLocalOnlyTitle": "Yalnızca yerel",
-    "sttPrivacyPolicyLocalOnlyDescription": "Ses, döküm ve konuşma içeriği bu cihazda kalır. Konuşmalar yalnızca yerel olarak kaydedilir; özetler, paylaşım ve diğer bulut özellikleri kullanılamaz."
+    "sttPrivacyPolicyLocalOnlyDescription": "Ses, döküm ve konuşma içeriği bu cihazda kalır. Konuşmalar yalnızca yerel olarak kaydedilir; özetler, paylaşım ve diğer bulut özellikleri kullanılamaz.",
+    "localOnlyBadgeLabel": "Yerel",
+    "localOnlyActionUnavailable": "Yalnızca yerel görüşmeler için kullanılamaz"
 }

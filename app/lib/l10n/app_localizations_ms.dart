@@ -9826,4 +9826,10 @@ class AppLocalizationsMs extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Audio, transkrip dan kandungan perbualan kekal pada peranti ini. Perbualan disimpan secara tempatan sahaja; ringkasan, perkongsian dan ciri awan lain tidak tersedia.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Tempatan';
+
+  @override
+  String get localOnlyActionUnavailable => 'Tidak tersedia untuk perbualan tempatan sahaja';
 }

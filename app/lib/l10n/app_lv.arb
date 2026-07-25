@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Tikai transkripts",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Neapstrādāts audio paliek šajā ierīcē. Transkripts joprojām tiek nosūtīts uz Omi, lai kopsavilkumi un uzdevumi turpinātu darboties.",
     "sttPrivacyPolicyLocalOnlyTitle": "Tikai lokāli",
-    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transkripts un sarunas saturs paliek šajā ierīcē. Sarunas tiek saglabātas tikai lokāli; kopsavilkumi, koplietošana un citas mākoņa funkcijas nav pieejamas."
+    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transkripts un sarunas saturs paliek šajā ierīcē. Sarunas tiek saglabātas tikai lokāli; kopsavilkumi, koplietošana un citas mākoņa funkcijas nav pieejamas.",
+    "localOnlyBadgeLabel": "Lokāls",
+    "localOnlyActionUnavailable": "Nav pieejams tikai lokāliem sarunām"
 }

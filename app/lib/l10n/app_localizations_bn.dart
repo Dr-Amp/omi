@@ -9807,4 +9807,10 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'অডিও, ট্রান্সক্রিপ্ট এবং কথোপকথনের বিষয়বস্তু এই ডিভাইসে থাকে। কথোপকথন শুধুমাত্র স্থানীয়ভাবে সংরক্ষিত হয়; সারাংশ, শেয়ারিং এবং অন্যান্য ক্লাউড বৈশিষ্ট্য উপলব্ধ নয়।';
+
+  @override
+  String get localOnlyBadgeLabel => 'স্থানীয়';
+
+  @override
+  String get localOnlyActionUnavailable => 'শুধুমাত্র স্থানীয় কথোপকথনের জন্য উপলভ্য নয়';
 }

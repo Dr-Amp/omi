@@ -9858,4 +9858,10 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Audio, trascrizione e contenuto della conversazione rimangono su questo dispositivo. Le conversazioni vengono salvate solo localmente; riepiloghi, condivisione e altre funzionalità cloud non sono disponibili.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Locale';
+
+  @override
+  String get localOnlyActionUnavailable => 'Non disponibile per le conversazioni solo locali';
 }

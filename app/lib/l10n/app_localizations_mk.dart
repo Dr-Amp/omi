@@ -9853,4 +9853,10 @@ class AppLocalizationsMk extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Звукот, транскриптот и содржината на разговорот остануваат на овој уред. Разговорите се зачувуваат само локално; резимеата, споделувањето и другите облак-функции не се достапни.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Локален';
+
+  @override
+  String get localOnlyActionUnavailable => 'Не е достапно за разговори само локално';
 }

@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Tik transkriptas",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Neapdorotas garsas lieka šiame įrenginyje. Transkriptas vis tiek siunčiamas į Omi, kad santraukos ir veiksmų punktai toliau veiktų.",
     "sttPrivacyPolicyLocalOnlyTitle": "Tik vietinis",
-    "sttPrivacyPolicyLocalOnlyDescription": "Garsas, transkriptas ir pokalbio turinys lieka šiame įrenginyje. Pokalbiai išsaugomi tik vietoje; santraukos, bendrinimas ir kitos debesijos funkcijos nepasiekiamos."
+    "sttPrivacyPolicyLocalOnlyDescription": "Garsas, transkriptas ir pokalbio turinys lieka šiame įrenginyje. Pokalbiai išsaugomi tik vietoje; santraukos, bendrinimas ir kitos debesijos funkcijos nepasiekiamos.",
+    "localOnlyBadgeLabel": "Vietinis",
+    "localOnlyActionUnavailable": "Nepasiekiama tik vietiniams pokalbiams"
 }

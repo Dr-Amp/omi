@@ -3239,5 +3239,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Apenas transcrição",
     "sttPrivacyPolicyTranscriptOnlyDescription": "O áudio bruto permanece neste dispositivo. A transcrição ainda é enviada para o Omi para que os resumos e itens de ação continuem funcionando.",
     "sttPrivacyPolicyLocalOnlyTitle": "Somente local",
-    "sttPrivacyPolicyLocalOnlyDescription": "O áudio, a transcrição e o conteúdo da conversa permanecem neste dispositivo. As conversas são salvas apenas localmente; resumos, compartilhamento e outros recursos de nuvem não estão disponíveis."
+    "sttPrivacyPolicyLocalOnlyDescription": "O áudio, a transcrição e o conteúdo da conversa permanecem neste dispositivo. As conversas são salvas apenas localmente; resumos, compartilhamento e outros recursos de nuvem não estão disponíveis.",
+    "localOnlyBadgeLabel": "Local",
+    "localOnlyActionUnavailable": "Não disponível para conversas somente locais"
 }

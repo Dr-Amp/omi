@@ -9837,4 +9837,10 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Аудио, транскрипт и содержимое разговора остаются на этом устройстве. Разговоры сохраняются только локально; сводки, общий доступ и другие облачные функции недоступны.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Локально';
+
+  @override
+  String get localOnlyActionUnavailable => 'Недоступно для разговоров только в локальном режиме';
 }

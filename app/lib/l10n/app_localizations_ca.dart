@@ -9857,4 +9857,10 @@ class AppLocalizationsCa extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'L\'àudio, la transcripció i el contingut de la conversa es queden en aquest dispositiu. Les converses es desen només localment; els resums, la compartició i altres funcions al núvol no estan disponibles.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Local';
+
+  @override
+  String get localOnlyActionUnavailable => 'No disponible per a converses només locals';
 }

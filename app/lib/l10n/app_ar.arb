@@ -3179,5 +3179,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "النص المكتوب فقط",
     "sttPrivacyPolicyTranscriptOnlyDescription": "يبقى الصوت الخام على هذا الجهاز. لا يزال النص المكتوب يُرسل إلى Omi حتى تستمر الملخصات وعناصر الإجراءات في العمل.",
     "sttPrivacyPolicyLocalOnlyTitle": "محلي فقط",
-    "sttPrivacyPolicyLocalOnlyDescription": "يبقى الصوت والنص المكتوب ومحتوى المحادثة على هذا الجهاز. تُحفظ المحادثات محليًا فقط؛ الملخصات والمشاركة وميزات السحابة الأخرى غير متوفرة."
+    "sttPrivacyPolicyLocalOnlyDescription": "يبقى الصوت والنص المكتوب ومحتوى المحادثة على هذا الجهاز. تُحفظ المحادثات محليًا فقط؛ الملخصات والمشاركة وميزات السحابة الأخرى غير متوفرة.",
+    "localOnlyBadgeLabel": "محلي",
+    "localOnlyActionUnavailable": "غير متاح للمحادثات المحلية فقط"
 }

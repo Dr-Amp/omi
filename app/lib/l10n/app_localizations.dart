@@ -18266,6 +18266,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Audio, transcript, and conversation content stay on this device. Conversations are saved locally only; summaries, sharing, and other cloud features are unavailable.'**
   String get sttPrivacyPolicyLocalOnlyDescription;
+
+  /// Short badge marking a conversation as localOnly-origin: assembled and stored on this device only, never synced to Omi
+  ///
+  /// In en, this message translates to:
+  /// **'Local'**
+  String get localOnlyBadgeLabel;
+
+  /// Shown when a cloud-only action (share, speaker assignment, reprocess, cloud summary generation) is attempted on a localOnly conversation, which has no server-side record
+  ///
+  /// In en, this message translates to:
+  /// **'Not available for local-only conversations'**
+  String get localOnlyActionUnavailable;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

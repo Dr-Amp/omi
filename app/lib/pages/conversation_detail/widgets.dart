@@ -1078,7 +1078,7 @@ class GetAppsWidgets extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: summarizedApp == null ? CrossAxisAlignment.center : CrossAxisAlignment.start,
           children: summarizedApp == null
-              ? [child!]
+              ? [provider.isLocalOnly ? _buildLocalOnlyEmptyState(context) : _buildGenerateSummaryEmptyState(context)]
               : [
                   // Show the summarized app
                   if (!provider.conversation.discarded) ...[
@@ -1100,59 +1100,94 @@ class GetAppsWidgets extends StatelessWidget {
                 ],
         );
       },
-      child: ListView(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          const SizedBox(height: 32),
-          Text(
-            context.l10n.noSummaryForConversation,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20),
+    );
+  }
+
+  /// `localOnly` empty state: cloud summary generation is a cloud-only
+  /// action (acceptance-matrix.md row 15) — there is no app, appId, or Omi
+  /// conversation record to hand to `SummarizedAppsBottomSheet`. Showing the
+  /// honest empty state instead of a fabricated summary, and hiding the
+  /// "Generate Summary" entry point entirely rather than letting it fail
+  /// at the HTTP boundary, is the "disabled or labeled" requirement for this
+  /// action.
+  Widget _buildLocalOnlyEmptyState(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        const SizedBox(height: 32),
+        Text(
+          context.l10n.noSummaryForConversation,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 12),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Text(
+            context.l10n.localOnlyActionUnavailable,
+            style: TextStyle(color: Colors.grey.shade400, fontSize: 14),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: const GradientBoxBorder(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(127, 208, 208, 208),
-                        Color.fromARGB(127, 188, 99, 121),
-                        Color.fromARGB(127, 86, 101, 182),
-                        Color.fromARGB(127, 126, 190, 236),
-                      ],
-                    ),
-                    width: 2,
+        ),
+        const SizedBox(height: 32),
+      ],
+    );
+  }
+
+  Widget _buildGenerateSummaryEmptyState(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        const SizedBox(height: 32),
+        Text(
+          context.l10n.noSummaryForConversation,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: const GradientBoxBorder(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(127, 208, 208, 208),
+                      Color.fromARGB(127, 188, 99, 121),
+                      Color.fromARGB(127, 86, 101, 182),
+                      Color.fromARGB(127, 126, 190, 236),
+                    ],
                   ),
-                  borderRadius: BorderRadius.circular(12),
+                  width: 2,
                 ),
-                child: MaterialButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => const SummarizedAppsBottomSheet(),
-                    );
-                  },
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                    child: Text(
-                      context.l10n.generateSummary,
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                    ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: MaterialButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const SummarizedAppsBottomSheet(),
+                  );
+                },
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                  child: Text(
+                    context.l10n.generateSummary,
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 32),
-        ],
-      ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 32),
+      ],
     );
   }
 }

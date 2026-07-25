@@ -3238,5 +3238,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Tylko transkrypcja",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Surowy dźwięk pozostaje na tym urządzeniu. Transkrypcja jest nadal wysyłana do Omi, dzięki czemu podsumowania i zadania nadal działają.",
     "sttPrivacyPolicyLocalOnlyTitle": "Tylko lokalnie",
-    "sttPrivacyPolicyLocalOnlyDescription": "Dźwięk, transkrypcja i treść rozmowy pozostają na tym urządzeniu. Rozmowy są zapisywane wyłącznie lokalnie; podsumowania, udostępnianie i inne funkcje chmurowe są niedostępne."
+    "sttPrivacyPolicyLocalOnlyDescription": "Dźwięk, transkrypcja i treść rozmowy pozostają na tym urządzeniu. Rozmowy są zapisywane wyłącznie lokalnie; podsumowania, udostępnianie i inne funkcje chmurowe są niedostępne.",
+    "localOnlyBadgeLabel": "Lokalny",
+    "localOnlyActionUnavailable": "Niedostępne dla rozmów tylko lokalnych"
 }

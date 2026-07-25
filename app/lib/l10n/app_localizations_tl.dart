@@ -9891,4 +9891,10 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Nananatili ang audio, transcript, at nilalaman ng usapan sa device na ito. Naka-save lamang lokal ang mga usapan; hindi available ang mga buod, pagbabahagi, at iba pang cloud feature.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokal';
+
+  @override
+  String get localOnlyActionUnavailable => 'Hindi available para sa mga lokal na usapan';
 }

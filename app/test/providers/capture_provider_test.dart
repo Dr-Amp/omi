@@ -21,6 +21,7 @@ import 'package:omi/models/custom_stt_config.dart';
 import 'package:omi/models/stt_provider.dart';
 import 'package:omi/providers/capture_provider.dart';
 import 'package:omi/services/capture/capture_external_actions.dart';
+import 'package:omi/services/local_conversations/local_conversation_repository.dart';
 import 'package:omi/services/services.dart';
 import 'package:omi/utils/enums.dart';
 
@@ -29,9 +30,17 @@ class MockCaptureExternalActions extends NoopCaptureExternalActions {
   int setPeopleCallCount = 0;
   int fetchSubscriptionCallCount = 0;
   int addProcessingConversationCallCount = 0;
+  int upsertConversationCallCount = 0;
+  ServerConversation? lastUpsertedConversation;
   Completer<void>? _setPeopleCompleter;
   bool? outOfCreditsOverride;
   String? topConversationIdOverride;
+
+  @override
+  void upsertConversation(ServerConversation conversation) {
+    upsertConversationCallCount++;
+    lastUpsertedConversation = conversation;
+  }
 
   @override
   bool? get isOutOfCredits => outOfCreditsOverride;
@@ -89,6 +98,16 @@ TranscriptSegment _segment(String id, String text) {
 
 BtDevice _device({required String id, required DeviceType type, String name = 'TestDevice'}) =>
     BtDevice(id: id, name: name, type: type, rssi: -50);
+
+/// A [LocalConversationRepository] pointed at a fresh temp directory so
+/// tests can assert on real persisted state (T7/T8's "survives a fresh
+/// repository instance over the same directory" proof) without touching the
+/// real app documents directory. Registers its own cleanup.
+LocalConversationRepository _tempLocalConversationRepository() {
+  final dir = Directory.systemTemp.createTempSync('local_conversations_test_');
+  addTearDown(() => dir.deleteSync(recursive: true));
+  return LocalConversationRepository(directoryProvider: () async => dir);
+}
 
 /// Minimal EnvFields stub so Env-backed code paths (e.g. native BLE stream
 /// config reading Env.apiBaseUrl) don't hit a LateInitializationError.
@@ -1163,19 +1182,42 @@ void main() {
       provider.dispose();
     });
 
-    test('forceProcessingCurrentConversation makes no Omi write and does not reset session state', () async {
-      final provider = CaptureProvider();
+    test(
+        'forceProcessingCurrentConversation finalizes locally (persists via repository, resets session) '
+        'and makes no Omi write', () async {
+      // Decision (slice-2 T5 contradiction, see PR report): force-processing
+      // is itself an early end-of-session action — every entry point
+      // (manual "stop & process" button, device double-tap, low-battery
+      // auto-stop) expects it to end the current conversation right now.
+      // A prior version of this test asserted the opposite (no reset at
+      // all), written back when only the Omi-write guard existed and there
+      // was nowhere to put the segments. Now that
+      // LocalConversationRepository exists, leaving the session running
+      // would silently strand the user's segments instead of finalizing
+      // them — so under localOnly this now finalizes locally exactly like a
+      // normal capture stop, via the same _finalizeLocalOnlySessionIfNeeded
+      // path. The guarantee that must still hold either way: zero Omi
+      // conversation HTTP calls, and no baseline-only "processing" event
+      // (there is no processing phase — the conversation is already
+      // complete synchronously).
+      final repo = _tempLocalConversationRepository();
+      final provider = CaptureProvider(localConversationRepository: repo);
       final mockExternalActions = MockCaptureExternalActions();
       provider.updateExternalActions(mockExternalActions);
       provider.segments = [_segment('preexisting', 'do not touch')];
 
       await provider.forceProcessingCurrentConversation();
 
-      // The unguarded baseline calls _resetStateVariables() (clearing
-      // segments) and externalActions.addProcessingConversation(...)
-      // synchronously before any await — neither must happen under localOnly.
-      expect(provider.segments.map((s) => s.id), ['preexisting']);
+      expect(provider.segments, isEmpty);
       expect(mockExternalActions.addProcessingConversationCallCount, 0);
+      expect(mockExternalActions.upsertConversationCallCount, 1);
+      expect(mockExternalActions.lastUpsertedConversation?.isLocalOnly, isTrue);
+
+      final saved = await repo.listAll();
+      expect(saved, hasLength(1));
+      expect(saved.single.transcriptSegments.map((s) => s.id), ['preexisting']);
+      expect(saved.single.isLocalOnly, isTrue);
+
       provider.dispose();
     });
 
@@ -1199,6 +1241,69 @@ void main() {
       ]);
 
       expect(mockExternalActions.setPeopleCallCount, 0);
+      provider.dispose();
+    });
+  });
+
+  // ------------------------------------------------------------------ //
+  // Durable local history: capture-stop finalize (T7)                   //
+  // ------------------------------------------------------------------ //
+  group('durable local conversation history on capture stop (T7)', () {
+    setUp(() async {
+      SharedPreferencesUtil().batchModeEnabled = false;
+      await SharedPreferencesUtil().saveCustomSttConfig(
+        const CustomSttConfig(
+          provider: SttProvider.customLive,
+          url: 'wss://stt.example.test/live',
+          privacyPolicy: SttPrivacyPolicy.localOnly,
+        ),
+      );
+    });
+
+    tearDown(() async {
+      await SharedPreferencesUtil().saveCustomSttConfig(const CustomSttConfig(provider: SttProvider.omi));
+    });
+
+    test('stopStreamDeviceRecording yields exactly one local conversation with the session segments', () async {
+      final repo = _tempLocalConversationRepository();
+      final provider = CaptureProvider(localConversationRepository: repo);
+      provider.segments = [_segment('a', 'hello'), _segment('b', 'world')];
+
+      await provider.stopStreamDeviceRecording();
+
+      final saved = await repo.listAll();
+      expect(saved, hasLength(1));
+      expect(saved.single.transcriptSegments.map((s) => s.text), ['hello', 'world']);
+      expect(saved.single.isLocalOnly, isTrue);
+      expect(saved.single.id, startsWith('local_'));
+      // Session state resets so the next capture starts clean.
+      expect(provider.segments, isEmpty);
+      provider.dispose();
+    });
+
+    test('stopStreamRecording (phone mic) yields exactly one local conversation with the session segments',
+        () async {
+      final repo = _tempLocalConversationRepository();
+      final provider = CaptureProvider(localConversationRepository: repo);
+      provider.segments = [_segment('x', 'one'), _segment('y', 'two'), _segment('z', 'three')];
+
+      await provider.stopStreamRecording();
+
+      final saved = await repo.listAll();
+      expect(saved, hasLength(1));
+      expect(saved.single.transcriptSegments.map((s) => s.id), ['x', 'y', 'z']);
+      provider.dispose();
+    });
+
+    test('capture stop with nothing captured persists no conversation', () async {
+      final repo = _tempLocalConversationRepository();
+      final provider = CaptureProvider(localConversationRepository: repo);
+      // No segments and no photos — nothing to finalize.
+
+      await provider.stopStreamDeviceRecording();
+
+      final saved = await repo.listAll();
+      expect(saved, isEmpty);
       provider.dispose();
     });
   });

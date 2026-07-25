@@ -10790,5 +10790,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Samo prepis",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Neobdelan zvok ostane v tej napravi. Prepis se še vedno pošlje v Omi, tako da povzetki in opravila še naprej delujejo.",
     "sttPrivacyPolicyLocalOnlyTitle": "Samo lokalno",
-    "sttPrivacyPolicyLocalOnlyDescription": "Zvok, prepis in vsebina pogovora ostanejo v tej napravi. Pogovori se shranjujejo samo lokalno; povzetki, deljenje in druge oblačne funkcije niso na voljo."
+    "sttPrivacyPolicyLocalOnlyDescription": "Zvok, prepis in vsebina pogovora ostanejo v tej napravi. Pogovori se shranjujejo samo lokalno; povzetki, deljenje in druge oblačne funkcije niso na voljo.",
+    "localOnlyBadgeLabel": "Lokalno",
+    "localOnlyActionUnavailable": "Ni na voljo za pogovore samo lokalno"
 }

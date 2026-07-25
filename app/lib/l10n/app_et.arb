@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Ainult transkriptsioon",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Töötlemata heli jääb sellesse seadmesse. Transkriptsioon saadetakse endiselt Omile, et kokkuvõtted ja tegevusüksused toimiksid edasi.",
     "sttPrivacyPolicyLocalOnlyTitle": "Ainult kohalik",
-    "sttPrivacyPolicyLocalOnlyDescription": "Heli, transkriptsioon ja vestluse sisu jäävad sellesse seadmesse. Vestlused salvestatakse ainult kohalikult; kokkuvõtted, jagamine ja muud pilvefunktsioonid pole saadaval."
+    "sttPrivacyPolicyLocalOnlyDescription": "Heli, transkriptsioon ja vestluse sisu jäävad sellesse seadmesse. Vestlused salvestatakse ainult kohalikult; kokkuvõtted, jagamine ja muud pilvefunktsioonid pole saadaval.",
+    "localOnlyBadgeLabel": "Kohalik",
+    "localOnlyActionUnavailable": "Pole saadaval ainult kohalike vestluste jaoks"
 }

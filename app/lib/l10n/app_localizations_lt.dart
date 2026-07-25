@@ -9818,4 +9818,10 @@ class AppLocalizationsLt extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Garsas, transkriptas ir pokalbio turinys lieka šiame įrenginyje. Pokalbiai išsaugomi tik vietoje; santraukos, bendrinimas ir kitos debesijos funkcijos nepasiekiamos.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Vietinis';
+
+  @override
+  String get localOnlyActionUnavailable => 'Nepasiekiama tik vietiniams pokalbiams';
 }

@@ -9828,4 +9828,10 @@ class AppLocalizationsBs extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Zvuk, transkript i sadržaj razgovora ostaju na ovom uređaju. Razgovori se čuvaju samo lokalno; sažeci, dijeljenje i druge funkcije u oblaku nisu dostupne.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokalni';
+
+  @override
+  String get localOnlyActionUnavailable => 'Nije dostupno za razgovore samo na uređaju';
 }

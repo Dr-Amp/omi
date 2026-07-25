@@ -9806,4 +9806,10 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Ljud, transkript och konversationsinnehåll stannar på den här enheten. Konversationer sparas endast lokalt; sammanfattningar, delning och andra molnfunktioner är inte tillgängliga.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokal';
+
+  @override
+  String get localOnlyActionUnavailable => 'Inte tillgängligt för endast lokala konversationer';
 }

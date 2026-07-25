@@ -9725,4 +9725,10 @@ class AppLocalizationsHe extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'האודיו, התמלול ותוכן השיחה נשארים במכשיר זה. שיחות נשמרות מקומית בלבד; סיכומים, שיתוף ותכונות ענן אחרות אינם זמינים.';
+
+  @override
+  String get localOnlyBadgeLabel => 'מקומי';
+
+  @override
+  String get localOnlyActionUnavailable => 'לא זמין לשיחות במצב מקומי בלבד';
 }

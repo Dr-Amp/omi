@@ -9821,4 +9821,10 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Звук, транскрипт і вміст розмови залишаються на цьому пристрої. Розмови зберігаються лише локально; підсумки, надсилання спільного доступу та інші хмарні функції недоступні.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Локально';
+
+  @override
+  String get localOnlyActionUnavailable => 'Недоступно для розмов лише в локальному режимі';
 }

@@ -9802,4 +9802,10 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Zvuk, přepis a obsah konverzace zůstávají v tomto zařízení. Konverzace se ukládají pouze místně; shrnutí, sdílení a další cloudové funkce nejsou k dispozici.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Místní';
+
+  @override
+  String get localOnlyActionUnavailable => 'Není k dispozici pro konverzace pouze v místním režimu';
 }

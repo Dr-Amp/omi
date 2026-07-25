@@ -374,6 +374,10 @@ class _ConversationListItemState extends State<ConversationListItem> {
                           ? Row(
                               children: [
                                 ConversationNewStatusIndicator(text: context.l10n.conversationNewIndicator),
+                                if (widget.conversation.isLocalOnly) ...[
+                                  const SizedBox(width: 8),
+                                  _buildLocalBadge(context),
+                                ],
                                 const Spacer(),
                                 if (widget.conversation.starred)
                                   const Padding(
@@ -400,6 +404,10 @@ class _ConversationListItemState extends State<ConversationListItem> {
                                     style: const TextStyle(color: Color(0xFF9A9BA1), fontSize: 14),
                                     maxLines: 1,
                                   ),
+                                ],
+                                if (widget.conversation.isLocalOnly) ...[
+                                  const SizedBox(width: 8),
+                                  _buildLocalBadge(context),
                                 ],
                                 const Spacer(),
                                 if (widget.conversation.starred)
@@ -570,6 +578,11 @@ class _ConversationListItemState extends State<ConversationListItem> {
                             ),
                           ),
                         ),
+                      if (widget.conversation.isLocalOnly)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: _buildLocalBadge(context),
+                        ),
                       if (widget.conversation.starred)
                         const Padding(
                           padding: EdgeInsets.only(left: 8.0),
@@ -579,6 +592,23 @@ class _ConversationListItemState extends State<ConversationListItem> {
                   ),
           ),
         ],
+      ),
+    );
+  }
+
+  /// Marks a conversation as `localOnly`-origin (acceptance-matrix.md row
+  /// 11/15) so it reads clearly as "assembled and stored on this device
+  /// only" rather than looking like an ordinary synced conversation. Neutral
+  /// grey/white to match the existing duration badge style — no purple
+  /// (INV-UI-1).
+  Widget _buildLocalBadge(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(color: const Color(0xFF35343B), borderRadius: BorderRadius.circular(4)),
+      child: Text(
+        context.l10n.localOnlyBadgeLabel,
+        style: const TextStyle(color: Colors.white, fontSize: 11),
+        maxLines: 1,
       ),
     );
   }

@@ -36,6 +36,29 @@ class ConversationDetailProvider extends ChangeNotifier with MessageNotifierMixi
   String reprocessConversationId = '';
   App? selectedAppForReprocessing;
 
+  /// Whether this conversation is `localOnly`-origin (assembled and
+  /// persisted entirely on-device — see `LocalConversationRepository`).
+  /// Cloud-only actions (reprocess, cloud summary rating, sharing, speaker
+  /// auto-assignment) are unavailable for it: there is no server-side record
+  /// to act on, and the Omi HTTP boundary (`conversations.dart`) rejects a
+  /// `local_`-prefixed id outright as a backstop.
+  bool get isLocalOnly => conversation.isLocalOnly;
+
+  /// Single gate UI call sites use before starting a cloud-only action
+  /// (share, speaker assignment, cloud summary generation, ...) on this
+  /// conversation. Returns true (and surfaces the standard
+  /// `LOCAL_ONLY_UNSUPPORTED` error via [MessageNotifierMixin.notifyError])
+  /// when the action must be blocked — callers should return immediately in
+  /// that case instead of making the call. Centralizing this here (rather
+  /// than a bespoke `if (isLocalOnly)` + ad-hoc error string at every call
+  /// site) is the "one owner" form of the guard: acceptance-matrix.md row 15,
+  /// "no fabricated summary or memory".
+  bool blockCloudOnlyAction() {
+    if (!isLocalOnly) return false;
+    notifyError('LOCAL_ONLY_UNSUPPORTED');
+    return true;
+  }
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Cache enabled conversation apps and suggested apps
@@ -319,7 +342,10 @@ class ConversationDetailProvider extends ChangeNotifier with MessageNotifierMixi
       precacheConversationAudio(conversation.id);
     }
 
-    if (!conversation.discarded) {
+    // Cloud summary rating has no meaning for a local-only conversation:
+    // there is no server-side record to rate, and the id would be rejected
+    // at the Omi HTTP boundary anyway.
+    if (!conversation.discarded && !isLocalOnly) {
       getHasConversationSummaryRating(conversation.id).then((value) {
         if (_isDisposed) return;
         hasConversationSummaryRatingSet = value;
@@ -342,6 +368,13 @@ class ConversationDetailProvider extends ChangeNotifier with MessageNotifierMixi
   }
 
   Future<bool> reprocessConversation({String? appId}) async {
+    if (blockCloudOnlyAction()) {
+      // Cloud-only action: there is no server-side conversation to
+      // reprocess, and no fabricated result is returned in its place
+      // (acceptance-matrix.md row 15).
+      Logger.debug('reprocessConversation: no-op for localOnly conversation ${conversation.id}');
+      return false;
+    }
     Logger.debug('_reProcessConversation with appId: $appId');
     updateReprocessConversationLoadingState(true);
     updateReprocessConversationId(conversation.id);

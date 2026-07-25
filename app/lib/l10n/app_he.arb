@@ -10790,5 +10790,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "תמלול בלבד",
     "sttPrivacyPolicyTranscriptOnlyDescription": "האודיו הגולמי נשאר במכשיר זה. התמלול עדיין נשלח ל-Omi כך שסיכומים ופריטי פעולה ממשיכים לפעול.",
     "sttPrivacyPolicyLocalOnlyTitle": "מקומי בלבד",
-    "sttPrivacyPolicyLocalOnlyDescription": "האודיו, התמלול ותוכן השיחה נשארים במכשיר זה. שיחות נשמרות מקומית בלבד; סיכומים, שיתוף ותכונות ענן אחרות אינם זמינים."
+    "sttPrivacyPolicyLocalOnlyDescription": "האודיו, התמלול ותוכן השיחה נשארים במכשיר זה. שיחות נשמרות מקומית בלבד; סיכומים, שיתוף ותכונות ענן אחרות אינם זמינים.",
+    "localOnlyBadgeLabel": "מקומי",
+    "localOnlyActionUnavailable": "לא זמין לשיחות במצב מקומי בלבד"
 }

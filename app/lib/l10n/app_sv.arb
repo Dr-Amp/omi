@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Endast transkript",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Rått ljud stannar på den här enheten. Transkriptet skickas fortfarande till Omi så att sammanfattningar och åtgärder fortsätter att fungera.",
     "sttPrivacyPolicyLocalOnlyTitle": "Endast lokalt",
-    "sttPrivacyPolicyLocalOnlyDescription": "Ljud, transkript och konversationsinnehåll stannar på den här enheten. Konversationer sparas endast lokalt; sammanfattningar, delning och andra molnfunktioner är inte tillgängliga."
+    "sttPrivacyPolicyLocalOnlyDescription": "Ljud, transkript och konversationsinnehåll stannar på den här enheten. Konversationer sparas endast lokalt; sammanfattningar, delning och andra molnfunktioner är inte tillgängliga.",
+    "localOnlyBadgeLabel": "Lokal",
+    "localOnlyActionUnavailable": "Inte tillgängligt för endast lokala konversationer"
 }

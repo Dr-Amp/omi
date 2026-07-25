@@ -3299,5 +3299,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Csak átirat",
     "sttPrivacyPolicyTranscriptOnlyDescription": "A nyers hang ezen az eszközön marad. Az átirat továbbra is elküldésre kerül az Omi-nak, így az összefoglalók és teendők továbbra is működnek.",
     "sttPrivacyPolicyLocalOnlyTitle": "Csak helyi",
-    "sttPrivacyPolicyLocalOnlyDescription": "A hang, az átirat és a beszélgetés tartalma ezen az eszközön marad. A beszélgetések csak helyben kerülnek mentésre; az összefoglalók, megosztás és egyéb felhőfunkciók nem érhetők el."
+    "sttPrivacyPolicyLocalOnlyDescription": "A hang, az átirat és a beszélgetés tartalma ezen az eszközön marad. A beszélgetések csak helyben kerülnek mentésre; az összefoglalók, megosztás és egyéb felhőfunkciók nem érhetők el.",
+    "localOnlyBadgeLabel": "Helyi",
+    "localOnlyActionUnavailable": "Nem érhető el a csak helyi beszélgetésekhez"
 }

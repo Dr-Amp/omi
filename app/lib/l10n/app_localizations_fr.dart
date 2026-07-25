@@ -9888,4 +9888,10 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'L\'audio, la transcription et le contenu des conversations restent sur cet appareil. Les conversations sont enregistrées uniquement en local ; les résumés, le partage et les autres fonctionnalités cloud ne sont pas disponibles.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Local';
+
+  @override
+  String get localOnlyActionUnavailable => 'Non disponible pour les conversations locales uniquement';
 }

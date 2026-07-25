@@ -10,6 +10,7 @@ import 'package:omi/backend/schema/conversation.dart';
 import 'package:omi/backend/schema/structured.dart';
 import 'package:omi/services/app_review_service.dart';
 import 'package:omi/services/auth_service.dart';
+import 'package:omi/services/local_conversations/local_conversation_repository.dart';
 import 'package:omi/services/notifications/merge_notification_handler.dart';
 import 'package:omi/utils/logger.dart';
 
@@ -98,15 +99,35 @@ class ConversationProvider extends ChangeNotifier {
   final ConversationSearchFetcher _conversationSearchFetcher;
   final bool Function() _isSignedIn;
 
+  // Injectable so tests can spy on "was an Omi delete HTTP call made" (T9)
+  // without touching the network — same pattern as the fetchers above.
+  final Future<bool> Function(String conversationId) _conversationDeleter;
+
+  // Durable store for `localOnly` conversations (see
+  // `LocalConversationRepository` / `CaptureController._finalizeLocalOnlySessionIfNeeded`).
+  // Injectable so tests can point it at a temp directory.
+  final LocalConversationRepository _localConversationRepository;
+
+  // In-memory cache of every local-only conversation loaded from
+  // [_localConversationRepository], kept so a subsequent full list rebuild
+  // (`fetchConversations`, a pull-to-refresh) can re-merge them without a
+  // disk read on every call. Populated by [loadLocalConversations] and kept
+  // in sync by [upsertConversation] / the local delete paths.
+  List<ServerConversation> _localConversations = [];
+
   ConversationProvider({
     ConversationListFetcher? conversationListFetcher,
     DailySummariesChecker? dailySummariesChecker,
     ConversationSearchFetcher? conversationSearchFetcher,
     bool Function()? isSignedIn,
+    Future<bool> Function(String conversationId)? conversationDeleter,
+    LocalConversationRepository? localConversationRepository,
   })  : _conversationListFetcher = conversationListFetcher,
         _dailySummariesChecker = dailySummariesChecker,
         _conversationSearchFetcher = conversationSearchFetcher ?? searchConversationsServer,
-        _isSignedIn = isSignedIn ?? AuthService.instance.isSignedIn {
+        _isSignedIn = isSignedIn ?? AuthService.instance.isSignedIn,
+        _conversationDeleter = conversationDeleter ?? deleteConversationServer,
+        _localConversationRepository = localConversationRepository ?? LocalConversationRepository.appDocuments() {
     _setupMergeListener();
     _loadSettings();
   }
@@ -156,7 +177,62 @@ class ConversationProvider extends ChangeNotifier {
     _refreshDebounceTimer?.cancel();
     _refreshDebounceTimer = null;
     _lastRefreshTime = null;
+    // Sign-out decision (see LocalConversationRepository doc comment): only
+    // the in-memory cache is cleared here, mirroring `cachedConversations` /
+    // `clearUserDisplayCache()` (preferences.dart:667) for server-origin
+    // data. The on-disk local_conversations/ directory is deliberately left
+    // untouched — `localOnly` history is device-scoped, not account-scoped,
+    // and the feature is pitched as *durable* local history; silently
+    // deleting it on sign-out would be exactly the kind of silent data loss
+    // this feature exists to avoid. The next `loadLocalConversations()` call
+    // (e.g. after signing back in) rehydrates it from disk. Known caveat: on
+    // a device shared by multiple Omi accounts, local-only history is
+    // visible to whoever is signed in next — this is a device-sharing
+    // consideration, not an Omi conversation-content leak, and is called out
+    // in the PR report rather than solved here.
+    _localConversations = [];
     notifyListeners();
+  }
+
+  /// Loads every persisted `localOnly` conversation from
+  /// [LocalConversationRepository] and merges it into [conversations]. This
+  /// is the UI-level "restart" proof (acceptance-matrix.md row 12 / T8):
+  /// `localOnly` conversations never exist server-side, so `fetchConversations`
+  /// alone would never surface them. Safe to call regardless of sign-in state
+  /// (local files are not server-scoped) or capture policy (history from a
+  /// past `localOnly` session must remain listable even if the user switched
+  /// modes since).
+  Future<void> loadLocalConversations() async {
+    try {
+      _localConversations = await _localConversationRepository.listAll();
+    } catch (e) {
+      // A directory-access failure (permissions, disk issue, or — in a host
+      // environment with no `path_provider` platform implementation — a
+      // MissingPluginException) must not take down the rest of conversation
+      // loading. Fail closed to "no local conversations found" rather than
+      // propagating.
+      Logger.debug('loadLocalConversations: failed to read local conversation repository: $e');
+      return;
+    }
+    _mergeLocalConversations();
+    notifyListeners();
+  }
+
+  /// Merges the in-memory [_localConversations] cache into [conversations],
+  /// replacing any stale local entries already present. Called after every
+  /// full conversations rebuild (`fetchConversations`, `_fetchNewConversations`)
+  /// so a background refresh or pull-to-refresh — which only knows about
+  /// server-origin conversations — does not make local-only history
+  /// disappear until the next app restart.
+  void _mergeLocalConversations() {
+    if (_localConversations.isEmpty) return;
+    // Local conversations have no folder — keep a folder-filtered view
+    // server-only, consistent with the cachedConversations fallback in
+    // fetchConversations() ("Only use cache when no folder filter is applied").
+    if (selectedFolderId != null) return;
+    conversations.removeWhere((c) => c.isLocalOnly);
+    conversations.addAll(_localConversations);
+    conversations.sort((a, b) => (b.startedAt ?? b.createdAt).compareTo(a.startedAt ?? a.createdAt));
   }
 
   Future updateSearchedConvoDetails(String id, DateTime date, int idx) async {
@@ -506,6 +582,7 @@ class ConversationProvider extends ChangeNotifier {
       if (searchedConversations.isEmpty) {
         searchedConversations = conversations;
       }
+      _mergeLocalConversations();
       _groupConversationsByDateWithoutNotify();
       notifyListeners();
       _scheduleInitialFetchRetry();
@@ -533,6 +610,12 @@ class ConversationProvider extends ChangeNotifier {
     if (searchedConversations.isEmpty) {
       searchedConversations = conversations;
     }
+    // localOnly conversations never exist server-side, so `result.items`
+    // above never contains them — re-merge the local cache back in every
+    // time this list is rebuilt (pull-to-refresh, filter changes, ...) or
+    // they'd vanish until the next app restart. See acceptance-matrix.md
+    // row 12 / T8.
+    _mergeLocalConversations();
     _groupConversationsByDateWithoutNotify();
 
     notifyListeners();
@@ -571,7 +654,19 @@ class ConversationProvider extends ChangeNotifier {
     // A manual/initial entry gets a fresh retry budget so pull-to-refresh
     // can recover even after the auto-retries were exhausted.
     _cancelInitialFetchRetry();
+    // fetchConversations() first, unchanged from before this slice — several
+    // existing tests (conversation_provider_auth_retry_test.dart) depend on
+    // its conversationListFetcher being reachable synchronously from this
+    // call, before the caller's next line runs. Inserting an awaited call
+    // ahead of it (even one that fails fast, like a missing path_provider
+    // platform binding in a hermetic test) adds a real async gap and shifts
+    // that timing, which changed those tests' outcomes when tried.
     final fetched = await fetchConversations();
+    // Local-only history is a repository reload, independent of auth/network
+    // state (acceptance-matrix.md row 12 / T8) — load it unconditionally,
+    // after the server fetch settles, so it shows up regardless of sign-in
+    // state or fetch outcome without perturbing the fetch's own timing.
+    await loadLocalConversations();
     if (!fetched || !_isSignedIn()) return;
     await checkHasDailySummaries();
   }
@@ -778,6 +873,20 @@ class ConversationProvider extends ChangeNotifier {
   }
 
   void upsertConversation(ServerConversation conversation) {
+    if (conversation.isLocalOnly) {
+      // Keep the local-conversation cache in sync so the next full list
+      // rebuild (fetchConversations / pull-to-refresh) — which only knows
+      // about server-origin conversations — doesn't drop a conversation a
+      // localOnly capture session just finalized. This is how a freshly
+      // ended session (CaptureController._finalizeLocalOnlySessionIfNeeded)
+      // stays visible without requiring an app restart.
+      final localIdx = _localConversations.indexWhere((c) => c.id == conversation.id);
+      if (localIdx < 0) {
+        _localConversations.insert(0, conversation);
+      } else {
+        _localConversations[localIdx] = conversation;
+      }
+    }
     int idx = conversations.indexWhere((m) => m.id == conversation.id);
     if (idx < 0) {
       addConversation(conversation);
@@ -909,8 +1018,20 @@ class ConversationProvider extends ChangeNotifier {
     });
   }
 
+  /// Commits a pending delete once the undo window has lapsed. Despite the
+  /// name (kept for the existing call sites above), a `localOnly` id never
+  /// goes to Omi: it is removed from [LocalConversationRepository] instead —
+  /// there is no server-side record, and the Omi HTTP boundary
+  /// (`conversations.dart`) would reject the id anyway (acceptance-matrix.md
+  /// row 13 / T13). See [deleteConversation] for the immediate-delete path.
   void deleteConversationOnServer(String conversationId) {
-    deleteConversationServer(conversationId);
+    final pending = memoriesToDelete[conversationId];
+    if (pending != null && pending.isLocalOnly) {
+      _localConversations.removeWhere((c) => c.id == conversationId);
+      unawaited(_localConversationRepository.delete(conversationId));
+    } else {
+      _conversationDeleter(conversationId);
+    }
     memoriesToDelete.remove(conversationId);
     deleteTimestamps.remove(conversationId);
     if (lastDeletedConversationId == conversationId) {
@@ -937,7 +1058,16 @@ class ConversationProvider extends ChangeNotifier {
   void deleteConversation(ServerConversation conversation) {
     conversations.removeWhere((element) => element.id == conversation.id);
     searchedConversations.removeWhere((element) => element.id == conversation.id);
-    deleteConversationServer(conversation.id);
+    if (conversation.isLocalOnly) {
+      // Local-only conversations exist only as a repository-owned file —
+      // there is no server-side record and therefore no Omi HTTP call here
+      // (acceptance-matrix.md row 13 / T9); the HTTP boundary would reject
+      // the id anyway, but this branch avoids even attempting the call.
+      _localConversations.removeWhere((c) => c.id == conversation.id);
+      unawaited(_localConversationRepository.delete(conversation.id));
+    } else {
+      _conversationDeleter(conversation.id);
+    }
     groupConversationsByDate();
   }
 

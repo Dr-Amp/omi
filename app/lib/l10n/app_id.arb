@@ -3245,5 +3245,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Hanya transkrip",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Audio mentah tetap berada di perangkat ini. Transkrip tetap dikirim ke Omi sehingga ringkasan dan item tindakan terus berfungsi.",
     "sttPrivacyPolicyLocalOnlyTitle": "Hanya lokal",
-    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transkrip, dan konten percakapan tetap berada di perangkat ini. Percakapan hanya disimpan secara lokal; ringkasan, berbagi, dan fitur cloud lainnya tidak tersedia."
+    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transkrip, dan konten percakapan tetap berada di perangkat ini. Percakapan hanya disimpan secara lokal; ringkasan, berbagi, dan fitur cloud lainnya tidak tersedia.",
+    "localOnlyBadgeLabel": "Lokal",
+    "localOnlyActionUnavailable": "Tidak tersedia untuk percakapan khusus lokal"
 }

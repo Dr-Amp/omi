@@ -9823,4 +9823,10 @@ class AppLocalizationsLv extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Audio, transkripts un sarunas saturs paliek šajā ierīcē. Sarunas tiek saglabātas tikai lokāli; kopsavilkumi, koplietošana un citas mākoņa funkcijas nav pieejamas.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokāls';
+
+  @override
+  String get localOnlyActionUnavailable => 'Nav pieejams tikai lokāliem sarunām';
 }

@@ -11,6 +11,7 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_provider_utilities/flutter_provider_utilities.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:omi/backend/http/api/conversations.dart';
 import 'package:omi/backend/preferences.dart';
@@ -31,6 +32,7 @@ import 'package:omi/services/capture/conversation_source_for_device.dart';
 import 'package:omi/services/capture/conversation_location_capture.dart';
 import 'package:omi/services/capture/freemium_threshold_tracker.dart';
 import 'package:omi/services/connectivity_service.dart';
+import 'package:omi/services/local_conversations/local_conversation_repository.dart';
 import 'package:omi/services/services.dart';
 import 'package:omi/services/voice_playback/omi_voice_playback_service.dart';
 import 'package:omi/services/sockets/transcription_service.dart';
@@ -75,6 +77,11 @@ class CaptureController extends ChangeNotifier
 
   CaptureExternalActions externalActions;
   DeviceOnboardingProvider? deviceOnboardingProvider;
+
+  /// Durable store for `localOnly` conversations (see
+  /// `_finalizeLocalOnlySessionIfNeeded`). Injectable so tests can point it
+  /// at a temp directory instead of the real app documents directory.
+  final LocalConversationRepository _localConversationRepository;
 
   // Cache refresh for backend-created persons
   Future<void>? _peopleRefreshFuture;
@@ -165,8 +172,9 @@ class CaptureController extends ChangeNotifier
     return segmentPersonIds.difference(cachedIds).isNotEmpty;
   }
 
-  CaptureController({CaptureExternalActions? externalActions})
-      : externalActions = externalActions ?? const NoopCaptureExternalActions() {
+  CaptureController({CaptureExternalActions? externalActions, LocalConversationRepository? localConversationRepository})
+      : externalActions = externalActions ?? const NoopCaptureExternalActions(),
+        _localConversationRepository = localConversationRepository ?? LocalConversationRepository.appDocuments() {
     // Restore a persisted device mute so it survives an app kill/restart. When
     // the device reconnects, streamDeviceRecording() reads _isPaused as
     // `wasPaused` and re-applies the mute instead of silently resuming.
@@ -1451,6 +1459,7 @@ class CaptureController extends ChangeNotifier
       await _cleanupCurrentState();
       _phoneMicBatchActive = false;
       updateRecordingState(RecordingState.stop);
+      await _finalizeLocalOnlySessionIfNeeded();
       return;
     }
 
@@ -1471,6 +1480,9 @@ class CaptureController extends ChangeNotifier
     ServiceManager.instance().phoneMic.stop();
     updateRecordingState(RecordingState.stop);
     await _socket?.stop(reason: 'stop stream recording');
+    // localOnly capture-stop boundary: this session gets no Omi
+    // memory_created event, so finalize it locally here (architecture.md §5.4).
+    await _finalizeLocalOnlySessionIfNeeded();
   }
 
   /// Start a phone-mic Transcribe Later (batch) session. Native opus-encodes and
@@ -1579,6 +1591,9 @@ class CaptureController extends ChangeNotifier
     }
     updateRecordingState(RecordingState.stop);
     await _socket?.stop(reason: 'stop stream device recording');
+    // localOnly capture-stop boundary: this session gets no Omi
+    // memory_created event, so finalize it locally here (architecture.md §5.4).
+    await _finalizeLocalOnlySessionIfNeeded();
   }
 
   @override
@@ -1929,8 +1944,10 @@ class CaptureController extends ChangeNotifier
   Future<void> forceProcessingCurrentConversation() async {
     // localOnly: processInProgressConversation() below is an Omi HTTP write
     // that would create a server-side conversation — never allowed under
-    // localOnly (acceptance-matrix.md row 8).
+    // localOnly (acceptance-matrix.md row 8). Force-processing is itself an
+    // early end-of-session action, so it finalizes locally instead.
     if (_isLocalOnlyModeActive) {
+      await _finalizeLocalOnlySessionIfNeeded();
       return;
     }
 
@@ -1996,6 +2013,49 @@ class CaptureController extends ChangeNotifier
     // The stamped conversation id stays on the WAL; the single transfer owner
     // will reconcile first and then offer retryable bytes through `syncAll`.
     await RecordingTransferCoordinator.instance.wake(WakeTrigger.cooldownElapsed);
+  }
+
+  /// Assembles the session's accumulated [segments]/[photos] into a local
+  /// conversation and persists it via [_localConversationRepository], then
+  /// resets session state. `localOnly` never receives an Omi
+  /// `memory_created` event, so without this a session would never end
+  /// (architecture.md §5.4). Bound to the capture-stop boundary
+  /// (`stopStreamRecording`, `stopStreamDeviceRecording`) and to the
+  /// force-process action. Deterministic and socket-free — no network call.
+  /// No-ops (without resetting) outside `localOnly` or when the session
+  /// captured nothing.
+  Future<void> _finalizeLocalOnlySessionIfNeeded() async {
+    if (!_isLocalOnlyModeActive) return;
+    if (segments.isEmpty && photos.isEmpty) return;
+
+    final now = DateTime.now();
+    final startedAt =
+        _sessionStartSeconds > 0 ? DateTime.fromMillisecondsSinceEpoch(_sessionStartSeconds * 1000) : now;
+
+    // Empty title/overview is deliberate: an honestly empty summary beats a
+    // fabricated one. Cloud-only features (summaries, sharing, speaker
+    // auto-assignment) are unavailable for local conversations — see
+    // acceptance-matrix.md row 15.
+    final conversation = ServerConversation(
+      id: '${ServerConversation.localOnlyIdPrefix}${const Uuid().v4()}',
+      createdAt: now,
+      startedAt: startedAt,
+      finishedAt: now,
+      structured: Structured('', ''),
+      transcriptSegments: List<TranscriptSegment>.from(segments),
+      photos: List<ConversationPhoto>.from(photos),
+      status: ConversationStatus.completed,
+    );
+
+    try {
+      await _localConversationRepository.save(conversation);
+      conversation.isNew = true;
+      externalActions.upsertConversation(conversation);
+    } catch (e, st) {
+      Logger.error('[CaptureProvider] failed to persist local-only conversation: $e\n$st');
+    }
+
+    await _resetStateVariables();
   }
 
   Future<void> _processConversationCreated(ServerConversation? conversation, List<ServerMessage> messages) async {

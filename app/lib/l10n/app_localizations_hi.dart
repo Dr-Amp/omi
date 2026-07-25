@@ -9778,4 +9778,10 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'ऑडियो, ट्रांसक्रिप्ट और बातचीत की सामग्री इस डिवाइस पर ही रहती है। बातचीत केवल स्थानीय रूप से सहेजी जाती है; सारांश, साझा करना और अन्य क्लाउड सुविधाएं उपलब्ध नहीं हैं।';
+
+  @override
+  String get localOnlyBadgeLabel => 'स्थानीय';
+
+  @override
+  String get localOnlyActionUnavailable => 'केवल स्थानीय बातचीत के लिए उपलब्ध नहीं है';
 }

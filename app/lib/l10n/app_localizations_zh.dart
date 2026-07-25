@@ -9615,4 +9615,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get sttPrivacyPolicyLocalOnlyDescription => '音频、转录内容和对话内容都仅保留在此设备上。对话仅保存在本地；摘要、分享及其他云端功能不可用。';
+
+  @override
+  String get localOnlyBadgeLabel => '本地';
+
+  @override
+  String get localOnlyActionUnavailable => '仅本地对话不支持此操作';
 }

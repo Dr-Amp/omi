@@ -9883,4 +9883,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Audio, Transkript und Unterhaltungsinhalte bleiben auf diesem Gerät. Unterhaltungen werden nur lokal gespeichert; Zusammenfassungen, Teilen und andere Cloud-Funktionen sind nicht verfügbar.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokal';
+
+  @override
+  String get localOnlyActionUnavailable => 'Für lokale Unterhaltungen nicht verfügbar';
 }

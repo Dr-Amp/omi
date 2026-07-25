@@ -9850,4 +9850,10 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'ఆడియో, ట్రాన్స్క్రిప్ట్ మరియు సంభాషణ కంటెంట్ ఈ పరికరంలోనే ఉంటాయి. సంభాషణలు స్థానికంగా మాత్రమే సేవ్ చేయబడతాయి; సారాంశాలు, భాగస్వామ్యం మరియు ఇతర క్లౌడ్ ఫీచర్లు అందుబాటులో ఉండవు.';
+
+  @override
+  String get localOnlyBadgeLabel => 'స్థానికం';
+
+  @override
+  String get localOnlyActionUnavailable => 'స్థానికం మాత్రమే సంభాషణలకు అందుబాటులో లేదు';
 }

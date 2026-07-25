@@ -9800,4 +9800,10 @@ class AppLocalizationsNo extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Lyd, transkripsjon og samtaleinnhold blir værende på denne enheten. Samtaler lagres kun lokalt; sammendrag, deling og andre skyfunksjoner er ikke tilgjengelige.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokal';
+
+  @override
+  String get localOnlyActionUnavailable => 'Ikke tilgjengelig for kun-lokale samtaler';
 }

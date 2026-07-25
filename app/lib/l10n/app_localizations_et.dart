@@ -9797,4 +9797,10 @@ class AppLocalizationsEt extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Heli, transkriptsioon ja vestluse sisu jäävad sellesse seadmesse. Vestlused salvestatakse ainult kohalikult; kokkuvõtted, jagamine ja muud pilvefunktsioonid pole saadaval.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Kohalik';
+
+  @override
+  String get localOnlyActionUnavailable => 'Pole saadaval ainult kohalike vestluste jaoks';
 }

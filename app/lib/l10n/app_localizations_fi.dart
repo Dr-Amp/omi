@@ -9802,4 +9802,10 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Ääni, litterointi ja keskustelusisältö pysyvät tässä laitteessa. Keskustelut tallennetaan vain paikallisesti; yhteenvedot, jakaminen ja muut pilvitoiminnot eivät ole käytettävissä.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Paikallinen';
+
+  @override
+  String get localOnlyActionUnavailable => 'Ei saatavilla vain paikallisille keskusteluille';
 }

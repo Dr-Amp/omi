@@ -681,6 +681,14 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
               context,
             ).showSnackBar(SnackBar(content: Text(context.l10n.errorProcessingConversation)));
           }
+          if (error == 'LOCAL_ONLY_UNSUPPORTED') {
+            // Single sink for every cloud-only action this page blocks on a
+            // localOnly conversation (reprocess, share, speaker assignment) —
+            // see ConversationDetailProvider.blockCloudOnlyAction().
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(context.l10n.localOnlyActionUnavailable)));
+          }
         },
         showInfo: (info) {},
         child: Scaffold(
@@ -815,6 +823,10 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                             onPressed: _isSharing
                                 ? null
                                 : () async {
+                                    // Cloud-only action: sharing publishes a link to the
+                                    // Omi-hosted summary, which doesn't exist for a
+                                    // localOnly conversation (acceptance-matrix.md row 15).
+                                    if (provider.blockCloudOnlyAction()) return;
                                     setState(() {
                                       _isSharing = true;
                                     });
@@ -1877,6 +1889,11 @@ class _TranscriptWidgetsState extends State<TranscriptWidgets> with AutomaticKee
                   ConnectivityProvider.showNoInternetDialog(context);
                   return;
                 }
+                // Cloud-only action: speaker assignment persists via
+                // assignBulkConversationTranscriptSegments, an Omi HTTP call
+                // that has no meaning for a localOnly conversation
+                // (acceptance-matrix.md row 15).
+                if (provider.blockCloudOnlyAction()) return;
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,

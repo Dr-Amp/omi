@@ -9870,4 +9870,10 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Ο ήχος, η απομαγνητοφώνηση και το περιεχόμενο της συνομιλίας παραμένουν σε αυτή τη συσκευή. Οι συνομιλίες αποθηκεύονται μόνο τοπικά· οι περιλήψεις, η κοινή χρήση και άλλες λειτουργίες cloud δεν είναι διαθέσιμες.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Τοπικό';
+
+  @override
+  String get localOnlyActionUnavailable => 'Δεν είναι διαθέσιμο για συνομιλίες μόνο τοπικής αποθήκευσης';
 }

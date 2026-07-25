@@ -3238,5 +3238,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Transcription uniquement",
     "sttPrivacyPolicyTranscriptOnlyDescription": "L'audio brut reste sur cet appareil. La transcription est toujours envoyée à Omi afin que les résumés et les actions continuent de fonctionner.",
     "sttPrivacyPolicyLocalOnlyTitle": "Local uniquement",
-    "sttPrivacyPolicyLocalOnlyDescription": "L'audio, la transcription et le contenu des conversations restent sur cet appareil. Les conversations sont enregistrées uniquement en local ; les résumés, le partage et les autres fonctionnalités cloud ne sont pas disponibles."
+    "sttPrivacyPolicyLocalOnlyDescription": "L'audio, la transcription et le contenu des conversations restent sur cet appareil. Les conversations sont enregistrées uniquement en local ; les résumés, le partage et les autres fonctionnalités cloud ne sont pas disponibles.",
+    "localOnlyBadgeLabel": "Local",
+    "localOnlyActionUnavailable": "Non disponible pour les conversations locales uniquement"
 }

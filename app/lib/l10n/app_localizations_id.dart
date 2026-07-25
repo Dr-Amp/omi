@@ -9811,4 +9811,10 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Audio, transkrip, dan konten percakapan tetap berada di perangkat ini. Percakapan hanya disimpan secara lokal; ringkasan, berbagi, dan fitur cloud lainnya tidak tersedia.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokal';
+
+  @override
+  String get localOnlyActionUnavailable => 'Tidak tersedia untuk percakapan khusus lokal';
 }

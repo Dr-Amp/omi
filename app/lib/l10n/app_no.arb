@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Kun transkripsjon",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Rå lyd blir værende på denne enheten. Transkripsjonen sendes fortsatt til Omi slik at sammendrag og oppgaver fortsetter å fungere.",
     "sttPrivacyPolicyLocalOnlyTitle": "Kun lokalt",
-    "sttPrivacyPolicyLocalOnlyDescription": "Lyd, transkripsjon og samtaleinnhold blir værende på denne enheten. Samtaler lagres kun lokalt; sammendrag, deling og andre skyfunksjoner er ikke tilgjengelige."
+    "sttPrivacyPolicyLocalOnlyDescription": "Lyd, transkripsjon og samtaleinnhold blir værende på denne enheten. Samtaler lagres kun lokalt; sammendrag, deling og andre skyfunksjoner er ikke tilgjengelige.",
+    "localOnlyBadgeLabel": "Lokal",
+    "localOnlyActionUnavailable": "Ikke tilgjengelig for kun-lokale samtaler"
 }

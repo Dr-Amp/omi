@@ -9797,4 +9797,10 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Âm thanh, bản chép lời và nội dung cuộc trò chuyện được giữ trên thiết bị này. Cuộc trò chuyện chỉ được lưu cục bộ; bản tóm tắt, chia sẻ và các tính năng đám mây khác không khả dụng.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Cục bộ';
+
+  @override
+  String get localOnlyActionUnavailable => 'Không khả dụng cho các cuộc trò chuyện chỉ cục bộ';
 }

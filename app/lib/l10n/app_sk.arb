@@ -3208,5 +3208,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Iba prepis",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Nespracovaný zvuk zostáva v tomto zariadení. Prepis sa naďalej odosiela do Omi, takže súhrny a úlohy naďalej fungujú.",
     "sttPrivacyPolicyLocalOnlyTitle": "Iba lokálne",
-    "sttPrivacyPolicyLocalOnlyDescription": "Zvuk, prepis a obsah konverzácie zostávajú v tomto zariadení. Konverzácie sa ukladajú iba lokálne; súhrny, zdieľanie a ďalšie cloudové funkcie nie sú k dispozícii."
+    "sttPrivacyPolicyLocalOnlyDescription": "Zvuk, prepis a obsah konverzácie zostávajú v tomto zariadení. Konverzácie sa ukladajú iba lokálne; súhrny, zdieľanie a ďalšie cloudové funkcie nie sú k dispozícii.",
+    "localOnlyBadgeLabel": "Lokálne",
+    "localOnlyActionUnavailable": "Nie je k dispozícii pre konverzácie iba lokálne"
 }

@@ -9828,4 +9828,10 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Dźwięk, transkrypcja i treść rozmowy pozostają na tym urządzeniu. Rozmowy są zapisywane wyłącznie lokalnie; podsumowania, udostępnianie i inne funkcje chmurowe są niedostępne.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokalny';
+
+  @override
+  String get localOnlyActionUnavailable => 'Niedostępne dla rozmów tylko lokalnych';
 }

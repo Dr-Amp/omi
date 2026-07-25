@@ -9831,4 +9831,10 @@ class AppLocalizationsBe extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Аудыё, транскрыпт і змест размовы застаюцца на гэтай прыладзе. Размовы захоўваюцца толькі лакальна; зводкі, супольны доступ і іншыя воблачныя функцыі недаступныя.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Лакальны';
+
+  @override
+  String get localOnlyActionUnavailable => 'Недаступна для размоў толькі ў лакальным рэжыме';
 }

@@ -334,6 +334,17 @@ class ServerConversation {
   // local label
   bool isNew = false;
 
+  /// Prefix marking a conversation as `localOnly`-origin: it was assembled on
+  /// device and persisted via `LocalConversationRepository`, never created on
+  /// or synced to the Omi backend. This is the explicit local-origin marker
+  /// consulted by the Omi conversation HTTP boundary
+  /// (`backend/http/api/conversations.dart`) so a `local_` id can never reach
+  /// an Omi endpoint, even from a call site that forgets to check the policy.
+  static const String localOnlyIdPrefix = 'local_';
+
+  /// Whether this conversation is `localOnly`-origin (see [localOnlyIdPrefix]).
+  bool get isLocalOnly => id.startsWith(localOnlyIdPrefix);
+
   ServerConversation({
     required this.id,
     required this.createdAt,

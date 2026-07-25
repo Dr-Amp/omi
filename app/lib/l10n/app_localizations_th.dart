@@ -9747,4 +9747,10 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'เสียง ข้อความถอดเสียง และเนื้อหาบทสนทนาจะยังคงอยู่ในอุปกรณ์นี้ บทสนทนาจะถูกบันทึกในเครื่องเท่านั้น สรุป การแชร์ และฟีเจอร์คลาวด์อื่น ๆ จะไม่พร้อมใช้งาน';
+
+  @override
+  String get localOnlyBadgeLabel => 'ในเครื่อง';
+
+  @override
+  String get localOnlyActionUnavailable => 'ไม่พร้อมใช้งานสำหรับการสนทนาแบบในเครื่องเท่านั้น';
 }

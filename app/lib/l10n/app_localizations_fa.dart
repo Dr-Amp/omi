@@ -9803,4 +9803,10 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'صدا، متن پیاده‌شده و محتوای گفتگو روی این دستگاه باقی می‌مانند. گفتگوها فقط به‌صورت محلی ذخیره می‌شوند؛ خلاصه‌ها، اشتراک‌گذاری و سایر ویژگی‌های ابری در دسترس نیستند.';
+
+  @override
+  String get localOnlyBadgeLabel => 'محلی';
+
+  @override
+  String get localOnlyActionUnavailable => 'برای گفتگوهای فقط محلی در دسترس نیست';
 }

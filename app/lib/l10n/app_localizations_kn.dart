@@ -9833,4 +9833,10 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'ಆಡಿಯೊ, ಪ್ರತಿಲಿಪಿ ಮತ್ತು ಸಂಭಾಷಣೆಯ ವಿಷಯ ಈ ಸಾಧನದಲ್ಲಿಯೇ ಉಳಿಯುತ್ತದೆ. ಸಂಭಾಷಣೆಗಳನ್ನು ಸ್ಥಳೀಯವಾಗಿ ಮಾತ್ರ ಉಳಿಸಲಾಗುತ್ತದೆ; ಸಾರಾಂಶಗಳು, ಹಂಚಿಕೆ ಮತ್ತು ಇತರ ಕ್ಲೌಡ್ ವೈಶಿಷ್ಟ್ಯಗಳು ಲಭ್ಯವಿಲ್ಲ.';
+
+  @override
+  String get localOnlyBadgeLabel => 'ಸ್ಥಳೀಯ';
+
+  @override
+  String get localOnlyActionUnavailable => 'ಸ್ಥಳೀಯ ಮಾತ್ರ ಸಂಭಾಷಣೆಗಳಿಗೆ ಲಭ್ಯವಿಲ್ಲ';
 }

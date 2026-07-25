@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Alleen transcript",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Onbewerkte audio blijft op dit apparaat. Het transcript wordt nog steeds naar Omi gestuurd, zodat samenvattingen en actiepunten blijven werken.",
     "sttPrivacyPolicyLocalOnlyTitle": "Alleen lokaal",
-    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transcript en gespreksinhoud blijven op dit apparaat. Gesprekken worden alleen lokaal opgeslagen; samenvattingen, delen en andere cloudfuncties zijn niet beschikbaar."
+    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transcript en gespreksinhoud blijven op dit apparaat. Gesprekken worden alleen lokaal opgeslagen; samenvattingen, delen en andere cloudfuncties zijn niet beschikbaar.",
+    "localOnlyBadgeLabel": "Lokaal",
+    "localOnlyActionUnavailable": "Niet beschikbaar voor alleen-lokale gesprekken"
 }

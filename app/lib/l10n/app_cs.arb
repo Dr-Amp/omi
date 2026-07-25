@@ -3181,5 +3181,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Pouze přepis",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Nezpracovaný zvuk zůstává v tomto zařízení. Přepis se stále odesílá do Omi, takže shrnutí a úkoly nadále fungují.",
     "sttPrivacyPolicyLocalOnlyTitle": "Pouze místně",
-    "sttPrivacyPolicyLocalOnlyDescription": "Zvuk, přepis a obsah konverzace zůstávají v tomto zařízení. Konverzace se ukládají pouze místně; shrnutí, sdílení a další cloudové funkce nejsou k dispozici."
+    "sttPrivacyPolicyLocalOnlyDescription": "Zvuk, přepis a obsah konverzace zůstávají v tomto zařízení. Konverzace se ukládají pouze místně; shrnutí, sdílení a další cloudové funkce nejsou k dispozici.",
+    "localOnlyBadgeLabel": "Místní",
+    "localOnlyActionUnavailable": "Není k dispozici pro konverzace pouze v místním režimu"
 }

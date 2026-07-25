@@ -10790,5 +10790,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Transcript lamang",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Nananatili ang raw na audio sa device na ito. Ipinapadala pa rin ang transcript sa Omi upang patuloy na gumana ang mga buod at aksyon.",
     "sttPrivacyPolicyLocalOnlyTitle": "Lokal lamang",
-    "sttPrivacyPolicyLocalOnlyDescription": "Nananatili ang audio, transcript, at nilalaman ng usapan sa device na ito. Naka-save lamang lokal ang mga usapan; hindi available ang mga buod, pagbabahagi, at iba pang cloud feature."
+    "sttPrivacyPolicyLocalOnlyDescription": "Nananatili ang audio, transcript, at nilalaman ng usapan sa device na ito. Naka-save lamang lokal ang mga usapan; hindi available ang mga buod, pagbabahagi, at iba pang cloud feature.",
+    "localOnlyBadgeLabel": "Lokal",
+    "localOnlyActionUnavailable": "Hindi available para sa mga lokal na usapan"
 }

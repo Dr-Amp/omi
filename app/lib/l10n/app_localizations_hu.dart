@@ -9841,4 +9841,10 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'A hang, az átirat és a beszélgetés tartalma ezen az eszközön marad. A beszélgetések csak helyben kerülnek mentésre; az összefoglalók, megosztás és egyéb felhőfunkciók nem érhetők el.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Helyi';
+
+  @override
+  String get localOnlyActionUnavailable => 'Nem érhető el a csak helyi beszélgetésekhez';
 }

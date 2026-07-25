@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Doar transcriere",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Sunetul brut rămâne pe acest dispozitiv. Transcrierea este în continuare trimisă către Omi, astfel încât rezumatele și elementele de acțiune continuă să funcționeze.",
     "sttPrivacyPolicyLocalOnlyTitle": "Doar local",
-    "sttPrivacyPolicyLocalOnlyDescription": "Sunetul, transcrierea și conținutul conversației rămân pe acest dispozitiv. Conversațiile sunt salvate doar local; rezumatele, partajarea și alte funcții cloud nu sunt disponibile."
+    "sttPrivacyPolicyLocalOnlyDescription": "Sunetul, transcrierea și conținutul conversației rămân pe acest dispozitiv. Conversațiile sunt salvate doar local; rezumatele, partajarea și alte funcții cloud nu sunt disponibile.",
+    "localOnlyBadgeLabel": "Local",
+    "localOnlyActionUnavailable": "Indisponibil pentru conversațiile doar locale"
 }

@@ -3221,5 +3221,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Kun transskription",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Rå lyd forbliver på denne enhed. Transskriptionen sendes stadig til Omi, så resuméer og handlingspunkter fortsat fungerer.",
     "sttPrivacyPolicyLocalOnlyTitle": "Kun lokalt",
-    "sttPrivacyPolicyLocalOnlyDescription": "Lyd, transskription og samtaleindhold forbliver på denne enhed. Samtaler gemmes kun lokalt; resuméer, deling og andre skyfunktioner er ikke tilgængelige."
+    "sttPrivacyPolicyLocalOnlyDescription": "Lyd, transskription og samtaleindhold forbliver på denne enhed. Samtaler gemmes kun lokalt; resuméer, deling og andre skyfunktioner er ikke tilgængelige.",
+    "localOnlyBadgeLabel": "Lokal",
+    "localOnlyActionUnavailable": "Ikke tilgængelig for samtaler, der kun er lokale"
 }

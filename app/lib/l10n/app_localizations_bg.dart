@@ -9838,4 +9838,10 @@ class AppLocalizationsBg extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Звукът, транскриптът и съдържанието на разговора остават на това устройство. Разговорите се запазват само локално; резюметата, споделянето и другите облачни функции не са налични.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Локален';
+
+  @override
+  String get localOnlyActionUnavailable => 'Не е налично за разговори само на локално устройство';
 }

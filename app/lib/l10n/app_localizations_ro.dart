@@ -9848,4 +9848,10 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Sunetul, transcrierea și conținutul conversației rămân pe acest dispozitiv. Conversațiile sunt salvate doar local; rezumatele, partajarea și alte funcții cloud nu sunt disponibile.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Local';
+
+  @override
+  String get localOnlyActionUnavailable => 'Indisponibil pentru conversațiile doar locale';
 }

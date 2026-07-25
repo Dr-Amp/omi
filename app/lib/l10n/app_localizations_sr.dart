@@ -9815,4 +9815,10 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Звук, транскрипт и садржај разговора остају на овом уређају. Разговори се чувају само локално; сажеци, дељење и друге функције у облаку нису доступне.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Локално';
+
+  @override
+  String get localOnlyActionUnavailable => 'Није доступно за разговоре само локално';
 }

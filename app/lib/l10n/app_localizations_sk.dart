@@ -9793,4 +9793,10 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Zvuk, prepis a obsah konverzácie zostávajú v tomto zariadení. Konverzácie sa ukladajú iba lokálne; súhrny, zdieľanie a ďalšie cloudové funkcie nie sú k dispozícii.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokálne';
+
+  @override
+  String get localOnlyActionUnavailable => 'Nie je k dispozícii pre konverzácie iba lokálne';
 }

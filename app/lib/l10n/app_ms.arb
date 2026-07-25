@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Transkrip sahaja",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Audio mentah kekal pada peranti ini. Transkrip masih dihantar ke Omi supaya ringkasan dan item tindakan terus berfungsi.",
     "sttPrivacyPolicyLocalOnlyTitle": "Tempatan sahaja",
-    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transkrip dan kandungan perbualan kekal pada peranti ini. Perbualan disimpan secara tempatan sahaja; ringkasan, perkongsian dan ciri awan lain tidak tersedia."
+    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transkrip dan kandungan perbualan kekal pada peranti ini. Perbualan disimpan secara tempatan sahaja; ringkasan, perkongsian dan ciri awan lain tidak tersedia.",
+    "localOnlyBadgeLabel": "Tempatan",
+    "localOnlyActionUnavailable": "Tidak tersedia untuk perbualan tempatan sahaja"
 }

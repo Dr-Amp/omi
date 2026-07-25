@@ -3203,5 +3203,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Vain litterointi",
     "sttPrivacyPolicyTranscriptOnlyDescription": "Raakaääni pysyy tässä laitteessa. Litterointi lähetetään edelleen Omille, jotta yhteenvedot ja tehtävät toimivat edelleen.",
     "sttPrivacyPolicyLocalOnlyTitle": "Vain paikallinen",
-    "sttPrivacyPolicyLocalOnlyDescription": "Ääni, litterointi ja keskustelusisältö pysyvät tässä laitteessa. Keskustelut tallennetaan vain paikallisesti; yhteenvedot, jakaminen ja muut pilvitoiminnot eivät ole käytettävissä."
+    "sttPrivacyPolicyLocalOnlyDescription": "Ääni, litterointi ja keskustelusisältö pysyvät tässä laitteessa. Keskustelut tallennetaan vain paikallisesti; yhteenvedot, jakaminen ja muut pilvitoiminnot eivät ole käytettävissä.",
+    "localOnlyBadgeLabel": "Paikallinen",
+    "localOnlyActionUnavailable": "Ei saatavilla vain paikallisille keskusteluille"
 }

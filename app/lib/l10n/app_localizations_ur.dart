@@ -9815,4 +9815,10 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'آڈیو، نقل اور گفتگو کا مواد اس ڈیوائس پر رہتا ہے۔ گفتگو صرف مقامی طور پر محفوظ کی جاتی ہے؛ خلاصے، شیئرنگ اور دیگر کلاؤڈ خصوصیات دستیاب نہیں ہیں۔';
+
+  @override
+  String get localOnlyBadgeLabel => 'مقامی';
+
+  @override
+  String get localOnlyActionUnavailable => 'صرف مقامی گفتگو کے لیے دستیاب نہیں';
 }

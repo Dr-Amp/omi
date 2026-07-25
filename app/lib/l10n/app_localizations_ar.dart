@@ -9741,4 +9741,10 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'يبقى الصوت والنص المكتوب ومحتوى المحادثة على هذا الجهاز. تُحفظ المحادثات محليًا فقط؛ الملخصات والمشاركة وميزات السحابة الأخرى غير متوفرة.';
+
+  @override
+  String get localOnlyBadgeLabel => 'محلي';
+
+  @override
+  String get localOnlyActionUnavailable => 'غير متاح للمحادثات المحلية فقط';
 }

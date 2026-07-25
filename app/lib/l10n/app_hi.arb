@@ -3204,5 +3204,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "केवल ट्रांसक्रिप्ट",
     "sttPrivacyPolicyTranscriptOnlyDescription": "कच्चा ऑडियो इस डिवाइस पर ही रहता है। सारांश और एक्शन आइटम काम करते रहें, इसके लिए ट्रांसक्रिप्ट अभी भी Omi को भेजी जाती है।",
     "sttPrivacyPolicyLocalOnlyTitle": "केवल स्थानीय",
-    "sttPrivacyPolicyLocalOnlyDescription": "ऑडियो, ट्रांसक्रिप्ट और बातचीत की सामग्री इस डिवाइस पर ही रहती है। बातचीत केवल स्थानीय रूप से सहेजी जाती है; सारांश, साझा करना और अन्य क्लाउड सुविधाएं उपलब्ध नहीं हैं।"
+    "sttPrivacyPolicyLocalOnlyDescription": "ऑडियो, ट्रांसक्रिप्ट और बातचीत की सामग्री इस डिवाइस पर ही रहती है। बातचीत केवल स्थानीय रूप से सहेजी जाती है; सारांश, साझा करना और अन्य क्लाउड सुविधाएं उपलब्ध नहीं हैं।",
+    "localOnlyBadgeLabel": "स्थानीय",
+    "localOnlyActionUnavailable": "केवल स्थानीय बातचीत के लिए उपलब्ध नहीं है"
 }

@@ -14,6 +14,34 @@ import 'package:omi/utils/debug_log_manager.dart';
 import 'package:omi/utils/logger.dart';
 import 'package:omi/utils/platform/platform_manager.dart';
 
+/// Thrown when a `local_`-prefixed (localOnly-origin) conversation id would
+/// otherwise reach an Omi HTTP call. `localOnly` conversations are assembled
+/// and persisted entirely on-device via `LocalConversationRepository` and
+/// never exist server-side, so every conversation-scoped HTTP function in
+/// this file checks the id before building a request. This is the Omi
+/// conversation HTTP boundary (architecture.md §5.6): a future call site
+/// that forgets to check the active privacy policy still cannot leak a local
+/// record, because the guard lives here, not at each caller.
+class LocalOnlyConversationIdRejectedException implements Exception {
+  final String conversationId;
+  const LocalOnlyConversationIdRejectedException(this.conversationId);
+
+  @override
+  String toString() => 'Refused Omi HTTP call for local-only conversation id "$conversationId"';
+}
+
+/// Whether [conversationId] is `localOnly`-origin and must never reach Omi.
+bool isLocalOnlyConversationId(String? conversationId) =>
+    conversationId != null && conversationId.startsWith(ServerConversation.localOnlyIdPrefix);
+
+/// Guard for every Omi conversation HTTP call keyed by a single conversation
+/// id. Call this before building the request URL.
+void rejectLocalOnlyConversationId(String conversationId) {
+  if (isLocalOnlyConversationId(conversationId)) {
+    throw LocalOnlyConversationIdRejectedException(conversationId);
+  }
+}
+
 /// Whether a non-200 response from POST /v1/conversations (process in-progress
 /// conversation) is a benign race rather than a failure worth crash-reporting.
 ///
@@ -117,6 +145,7 @@ Future<({List<ServerConversation> items, bool ok})> getConversationsResult({
 }
 
 Future<ServerConversation?> reProcessConversationServer(String conversationId, {String? appId}) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/reprocess${appId != null ? '?app_id=$appId' : ''}',
     headers: {},
@@ -132,6 +161,7 @@ Future<ServerConversation?> reProcessConversationServer(String conversationId, {
 }
 
 Future<bool> deleteConversationServer(String conversationId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId?cascade=true',
     headers: {},
@@ -144,6 +174,7 @@ Future<bool> deleteConversationServer(String conversationId) async {
 }
 
 Future<bool> unlinkCalendarEvent(String conversationId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/calendar-event',
     headers: {},
@@ -157,6 +188,7 @@ Future<bool> unlinkCalendarEvent(String conversationId) async {
 /// Link a specific Google Calendar event to a conversation.
 /// Returns the linked CalendarEventLink if successful, null otherwise.
 Future<CalendarEventLink?> linkCalendarEvent(String conversationId, String eventId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/calendar-event',
     headers: {},
@@ -176,6 +208,7 @@ Future<CalendarEventLink?> linkCalendarEvent(String conversationId, String event
 /// Auto-link a conversation to the best overlapping Google Calendar event.
 /// Returns the linked CalendarEventLink if found, null otherwise.
 Future<CalendarEventLink?> autoLinkCalendarEvent(String conversationId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/calendar-event/auto-link',
     headers: {},
@@ -233,6 +266,7 @@ Future<List<CalendarEventLink>> listGoogleCalendarEvents({
 }
 
 Future<ServerConversation?> getConversationById(String conversationId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId',
     headers: {},
@@ -250,6 +284,7 @@ Future<ServerConversation?> getConversationById(String conversationId) async {
 }
 
 Future<bool> updateConversationTitle(String conversationId, String title) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/title?title=$title',
     headers: {},
@@ -262,6 +297,7 @@ Future<bool> updateConversationTitle(String conversationId, String title) async 
 }
 
 Future<bool> updateConversationSegmentText(String conversationId, String segmentId, String text) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/segments/text',
     headers: {'Content-Type': 'application/json'},
@@ -273,6 +309,7 @@ Future<bool> updateConversationSegmentText(String conversationId, String segment
 }
 
 Future<bool> updateConversationSummary(String conversationId, String? appId, String content) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/summary',
     headers: {'Content-Type': 'application/json'},
@@ -323,6 +360,7 @@ class TranscriptsResponse {
 }
 
 Future<TranscriptsResponse> getConversationTranscripts(String conversationId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/transcripts',
     headers: {},
@@ -343,6 +381,7 @@ Future<bool> assignBulkConversationTranscriptSegments(
   bool? isUser,
   String? personId,
 }) async {
+  rejectLocalOnlyConversationId(conversationId);
   String assignType;
   String? value;
   if (isUser == true) {
@@ -365,6 +404,7 @@ Future<bool> assignBulkConversationTranscriptSegments(
 }
 
 Future<bool> setConversationVisibility(String conversationId, {String visibility = 'shared'}) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/visibility?value=$visibility',
     headers: {},
@@ -377,6 +417,7 @@ Future<bool> setConversationVisibility(String conversationId, {String visibility
 }
 
 Future<bool> setConversationStarred(String conversationId, bool starred) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/starred?starred=$starred',
     headers: {},
@@ -389,6 +430,7 @@ Future<bool> setConversationStarred(String conversationId, bool starred) async {
 }
 
 Future<bool> setConversationActionItemState(String conversationId, List<int> actionItemsIdx, List<bool> values) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/action-items',
     headers: {},
@@ -406,6 +448,7 @@ Future<bool> updateActionItemDescription(
   String newDescription,
   int idx,
 ) async {
+  rejectLocalOnlyConversationId(conversationId);
   var body = {'old_description': oldDescription, 'description': newDescription};
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/action-items/$idx',
@@ -419,6 +462,7 @@ Future<bool> updateActionItemDescription(
 }
 
 Future<bool> deleteConversationActionItem(String conversationId, ActionItem item) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/action-items',
     headers: {},
@@ -550,6 +594,7 @@ Future<UploadFilesResult> uploadLocalFilesV2(
   String? conversationId,
   SyncUploadLane syncLane = SyncUploadLane.fresh,
 }) async {
+  if (conversationId != null) rejectLocalOnlyConversationId(conversationId);
   String? captureManifest;
   if (shouldRequestSyncCaptureManifest(conversationId, syncLane)) {
     captureManifest = await _createSyncCaptureManifest(files, conversationId!);
@@ -693,6 +738,7 @@ Future<(List<ServerConversation>, int, int)> searchConversationsServer(
 }
 
 Future<String> testConversationPrompt(String prompt, String conversationId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/test-prompt',
     headers: {},
@@ -743,6 +789,7 @@ Future<ActionItemsResponse> getActionItems({
 }
 
 Future<List<App>> getConversationSuggestedApps(String conversationId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/suggested-apps',
     headers: {},
@@ -799,6 +846,7 @@ Future<MergeConversationsResponse?> mergeConversations(List<String> conversation
     Logger.debug('mergeConversations: At least 2 conversations required');
     return null;
   }
+  conversationIds.forEach(rejectLocalOnlyConversationId);
 
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/merge',

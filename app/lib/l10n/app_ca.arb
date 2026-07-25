@@ -3181,5 +3181,7 @@
     "sttPrivacyPolicyTranscriptOnlyTitle": "Només transcripció",
     "sttPrivacyPolicyTranscriptOnlyDescription": "L'àudio en brut es queda en aquest dispositiu. La transcripció es continua enviant a Omi perquè els resums i les tasques continuïn funcionant.",
     "sttPrivacyPolicyLocalOnlyTitle": "Només local",
-    "sttPrivacyPolicyLocalOnlyDescription": "L'àudio, la transcripció i el contingut de la conversa es queden en aquest dispositiu. Les converses es desen només localment; els resums, la compartició i altres funcions al núvol no estan disponibles."
+    "sttPrivacyPolicyLocalOnlyDescription": "L'àudio, la transcripció i el contingut de la conversa es queden en aquest dispositiu. Les converses es desen només localment; els resums, la compartició i altres funcions al núvol no estan disponibles.",
+    "localOnlyBadgeLabel": "Local",
+    "localOnlyActionUnavailable": "No disponible per a converses només locals"
 }

@@ -9637,4 +9637,10 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       '오디오, 전사본, 대화 내용이 이 기기에 남습니다. 대화는 로컬에만 저장되며 요약, 공유 및 기타 클라우드 기능은 사용할 수 없습니다.';
+
+  @override
+  String get localOnlyBadgeLabel => '로컬';
+
+  @override
+  String get localOnlyActionUnavailable => '로컬 전용 대화에서는 사용할 수 없습니다';
 }

@@ -9786,4 +9786,10 @@ class AppLocalizationsDa extends AppLocalizations {
   @override
   String get sttPrivacyPolicyLocalOnlyDescription =>
       'Lyd, transskription og samtaleindhold forbliver på denne enhed. Samtaler gemmes kun lokalt; resuméer, deling og andre skyfunktioner er ikke tilgængelige.';
+
+  @override
+  String get localOnlyBadgeLabel => 'Lokal';
+
+  @override
+  String get localOnlyActionUnavailable => 'Ikke tilgængelig for samtaler, der kun er lokale';
 }
