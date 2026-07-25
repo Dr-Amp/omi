@@ -2021,7 +2021,8 @@ class CaptureController extends ChangeNotifier
   /// `memory_created` event, so without this a session would never end
   /// (architecture.md §5.4). Bound to the capture-stop boundary
   /// (`stopStreamRecording`, `stopStreamDeviceRecording`) and to the
-  /// force-process action. Deterministic and socket-free — no network call.
+  /// force-process action. Deterministic and socket-free — writes to the
+  /// local repository only, and never touches an Omi HTTP endpoint.
   /// No-ops (without resetting) outside `localOnly` or when the session
   /// captured nothing.
   Future<void> _finalizeLocalOnlySessionIfNeeded() async {
