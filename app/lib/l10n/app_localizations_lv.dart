@@ -9802,4 +9802,25 @@ class AppLocalizationsLv extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Izslēdziet, lai neapstrādāts audio netiktu sūtīts uz Omi. Transkripcijas un mākoņfunkcijām nepieciešamie dati joprojām var tikt sūtīti uz Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Pilns';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Audio un transkripts tiek nosūtīti uz Omi, lai sarunas, kopsavilkumi un uzdevumi tiktu ģenerēti kā parasti.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Tikai transkripts';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Neapstrādāts audio paliek šajā ierīcē. Transkripts joprojām tiek nosūtīts uz Omi, lai kopsavilkumi un uzdevumi turpinātu darboties.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Tikai lokāli';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Audio, transkripts un sarunas saturs paliek šajā ierīcē. Sarunas tiek saglabātas tikai lokāli; kopsavilkumi, koplietošana un citas mākoņa funkcijas nav pieejamas.';
 }

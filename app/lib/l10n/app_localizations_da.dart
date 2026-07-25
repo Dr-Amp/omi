@@ -9765,4 +9765,25 @@ class AppLocalizationsDa extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Slå fra for at forhindre, at rå lyd sendes til Omi. Transskriptioner og data, som cloudfunktioner kræver, kan stadig blive sendt til Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Fuld';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Lyd og transskription sendes til Omi, så samtaler, resuméer og handlingspunkter genereres som normalt.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Kun transskription';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Rå lyd forbliver på denne enhed. Transskriptionen sendes stadig til Omi, så resuméer og handlingspunkter fortsat fungerer.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Kun lokalt';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Lyd, transskription og samtaleindhold forbliver på denne enhed. Samtaler gemmes kun lokalt; resuméer, deling og andre skyfunktioner er ikke tilgængelige.';
 }

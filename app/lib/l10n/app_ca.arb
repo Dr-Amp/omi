@@ -3175,5 +3175,11 @@
     "whisperModelSizeSmall": "Petit",
     "whisperModelSizeTiny": "Molt petit",
     "sendRawAudioToOmi": "Envia l'àudio sense processar a Omi",
-    "sendRawAudioToOmiDescription": "Desactiva-ho per impedir que l'àudio sense processar s'enviï a Omi. Les transcripcions i les dades necessàries per a les funcions al núvol encara es poden enviar a Omi."
+    "sendRawAudioToOmiDescription": "Desactiva-ho per impedir que l'àudio sense processar s'enviï a Omi. Les transcripcions i les dades necessàries per a les funcions al núvol encara es poden enviar a Omi.",
+    "sttPrivacyPolicyFullTitle": "Complet",
+    "sttPrivacyPolicyFullDescription": "L'àudio i la transcripció s'envien a Omi perquè les converses, els resums i les tasques es generin com de costum.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Només transcripció",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "L'àudio en brut es queda en aquest dispositiu. La transcripció es continua enviant a Omi perquè els resums i les tasques continuïn funcionant.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Només local",
+    "sttPrivacyPolicyLocalOnlyDescription": "L'àudio, la transcripció i el contingut de la conversa es queden en aquest dispositiu. Les converses es desen només localment; els resums, la compartició i altres funcions al núvol no estan disponibles."
 }

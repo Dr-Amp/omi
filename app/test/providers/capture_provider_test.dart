@@ -17,6 +17,8 @@ import 'package:omi/backend/schema/transcript_segment.dart';
 import 'package:omi/env/env.dart';
 import 'package:omi/l10n/app_localizations.dart';
 import 'package:omi/app_globals.dart';
+import 'package:omi/models/custom_stt_config.dart';
+import 'package:omi/models/stt_provider.dart';
 import 'package:omi/providers/capture_provider.dart';
 import 'package:omi/services/capture/capture_external_actions.dart';
 import 'package:omi/services/services.dart';
@@ -26,6 +28,7 @@ import 'package:omi/utils/enums.dart';
 class MockCaptureExternalActions extends NoopCaptureExternalActions {
   int setPeopleCallCount = 0;
   int fetchSubscriptionCallCount = 0;
+  int addProcessingConversationCallCount = 0;
   Completer<void>? _setPeopleCompleter;
   bool? outOfCreditsOverride;
   String? topConversationIdOverride;
@@ -35,6 +38,11 @@ class MockCaptureExternalActions extends NoopCaptureExternalActions {
 
   @override
   String? get topConversationId => topConversationIdOverride;
+
+  @override
+  void addProcessingConversation(ServerConversation conversation) {
+    addProcessingConversationCallCount++;
+  }
 
   @override
   Future<void> refreshPeople() async {
@@ -1118,6 +1126,113 @@ void main() {
 
       expect(provider.isPaused, isTrue);
       expect(SharedPreferencesUtil().deviceMuted, isTrue);
+      provider.dispose();
+    });
+  });
+
+  // ------------------------------------------------------------------ //
+  // localOnly capture-lifecycle isolation (T5, T11)                     //
+  // ------------------------------------------------------------------ //
+  group('localOnly capture lifecycle gating (T5)', () {
+    setUp(() async {
+      SharedPreferencesUtil().batchModeEnabled = false;
+      await SharedPreferencesUtil().saveCustomSttConfig(
+        const CustomSttConfig(
+          provider: SttProvider.customLive,
+          url: 'wss://stt.example.test/live',
+          privacyPolicy: SttPrivacyPolicy.localOnly,
+        ),
+      );
+    });
+
+    tearDown(() async {
+      await SharedPreferencesUtil().saveCustomSttConfig(const CustomSttConfig(provider: SttProvider.omi));
+    });
+
+    test('refreshInProgressConversations (_loadInProgressConversation) does not touch session state', () async {
+      final provider = CaptureProvider();
+      // Pre-populate a sentinel: the unguarded baseline always ends by setting
+      // segments = [] / photos = [] once its (failed, in this hermetic env)
+      // conversation fetch resolves. If the guard fires first, this session
+      // state is left completely untouched.
+      provider.segments = [_segment('preexisting', 'do not touch')];
+
+      await provider.refreshInProgressConversations();
+
+      expect(provider.segments.map((s) => s.id), ['preexisting']);
+      provider.dispose();
+    });
+
+    test('forceProcessingCurrentConversation makes no Omi write and does not reset session state', () async {
+      final provider = CaptureProvider();
+      final mockExternalActions = MockCaptureExternalActions();
+      provider.updateExternalActions(mockExternalActions);
+      provider.segments = [_segment('preexisting', 'do not touch')];
+
+      await provider.forceProcessingCurrentConversation();
+
+      // The unguarded baseline calls _resetStateVariables() (clearing
+      // segments) and externalActions.addProcessingConversation(...)
+      // synchronously before any await — neither must happen under localOnly.
+      expect(provider.segments.map((s) => s.id), ['preexisting']);
+      expect(mockExternalActions.addProcessingConversationCallCount, 0);
+      provider.dispose();
+    });
+
+    test('onSegmentReceived does not refresh the people cache under localOnly', () async {
+      final provider = CaptureProvider();
+      final mockExternalActions = MockCaptureExternalActions();
+      provider.updateExternalActions(mockExternalActions);
+      provider.segments = [_segment('seed', 'seed')];
+
+      provider.onSegmentReceived([
+        TranscriptSegment(
+          id: 'seg1',
+          text: 'text',
+          speaker: 'SPEAKER_00',
+          isUser: false,
+          personId: 'unknown-person-id',
+          start: 0.0,
+          end: 1.0,
+          translations: [],
+        ),
+      ]);
+
+      expect(mockExternalActions.setPeopleCallCount, 0);
+      provider.dispose();
+    });
+  });
+
+  group('no silent cloud fallback on unsupported codec under localOnly (T11)', () {
+    setUp(() async {
+      SharedPreferencesUtil().batchModeEnabled = false;
+      await SharedPreferencesUtil().saveCustomSttConfig(
+        const CustomSttConfig(
+          provider: SttProvider.customLive,
+          url: 'wss://stt.example.test/live',
+          privacyPolicy: SttPrivacyPolicy.localOnly,
+        ),
+      );
+    });
+
+    tearDown(() async {
+      await SharedPreferencesUtil().saveCustomSttConfig(const CustomSttConfig(provider: SttProvider.omi));
+    });
+
+    test('surfaces a terminal failure instead of silently building a plain Omi socket', () async {
+      final provider = CaptureProvider();
+
+      // mulaw8 is not in TranscriptSocketServiceFactory's custom-STT-supported
+      // codec list. The pre-fix baseline nulled the config here and fell
+      // through to a plain Omi socket carrying raw audio — a silent
+      // full-cloud fallback under localOnly. If that regressed, this call
+      // would attempt a real (and, in this hermetic test, failing/hanging)
+      // network connection instead of returning promptly with a terminal
+      // failure surfaced.
+      await provider.changeAudioRecordProfile(audioCodec: BleAudioCodec.mulaw8);
+
+      expect(provider.terminalTranscriptionFailure?.status, 'stt_failed');
+      expect(provider.terminalTranscriptionFailure?.reason, 'codec_unsupported_local_only');
       provider.dispose();
     });
   });

@@ -3173,5 +3173,11 @@
     "whisperModelSizeSmall": "صغير",
     "whisperModelSizeTiny": "صغير جدًا",
     "sendRawAudioToOmi": "إرسال الصوت الخام إلى Omi",
-    "sendRawAudioToOmiDescription": "أوقف هذا الخيار لمنع إرسال الصوت الخام إلى Omi. قد يستمر إرسال النصوص والبيانات اللازمة للميزات السحابية إلى Omi."
+    "sendRawAudioToOmiDescription": "أوقف هذا الخيار لمنع إرسال الصوت الخام إلى Omi. قد يستمر إرسال النصوص والبيانات اللازمة للميزات السحابية إلى Omi.",
+    "sttPrivacyPolicyFullTitle": "كامل",
+    "sttPrivacyPolicyFullDescription": "يتم إرسال الصوت والنص المكتوب إلى Omi حتى يتم إنشاء المحادثات والملخصات وعناصر الإجراءات كالمعتاد.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "النص المكتوب فقط",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "يبقى الصوت الخام على هذا الجهاز. لا يزال النص المكتوب يُرسل إلى Omi حتى تستمر الملخصات وعناصر الإجراءات في العمل.",
+    "sttPrivacyPolicyLocalOnlyTitle": "محلي فقط",
+    "sttPrivacyPolicyLocalOnlyDescription": "يبقى الصوت والنص المكتوب ومحتوى المحادثة على هذا الجهاز. تُحفظ المحادثات محليًا فقط؛ الملخصات والمشاركة وميزات السحابة الأخرى غير متوفرة."
 }

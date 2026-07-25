@@ -3173,5 +3173,11 @@
     "rayBanMetaMicPickerLoadError": "Bluetooth マイクを読み込めませんでした。Bluetooth がオンになっていることを確認して、もう一度お試しください。",
     "rayBanMetaMicPickerConnectError": "そのマイクに接続できませんでした。iPhone の設定で接続されていることを確認してください。",
     "sendRawAudioToOmi": "未処理の音声を Omi に送信",
-    "sendRawAudioToOmiDescription": "オフにすると、未処理の音声は Omi に送信されません。文字起こしとクラウド機能に必要なデータは、引き続き Omi に送信される場合があります。"
+    "sendRawAudioToOmiDescription": "オフにすると、未処理の音声は Omi に送信されません。文字起こしとクラウド機能に必要なデータは、引き続き Omi に送信される場合があります。",
+    "sttPrivacyPolicyFullTitle": "フル",
+    "sttPrivacyPolicyFullDescription": "音声と文字起こしがOmiに送信され、会話、要約、アクションアイテムが通常どおり生成されます。",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "文字起こしのみ",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "生の音声はこのデバイスに残ります。要約とアクションアイテムが引き続き機能するよう、文字起こしはOmiに送信されます。",
+    "sttPrivacyPolicyLocalOnlyTitle": "ローカルのみ",
+    "sttPrivacyPolicyLocalOnlyDescription": "音声、文字起こし、会話の内容はこのデバイスに残ります。会話はローカルにのみ保存され、要約、共有、その他のクラウド機能は利用できません。"
 }

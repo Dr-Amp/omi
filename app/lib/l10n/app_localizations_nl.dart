@@ -9807,4 +9807,25 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Schakel uit om te voorkomen dat onbewerkte audio naar Omi wordt gestuurd. Transcripties en gegevens die cloudfuncties nodig hebben, kunnen nog steeds naar Omi worden gestuurd.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Volledig';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Audio en transcript worden naar Omi gestuurd, zodat gesprekken, samenvattingen en actiepunten zoals gebruikelijk worden gegenereerd.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Alleen transcript';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Onbewerkte audio blijft op dit apparaat. Het transcript wordt nog steeds naar Omi gestuurd, zodat samenvattingen en actiepunten blijven werken.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Alleen lokaal';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Audio, transcript en gespreksinhoud blijven op dit apparaat. Gesprekken worden alleen lokaal opgeslagen; samenvattingen, delen en andere cloudfuncties zijn niet beschikbaar.';
 }

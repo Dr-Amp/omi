@@ -9786,4 +9786,25 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Omi-তে কাঁচা অডিও পাঠানো বন্ধ করতে এটি বন্ধ করুন। ট্রান্সক্রিপ্ট ও ক্লাউড ফিচারের প্রয়োজনীয় ডেটা এখনও Omi-তে পাঠানো হতে পারে।';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'সম্পূর্ণ';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'অডিও এবং ট্রান্সক্রিপ্ট Omi-তে পাঠানো হয় যাতে কথোপকথন, সারাংশ এবং কর্ম আইটেমগুলো যথারীতি তৈরি হয়।';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'শুধু ট্রান্সক্রিপ্ট';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'কাঁচা অডিও এই ডিভাইসে থাকে। সারাংশ এবং কর্ম আইটেমগুলো কাজ করতে থাকার জন্য ট্রান্সক্রিপ্ট এখনও Omi-তে পাঠানো হয়।';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'শুধু স্থানীয়';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'অডিও, ট্রান্সক্রিপ্ট এবং কথোপকথনের বিষয়বস্তু এই ডিভাইসে থাকে। কথোপকথন শুধুমাত্র স্থানীয়ভাবে সংরক্ষিত হয়; সারাংশ, শেয়ারিং এবং অন্যান্য ক্লাউড বৈশিষ্ট্য উপলব্ধ নয়।';
 }

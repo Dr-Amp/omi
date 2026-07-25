@@ -98,11 +98,11 @@ void main() {
       expect(secondary.sent, [same(audio)]);
     });
 
-    test('factory applies the persisted forwarding setting', () {
+    test('factory applies the persisted forwarding setting (transcriptOnly, T2 regression guard)', () {
       const config = CustomSttConfig(
         provider: SttProvider.customLive,
         url: 'wss://stt.example.test/live',
-        sendRawAudioToOmi: false,
+        privacyPolicy: SttPrivacyPolicy.transcriptOnly,
       );
 
       final service = TranscriptSocketServiceFactory.createFromCustomConfig(
@@ -114,6 +114,24 @@ void main() {
 
       expect(service.socket, isA<CompositeTranscriptionSocket>());
       expect((service.socket as CompositeTranscriptionSocket).forwardRawAudioToSecondary, isFalse);
+    });
+
+    test('T1: full policy constructs the Omi composite with raw audio forwarding on (baseline, unchanged)', () {
+      const config = CustomSttConfig(
+        provider: SttProvider.customLive,
+        url: 'wss://stt.example.test/live',
+        privacyPolicy: SttPrivacyPolicy.full,
+      );
+
+      final service = TranscriptSocketServiceFactory.createFromCustomConfig(
+        16000,
+        BleAudioCodec.pcm16,
+        'en',
+        config,
+      );
+
+      expect(service.socket, isA<CompositeTranscriptionSocket>());
+      expect((service.socket as CompositeTranscriptionSocket).forwardRawAudioToSecondary, isTrue);
     });
   });
 }

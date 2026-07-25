@@ -9829,4 +9829,25 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'ముడి ఆడియో Omiకి పంపబడకుండా ఉండటానికి దీన్ని ఆఫ్ చేయండి. ట్రాన్స్‌క్రిప్ట్‌లు మరియు క్లౌడ్ ఫీచర్లకు అవసరమైన డేటా ఇప్పటికీ Omiకి పంపబడవచ్చు.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'పూర్తి';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'సంభాషణలు, సారాంశాలు మరియు కార్యాచరణ అంశాలు మామూలుగా రూపొందించబడేలా ఆడియో మరియు ట్రాన్స్క్రిప్ట్ Omiకి పంపబడతాయి.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'ట్రాన్స్క్రిప్ట్ మాత్రమే';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'ముడి ఆడియో ఈ పరికరంలోనే ఉంటుంది. సారాంశాలు మరియు కార్యాచరణ అంశాలు పనిచేస్తూనే ఉండేందుకు ట్రాన్స్క్రిప్ట్ ఇప్పటికీ Omiకి పంపబడుతుంది.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'స్థానికం మాత్రమే';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'ఆడియో, ట్రాన్స్క్రిప్ట్ మరియు సంభాషణ కంటెంట్ ఈ పరికరంలోనే ఉంటాయి. సంభాషణలు స్థానికంగా మాత్రమే సేవ్ చేయబడతాయి; సారాంశాలు, భాగస్వామ్యం మరియు ఇతర క్లౌడ్ ఫీచర్లు అందుబాటులో ఉండవు.';
 }

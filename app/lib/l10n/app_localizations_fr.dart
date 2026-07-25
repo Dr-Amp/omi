@@ -9867,4 +9867,25 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Désactivez cette option pour empêcher l\'envoi de l\'audio brut à Omi. Les transcriptions et les données nécessaires aux fonctions cloud peuvent toujours être envoyées à Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Complet';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'L\'audio et la transcription sont envoyés à Omi afin que les conversations, résumés et actions soient générés comme d\'habitude.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Transcription uniquement';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'L\'audio brut reste sur cet appareil. La transcription est toujours envoyée à Omi afin que les résumés et les actions continuent de fonctionner.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Local uniquement';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'L\'audio, la transcription et le contenu des conversations restent sur cet appareil. Les conversations sont enregistrées uniquement en local ; les résumés, le partage et les autres fonctionnalités cloud ne sont pas disponibles.';
 }

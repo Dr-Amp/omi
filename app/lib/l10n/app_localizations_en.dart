@@ -9774,4 +9774,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Turn off to prevent raw audio from being sent to Omi. Transcripts and data needed by cloud features may still be sent to Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Full';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Audio and transcript are sent to Omi so conversations, summaries, and action items are generated as usual.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Transcript only';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Raw audio stays on this device. The transcript is still sent to Omi so summaries and action items keep working.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Local only';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Audio, transcript, and conversation content stay on this device. Conversations are saved locally only; summaries, sharing, and other cloud features are unavailable.';
 }

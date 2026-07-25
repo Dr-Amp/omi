@@ -10784,5 +10784,11 @@
     "whisperModelSizeSmall": "چھوٹا",
     "whisperModelSizeTiny": "بہت چھوٹا",
     "sendRawAudioToOmi": "خام آڈیو Omi کو بھیجیں",
-    "sendRawAudioToOmiDescription": "خام آڈیو کو Omi بھیجے جانے سے روکنے کے لیے اسے بند کریں۔ ٹرانسکرپٹس اور کلاؤڈ فیچرز کے لیے درکار ڈیٹا اب بھی Omi کو بھیجا جا سکتا ہے۔"
+    "sendRawAudioToOmiDescription": "خام آڈیو کو Omi بھیجے جانے سے روکنے کے لیے اسے بند کریں۔ ٹرانسکرپٹس اور کلاؤڈ فیچرز کے لیے درکار ڈیٹا اب بھی Omi کو بھیجا جا سکتا ہے۔",
+    "sttPrivacyPolicyFullTitle": "مکمل",
+    "sttPrivacyPolicyFullDescription": "آڈیو اور نقل Omi کو بھیجی جاتی ہے تاکہ گفتگو، خلاصے اور ایکشن آئٹمز معمول کے مطابق تیار ہوں۔",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "صرف نقل",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "خام آڈیو اس ڈیوائس پر رہتی ہے۔ نقل اب بھی Omi کو بھیجی جاتی ہے تاکہ خلاصے اور ایکشن آئٹمز کام کرتے رہیں۔",
+    "sttPrivacyPolicyLocalOnlyTitle": "صرف مقامی",
+    "sttPrivacyPolicyLocalOnlyDescription": "آڈیو، نقل اور گفتگو کا مواد اس ڈیوائس پر رہتا ہے۔ گفتگو صرف مقامی طور پر محفوظ کی جاتی ہے؛ خلاصے، شیئرنگ اور دیگر کلاؤڈ خصوصیات دستیاب نہیں ہیں۔"
 }

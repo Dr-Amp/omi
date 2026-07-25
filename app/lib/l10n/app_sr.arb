@@ -10784,5 +10784,11 @@
     "whisperModelSizeSmall": "Мали",
     "whisperModelSizeTiny": "Најмањи",
     "sendRawAudioToOmi": "Шаљи необрађени звук у Omi",
-    "sendRawAudioToOmiDescription": "Искључите да бисте спречили слање необрађеног звука у Omi. Транскрипти и подаци потребни за функције у облаку и даље се могу слати у Omi."
+    "sendRawAudioToOmiDescription": "Искључите да бисте спречили слање необрађеног звука у Omi. Транскрипти и подаци потребни за функције у облаку и даље се могу слати у Omi.",
+    "sttPrivacyPolicyFullTitle": "Пуно",
+    "sttPrivacyPolicyFullDescription": "Звук и транскрипт се шаљу у Omi како би се разговори, сажеци и задаци генерисали као и обично.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Само транскрипт",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Необрађени звук остаје на овом уређају. Транскрипт се и даље шаље у Omi како би сажеци и задаци наставили да раде.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Само локално",
+    "sttPrivacyPolicyLocalOnlyDescription": "Звук, транскрипт и садржај разговора остају на овом уређају. Разговори се чувају само локално; сажеци, дељење и друге функције у облаку нису доступне."
 }

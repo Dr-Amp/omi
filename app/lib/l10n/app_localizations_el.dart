@@ -9849,4 +9849,25 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Απενεργοποιήστε το για να μην αποστέλλεται ακατέργαστος ήχος στο Omi. Οι απομαγνητοφωνήσεις και τα δεδομένα που απαιτούν οι λειτουργίες cloud ενδέχεται να συνεχίσουν να αποστέλλονται στο Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Πλήρες';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Ο ήχος και η απομαγνητοφώνηση αποστέλλονται στο Omi, ώστε οι συνομιλίες, οι περιλήψεις και τα στοιχεία δράσης να δημιουργούνται όπως συνήθως.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Μόνο απομαγνητοφώνηση';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Ο ακατέργαστος ήχος παραμένει σε αυτή τη συσκευή. Η απομαγνητοφώνηση εξακολουθεί να αποστέλλεται στο Omi, ώστε οι περιλήψεις και τα στοιχεία δράσης να συνεχίζουν να λειτουργούν.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Μόνο τοπικά';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Ο ήχος, η απομαγνητοφώνηση και το περιεχόμενο της συνομιλίας παραμένουν σε αυτή τη συσκευή. Οι συνομιλίες αποθηκεύονται μόνο τοπικά· οι περιλήψεις, η κοινή χρήση και άλλες λειτουργίες cloud δεν είναι διαθέσιμες.';
 }

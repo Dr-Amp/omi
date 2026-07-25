@@ -3197,5 +3197,11 @@
     "whisperModelSizeSmall": "Kecil",
     "whisperModelSizeTiny": "Sangat kecil",
     "sendRawAudioToOmi": "Hantar audio mentah ke Omi",
-    "sendRawAudioToOmiDescription": "Matikan untuk menghalang audio mentah daripada dihantar ke Omi. Transkrip dan data yang diperlukan oleh ciri awan mungkin masih dihantar ke Omi."
+    "sendRawAudioToOmiDescription": "Matikan untuk menghalang audio mentah daripada dihantar ke Omi. Transkrip dan data yang diperlukan oleh ciri awan mungkin masih dihantar ke Omi.",
+    "sttPrivacyPolicyFullTitle": "Penuh",
+    "sttPrivacyPolicyFullDescription": "Audio dan transkrip dihantar ke Omi supaya perbualan, ringkasan dan item tindakan dijana seperti biasa.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Transkrip sahaja",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Audio mentah kekal pada peranti ini. Transkrip masih dihantar ke Omi supaya ringkasan dan item tindakan terus berfungsi.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Tempatan sahaja",
+    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transkrip dan kandungan perbualan kekal pada peranti ini. Perbualan disimpan secara tempatan sahaja; ringkasan, perkongsian dan ciri awan lain tidak tersedia."
 }

@@ -46,7 +46,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
   bool _showAdvanced = false;
   bool _showLogs = true;
   bool _isSaving = false;
-  bool _sendRawAudioToOmi = true;
+  SttPrivacyPolicy _privacyPolicy = SttPrivacyPolicy.full;
   String? _validationError;
 
   // On-device model download state
@@ -194,7 +194,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
     _hostController.text = config?.host ?? '127.0.0.1';
     _portController.text = (config?.port ?? 8080).toString();
     _urlController.text = config?.url ?? '';
-    _sendRawAudioToOmi = config?.sendRawAudioToOmi ?? true;
+    _privacyPolicy = config?.privacyPolicy ?? SttPrivacyPolicy.full;
 
     // Auto-detect model for on-device whisper if not set
     if (_selectedProvider == SttProvider.onDeviceWhisper && _urlController.text.isEmpty) {
@@ -377,7 +377,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
     String? url,
     String? host,
     int? port,
-    bool? sendRawAudioToOmi,
+    SttPrivacyPolicy? privacyPolicy,
   }) {
     final current = _configsPerProvider[_selectedProvider];
     final providerDefaults = SttProviderConfig.get(_selectedProvider);
@@ -395,7 +395,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
       params: current?.params,
       audioFieldName: current?.audioFieldName,
       schemaJson: current?.schemaJson,
-      sendRawAudioToOmi: sendRawAudioToOmi ?? current?.sendRawAudioToOmi ?? _sendRawAudioToOmi,
+      privacyPolicy: privacyPolicy ?? current?.privacyPolicy ?? _privacyPolicy,
     );
   }
 
@@ -463,7 +463,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
       params: params,
       audioFieldName: audioFieldName,
       schemaJson: schemaJson,
-      sendRawAudioToOmi: _sendRawAudioToOmi,
+      privacyPolicy: _privacyPolicy,
     );
   }
 
@@ -616,7 +616,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
       if (config.params != null) 'params': config.params,
       if (config.audioFieldName != null) 'audio_field_name': config.audioFieldName,
       if (config.schemaJson != null) 'schema': config.schemaJson,
-      'send_raw_audio_to_omi': config.sendRawAudioToOmi,
+      'privacy_policy': config.privacyPolicy.name,
     };
 
     final jsonString = const JsonEncoder.withIndent('  ').convert(exportableConfig);
@@ -745,7 +745,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
         _urlController.text = config.url ?? '';
         _hostController.text = config.host ?? '127.0.0.1';
         _portController.text = (config.port ?? 8080).toString();
-        _sendRawAudioToOmi = config.sendRawAudioToOmi;
+        _privacyPolicy = config.privacyPolicy;
 
         // Update JSON configs
         if (config.requestType != null || config.headers != null || config.params != null) {
@@ -828,7 +828,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
                     const SizedBox(height: 20),
                     _buildConfigSection(),
                     const SizedBox(height: 20),
-                    _buildRawAudioForwardingSetting(),
+                    _buildPrivacyPolicySelector(),
                     const SizedBox(height: 10),
                     _buildAdvancedSection(),
                     _buildLogsSection(),
@@ -1319,7 +1319,56 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
     );
   }
 
-  Widget _buildRawAudioForwardingSetting() {
+  /// Three-way privacy mode selector (replaces the PR #10447 boolean "send
+  /// raw audio to Omi" toggle). Each option states in plain language what it
+  /// does and does not send — the user is choosing a privacy guarantee, and a
+  /// mislabeled option is the same defect as a leak.
+  Widget _buildPrivacyPolicySelector() {
+    Widget optionTile({
+      required Key key,
+      required SttPrivacyPolicy policy,
+      required String title,
+      required String description,
+    }) {
+      final selected = _privacyPolicy == policy;
+      return InkWell(
+        key: key,
+        onTap: () {
+          setState(() {
+            _privacyPolicy = policy;
+            _updateCurrentProviderConfig(privacyPolicy: policy);
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                color: selected ? Colors.white : Colors.grey.shade600,
+                size: 20,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(description, style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Material(
       color: const Color(0xFF1A1A1A),
       shape: RoundedRectangleBorder(
@@ -1327,19 +1376,31 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
         side: BorderSide(color: Colors.grey.shade800),
       ),
       clipBehavior: Clip.antiAlias,
-      child: SwitchListTile(
-        value: _sendRawAudioToOmi,
-        onChanged: (value) {
-          setState(() {
-            _sendRawAudioToOmi = value;
-            _updateCurrentProviderConfig(sendRawAudioToOmi: value);
-          });
-        },
-        secondary: const Icon(Icons.cloud_upload_outlined, color: Colors.white70),
-        title: Text(context.l10n.sendRawAudioToOmi, style: const TextStyle(color: Colors.white, fontSize: 14)),
-        subtitle: Text(
-          context.l10n.sendRawAudioToOmiDescription,
-          style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          children: [
+            optionTile(
+              key: const Key('stt_privacy_policy_full'),
+              policy: SttPrivacyPolicy.full,
+              title: context.l10n.sttPrivacyPolicyFullTitle,
+              description: context.l10n.sttPrivacyPolicyFullDescription,
+            ),
+            Divider(color: Colors.grey.shade800, height: 1),
+            optionTile(
+              key: const Key('stt_privacy_policy_transcript_only'),
+              policy: SttPrivacyPolicy.transcriptOnly,
+              title: context.l10n.sttPrivacyPolicyTranscriptOnlyTitle,
+              description: context.l10n.sttPrivacyPolicyTranscriptOnlyDescription,
+            ),
+            Divider(color: Colors.grey.shade800, height: 1),
+            optionTile(
+              key: const Key('stt_privacy_policy_local_only'),
+              policy: SttPrivacyPolicy.localOnly,
+              title: context.l10n.sttPrivacyPolicyLocalOnlyTitle,
+              description: context.l10n.sttPrivacyPolicyLocalOnlyDescription,
+            ),
+          ],
         ),
       ),
     );
@@ -2046,7 +2107,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
               params: null,
               audioFieldName: null,
               schemaJson: current.schemaJson,
-              sendRawAudioToOmi: current.sendRawAudioToOmi,
+              privacyPolicy: current.privacyPolicy,
             );
           }
           _regenerateRequestJson(_selectedProvider);
@@ -2209,7 +2270,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
                 params: current.params,
                 audioFieldName: current.audioFieldName,
                 schemaJson: schemaJson,
-                sendRawAudioToOmi: current.sendRawAudioToOmi,
+                privacyPolicy: current.privacyPolicy,
               );
             } catch (_) {}
           }

@@ -9726,4 +9726,25 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'ปิดเพื่อไม่ให้ส่งเสียงดิบไปยัง Omi ข้อความถอดเสียงและข้อมูลที่ฟีเจอร์คลาวด์ต้องใช้อาจยังถูกส่งไปยัง Omi';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'เต็มรูปแบบ';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'เสียงและข้อความถอดเสียงจะถูกส่งไปยัง Omi เพื่อให้บทสนทนา สรุป และรายการดำเนินการถูกสร้างขึ้นตามปกติ';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'ข้อความถอดเสียงเท่านั้น';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'เสียงดิบจะยังคงอยู่ในอุปกรณ์นี้ ข้อความถอดเสียงยังคงถูกส่งไปยัง Omi เพื่อให้สรุปและรายการดำเนินการยังคงทำงานได้';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'ในเครื่องเท่านั้น';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'เสียง ข้อความถอดเสียง และเนื้อหาบทสนทนาจะยังคงอยู่ในอุปกรณ์นี้ บทสนทนาจะถูกบันทึกในเครื่องเท่านั้น สรุป การแชร์ และฟีเจอร์คลาวด์อื่น ๆ จะไม่พร้อมใช้งาน';
 }

@@ -9789,4 +9789,25 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Omi ला कच्चा ऑडिओ पाठवणे थांबवण्यासाठी हे बंद करा. प्रतिलेख आणि क्लाउड वैशिष्ट्यांसाठी आवश्यक डेटा अजूनही Omi ला पाठवला जाऊ शकतो.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'पूर्ण';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'संभाषणे, सारांश आणि कृती आयटम नेहमीप्रमाणे तयार व्हावेत यासाठी ऑडिओ आणि ट्रान्सक्रिप्ट Omi ला पाठवले जातात.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'फक्त ट्रान्सक्रिप्ट';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'कच्चा ऑडिओ या डिव्हाइसवरच राहतो. सारांश आणि कृती आयटम काम करत राहावेत यासाठी ट्रान्सक्रिप्ट अजूनही Omi ला पाठवले जाते.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'फक्त स्थानिक';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'ऑडिओ, ट्रान्सक्रिप्ट आणि संभाषणाची सामग्री या डिव्हाइसवरच राहते. संभाषणे फक्त स्थानिक पातळीवर जतन केली जातात; सारांश, शेअरिंग आणि इतर क्लाउड वैशिष्ट्ये उपलब्ध नाहीत.';
 }

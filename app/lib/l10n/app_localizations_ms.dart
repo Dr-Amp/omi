@@ -9805,4 +9805,25 @@ class AppLocalizationsMs extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Matikan untuk menghalang audio mentah daripada dihantar ke Omi. Transkrip dan data yang diperlukan oleh ciri awan mungkin masih dihantar ke Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Penuh';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Audio dan transkrip dihantar ke Omi supaya perbualan, ringkasan dan item tindakan dijana seperti biasa.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Transkrip sahaja';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Audio mentah kekal pada peranti ini. Transkrip masih dihantar ke Omi supaya ringkasan dan item tindakan terus berfungsi.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Tempatan sahaja';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Audio, transkrip dan kandungan perbualan kekal pada peranti ini. Perbualan disimpan secara tempatan sahaja; ringkasan, perkongsian dan ciri awan lain tidak tersedia.';
 }

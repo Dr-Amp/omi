@@ -9597,4 +9597,22 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get sendRawAudioToOmiDescription => '关闭后不会向 Omi 发送原始音频；转写文本及云端功能所需数据仍可能发送至 Omi。';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => '完整';
+
+  @override
+  String get sttPrivacyPolicyFullDescription => '音频和转录内容会发送到 Omi，以便照常生成对话、摘要和行动项。';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => '仅转录';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription => '原始音频仅保留在此设备上。转录内容仍会发送到 Omi，以便摘要和行动项继续正常工作。';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => '仅本地';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription => '音频、转录内容和对话内容都仅保留在此设备上。对话仅保存在本地；摘要、分享及其他云端功能不可用。';
 }

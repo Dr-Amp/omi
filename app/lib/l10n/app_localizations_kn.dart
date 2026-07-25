@@ -9812,4 +9812,25 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Omi ಗೆ ಕಚ್ಚಾ ಆಡಿಯೊ ಕಳುಹಿಸುವುದನ್ನು ತಡೆಯಲು ಇದನ್ನು ಆಫ್ ಮಾಡಿ. ಪ್ರತಿಲಿಪಿಗಳು ಮತ್ತು ಕ್ಲೌಡ್ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಅಗತ್ಯವಾದ ಡೇಟಾವನ್ನು ಇನ್ನೂ Omi ಗೆ ಕಳುಹಿಸಬಹುದು.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'ಪೂರ್ಣ';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'ಸಂಭಾಷಣೆಗಳು, ಸಾರಾಂಶಗಳು ಮತ್ತು ಕ್ರಿಯಾ ಐಟಂಗಳು ಎಂದಿನಂತೆ ರಚಿಸಲ್ಪಡಲು ಆಡಿಯೊ ಮತ್ತು ಪ್ರತಿಲಿಪಿ Omi ಗೆ ಕಳುಹಿಸಲಾಗುತ್ತದೆ.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'ಪ್ರತಿಲಿಪಿ ಮಾತ್ರ';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'ಕಚ್ಚಾ ಆಡಿಯೊ ಈ ಸಾಧನದಲ್ಲಿಯೇ ಉಳಿಯುತ್ತದೆ. ಸಾರಾಂಶಗಳು ಮತ್ತು ಕ್ರಿಯಾ ಐಟಂಗಳು ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಲೇ ಇರಲು ಪ್ರತಿಲಿಪಿಯನ್ನು ಇನ್ನೂ Omi ಗೆ ಕಳುಹಿಸಲಾಗುತ್ತದೆ.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'ಸ್ಥಳೀಯ ಮಾತ್ರ';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'ಆಡಿಯೊ, ಪ್ರತಿಲಿಪಿ ಮತ್ತು ಸಂಭಾಷಣೆಯ ವಿಷಯ ಈ ಸಾಧನದಲ್ಲಿಯೇ ಉಳಿಯುತ್ತದೆ. ಸಂಭಾಷಣೆಗಳನ್ನು ಸ್ಥಳೀಯವಾಗಿ ಮಾತ್ರ ಉಳಿಸಲಾಗುತ್ತದೆ; ಸಾರಾಂಶಗಳು, ಹಂಚಿಕೆ ಮತ್ತು ಇತರ ಕ್ಲೌಡ್ ವೈಶಿಷ್ಟ್ಯಗಳು ಲಭ್ಯವಿಲ್ಲ.';
 }

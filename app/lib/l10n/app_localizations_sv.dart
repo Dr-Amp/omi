@@ -9785,4 +9785,25 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Stäng av för att förhindra att rått ljud skickas till Omi. Transkriptioner och data som molnfunktioner behöver kan fortfarande skickas till Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Fullständig';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Ljud och transkript skickas till Omi så att konversationer, sammanfattningar och åtgärder skapas som vanligt.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Endast transkript';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Rått ljud stannar på den här enheten. Transkriptet skickas fortfarande till Omi så att sammanfattningar och åtgärder fortsätter att fungera.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Endast lokalt';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Ljud, transkript och konversationsinnehåll stannar på den här enheten. Konversationer sparas endast lokalt; sammanfattningar, delning och andra molnfunktioner är inte tillgängliga.';
 }

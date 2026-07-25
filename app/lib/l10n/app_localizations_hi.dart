@@ -9757,4 +9757,25 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Omi को कच्चा ऑडियो भेजे जाने से रोकने के लिए इसे बंद करें। ट्रांसक्रिप्ट और क्लाउड सुविधाओं के लिए आवश्यक डेटा अभी भी Omi को भेजा जा सकता है।';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'पूर्ण';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'ऑडियो और ट्रांसक्रिप्ट Omi को भेजे जाते हैं ताकि बातचीत, सारांश और एक्शन आइटम हमेशा की तरह बनाए जाएं।';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'केवल ट्रांसक्रिप्ट';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'कच्चा ऑडियो इस डिवाइस पर ही रहता है। सारांश और एक्शन आइटम काम करते रहें, इसके लिए ट्रांसक्रिप्ट अभी भी Omi को भेजी जाती है।';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'केवल स्थानीय';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'ऑडियो, ट्रांसक्रिप्ट और बातचीत की सामग्री इस डिवाइस पर ही रहती है। बातचीत केवल स्थानीय रूप से सहेजी जाती है; सारांश, साझा करना और अन्य क्लाउड सुविधाएं उपलब्ध नहीं हैं।';
 }

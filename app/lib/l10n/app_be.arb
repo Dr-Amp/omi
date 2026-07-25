@@ -10784,5 +10784,11 @@
     "whisperModelSizeSmall": "Малая",
     "whisperModelSizeTiny": "Мініяцюрная",
     "sendRawAudioToOmi": "Адпраўляць неапрацаванае аўдыя ў Omi",
-    "sendRawAudioToOmiDescription": "Выключыце, каб не адпраўляць у Omi неапрацаванае аўдыя. Расшыфроўкі і даныя, патрэбныя воблачным функцыям, усё яшчэ могуць адпраўляцца ў Omi."
+    "sendRawAudioToOmiDescription": "Выключыце, каб не адпраўляць у Omi неапрацаванае аўдыя. Расшыфроўкі і даныя, патрэбныя воблачным функцыям, усё яшчэ могуць адпраўляцца ў Omi.",
+    "sttPrivacyPolicyFullTitle": "Поўны",
+    "sttPrivacyPolicyFullDescription": "Аудыё і транскрыпт адпраўляюцца ў Omi, каб размовы, зводкі і задачы ствараліся як звычайна.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Толькі транскрыпт",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Неапрацаванае аудыё застаецца на гэтай прыладзе. Транскрыпт па-ранейшаму адпраўляецца ў Omi, каб зводкі і задачы працягвалі працаваць.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Толькі лакальна",
+    "sttPrivacyPolicyLocalOnlyDescription": "Аудыё, транскрыпт і змест размовы застаюцца на гэтай прыладзе. Размовы захоўваюцца толькі лакальна; зводкі, супольны доступ і іншыя воблачныя функцыі недаступныя."
 }

@@ -9776,4 +9776,25 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Tắt để ngăn âm thanh thô được gửi đến Omi. Bản chép lời và dữ liệu cần cho các tính năng đám mây vẫn có thể được gửi đến Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Đầy đủ';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Âm thanh và bản chép lời được gửi đến Omi để các cuộc trò chuyện, bản tóm tắt và mục hành động được tạo như bình thường.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Chỉ bản chép lời';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Âm thanh gốc được giữ trên thiết bị này. Bản chép lời vẫn được gửi đến Omi để các bản tóm tắt và mục hành động tiếp tục hoạt động.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Chỉ cục bộ';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Âm thanh, bản chép lời và nội dung cuộc trò chuyện được giữ trên thiết bị này. Cuộc trò chuyện chỉ được lưu cục bộ; bản tóm tắt, chia sẻ và các tính năng đám mây khác không khả dụng.';
 }

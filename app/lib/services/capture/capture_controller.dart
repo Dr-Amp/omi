@@ -43,6 +43,7 @@ import 'package:omi/services/wals.dart';
 import 'package:omi/utils/alerts/app_snackbar.dart';
 import 'package:omi/utils/batch_recording.dart';
 import 'package:omi/utils/enums.dart';
+import 'package:omi/utils/fallback_telemetry.dart';
 import 'package:omi/utils/image/image_utils.dart';
 import 'package:omi/utils/l10n_extensions.dart';
 import 'package:omi/services/battery_widget_service.dart';
@@ -97,6 +98,17 @@ class CaptureController extends ChangeNotifier
   bool _isConnected = ConnectivityService().isConnected;
 
   get isConnected => _isConnected;
+
+  /// Single authoritative gate for the `localOnly` capture-lifecycle
+  /// isolation guarantee. Every call site in this controller that must not
+  /// reach Omi under `localOnly` consults this one accessor instead of
+  /// re-deriving the policy locally (root AGENTS.md: don't scatter a
+  /// call-site exception when ownership is the real problem). See
+  /// architecture.md §5.3 and acceptance-matrix.md rows 6-9.
+  bool get _isLocalOnlyModeActive {
+    final config = SharedPreferencesUtil().customSttConfig;
+    return config.isEnabled && config.isLocalOnlyPolicy;
+  }
 
   String? microphoneName;
   double microphoneLevel = 0.0;
@@ -643,6 +655,33 @@ class CaptureController extends ChangeNotifier
     // Check codec compatibility for custom STT - fallback to default if incompatible
     CustomSttConfig? effectiveConfig = customSttConfig.isEnabled ? customSttConfig : null;
     if (effectiveConfig != null && !TranscriptSocketServiceFactory.isCodecSupportedForCustomStt(codec)) {
+      if (effectiveConfig.isLocalOnlyPolicy) {
+        // localOnly forbids the silent fallback below: nulling effectiveConfig
+        // routes straight to a plain Omi socket carrying raw audio — a silent
+        // full-cloud fallback triggered by hardware the user never chose
+        // (acceptance-matrix.md row 14; architecture-revalidation.md
+        // refinement 3). Fail loud instead: open no socket at all, and
+        // surface the failure through the same terminalTranscriptionFailure
+        // seam the UI already renders for a backend-reported "stt_failed"
+        // (see processing_capture.dart).
+        Logger.debug('[CustomSTT] Codec $codec not supported under localOnly policy — failing loud, no Omi fallback');
+        recordFallback(
+          component: 'transcription_socket',
+          from: 'custom_stt:${effectiveConfig.provider.name}',
+          to: 'none',
+          reason: 'codec_unsupported_local_only',
+          outcome: FallbackOutcome.exhausted,
+        );
+        _terminalTranscriptionFailure = MessageServiceStatusEvent(
+          status: 'stt_failed',
+          reason: 'codec_unsupported_local_only',
+          retryable: false,
+        );
+        _transcriptServiceReady = false;
+        _startKeepAliveServices();
+        notifyListeners();
+        return;
+      }
       Logger.debug('[CustomSTT] Codec $codec not supported, falling back to Omi');
       effectiveConfig = null;
     }
@@ -692,6 +731,14 @@ class CaptureController extends ChangeNotifier
 
     if (_recordingDevice == null) {
       Logger.debug("Recording device is null, cannot process voice command");
+      return;
+    }
+
+    // Device-button voice commands stream audio to Omi independently of the
+    // transcription socket policy (architecture.md §3 adjacent seam 2) — must
+    // be gated separately under localOnly.
+    if (_isLocalOnlyModeActive) {
+      Logger.debug("Voice command audio suppressed: localOnly policy active");
       return;
     }
 
@@ -1642,6 +1689,11 @@ class CaptureController extends ChangeNotifier
       recordingState == RecordingState.deviceRecord;
 
   void _startInProgressConversationRefresh() {
+    // localOnly: this timer would otherwise poll Omi until the first segment
+    // arrives (it self-disarms on non-empty segments, but segments are always
+    // empty at socket-init time) — see architecture-revalidation.md
+    // refinement 4. Must not start at all.
+    if (_isLocalOnlyModeActive) return;
     if (!_canRefreshInProgressConversation || segments.isNotEmpty || photos.isNotEmpty) return;
 
     _stopInProgressConversationRefresh();
@@ -1728,6 +1780,10 @@ class CaptureController extends ChangeNotifier
   }
 
   Future _loadInProgressConversation() async {
+    // localOnly: no Omi conversation ever exists for this session, so this
+    // read must never fire. Guarding here (rather than at each of its 4 call
+    // sites) covers all of them with one check — acceptance-matrix.md row 6.
+    if (_isLocalOnlyModeActive) return;
     var convos = await getConversations(statuses: [ConversationStatus.in_progress], limit: 1);
     _conversation = convos.isNotEmpty ? convos.first : null;
     if (_conversation != null) {
@@ -1871,6 +1927,13 @@ class CaptureController extends ChangeNotifier
   }
 
   Future<void> forceProcessingCurrentConversation() async {
+    // localOnly: processInProgressConversation() below is an Omi HTTP write
+    // that would create a server-side conversation — never allowed under
+    // localOnly (acceptance-matrix.md row 8).
+    if (_isLocalOnlyModeActive) {
+      return;
+    }
+
     final sessionStart = _sessionStartSeconds;
 
     // Force-drain tail buffer before clearing state
@@ -1920,6 +1983,11 @@ class CaptureController extends ChangeNotifier
   }
 
   Future<void> _autoSyncSessionWals() async {
+    // localOnly: never wake the transfer coordinator — WAL/offline recording
+    // bytes must not reach Omi (acceptance-matrix.md row 9). The coordinator
+    // gate (recording_transfer_coordinator.dart) is the enforcement backstop;
+    // this is defense in depth so the wake is never even attempted.
+    if (_isLocalOnlyModeActive) return;
     // Wait for finalize+stamp to complete so tail buffer WALs are on disk before querying.
     if (_pendingFinalizeAndStamp != null) {
       await _pendingFinalizeAndStamp;
@@ -1947,6 +2015,9 @@ class CaptureController extends ChangeNotifier
   }
 
   Future<void> _handleLastConvoEvent(String memoryId) async {
+    // localOnly: no Omi socket exists, so this event never legitimately
+    // fires — but guard defensively rather than trust that (acceptance-matrix.md row 7).
+    if (_isLocalOnlyModeActive) return;
     bool conversationExists = externalActions.hasConversation(memoryId);
     if (conversationExists) {
       return;
@@ -2122,7 +2193,10 @@ class CaptureController extends ChangeNotifier
 
     // Refresh people cache if we see unknown personIds (backend-created persons)
     // Check all newSegments, not just remainSegments, to catch updates to existing segments
-    if (_peopleRefreshFuture == null && _hasMissingPerson(newSegments)) {
+    // localOnly: this HTTP read is triggered by transcript content and must
+    // not fire, even though it carries metadata rather than transcript text
+    // (architecture.md §3 adjacent seam 3).
+    if (!_isLocalOnlyModeActive && _peopleRefreshFuture == null && _hasMissingPerson(newSegments)) {
       _peopleRefreshFuture = externalActions.refreshPeople().whenComplete(() {
         _peopleRefreshFuture = null;
       });

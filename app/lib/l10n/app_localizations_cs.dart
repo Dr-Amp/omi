@@ -9781,4 +9781,25 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Vypnutím zabráníte odesílání nezpracovaného zvuku do Omi. Přepisy a data potřebná pro cloudové funkce se mohou do Omi nadále odesílat.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Plný';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Zvuk a přepis se odesílají do Omi, takže konverzace, shrnutí a úkoly se vytvářejí jako obvykle.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Pouze přepis';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Nezpracovaný zvuk zůstává v tomto zařízení. Přepis se stále odesílá do Omi, takže shrnutí a úkoly nadále fungují.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Pouze místně';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Zvuk, přepis a obsah konverzace zůstávají v tomto zařízení. Konverzace se ukládají pouze místně; shrnutí, sdílení a další cloudové funkce nejsou k dispozici.';
 }

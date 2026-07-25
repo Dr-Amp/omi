@@ -9779,4 +9779,25 @@ class AppLocalizationsNo extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Slå av for å hindre at rå lyd sendes til Omi. Transkripsjoner og data som skyfunksjoner trenger, kan fortsatt bli sendt til Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Full';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Lyd og transkripsjon sendes til Omi slik at samtaler, sammendrag og oppgaver genereres som vanlig.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Kun transkripsjon';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Rå lyd blir værende på denne enheten. Transkripsjonen sendes fortsatt til Omi slik at sammendrag og oppgaver fortsetter å fungere.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Kun lokalt';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Lyd, transkripsjon og samtaleinnhold blir værende på denne enheten. Samtaler lagres kun lokalt; sammendrag, deling og andre skyfunksjoner er ikke tilgjengelige.';
 }

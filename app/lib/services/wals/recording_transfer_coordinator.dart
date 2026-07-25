@@ -57,6 +57,7 @@ class RecordingTransferCoordinator {
     required RecordingTransferPass refreshPending,
     required RecordingTransferDrain drain,
     required bool Function() autoUploadEnabled,
+    bool Function()? uploadsBlockedByPolicy,
     Stream<bool>? connectivityChanges,
     bool initiallyConnected = true,
     DateTime Function()? clock,
@@ -66,6 +67,7 @@ class RecordingTransferCoordinator {
         _refreshPending = refreshPending,
         _drain = drain,
         _autoUploadEnabled = autoUploadEnabled,
+        _uploadsBlockedByPolicy = uploadsBlockedByPolicy ?? _disabled,
         _clock = clock ?? DateTime.now,
         _scheduleCooldown = scheduleCooldown {
     _configured = true;
@@ -78,6 +80,7 @@ class RecordingTransferCoordinator {
         _refreshPending = _noop,
         _drain = _skippedDrain,
         _autoUploadEnabled = _disabled,
+        _uploadsBlockedByPolicy = _disabled,
         _clock = DateTime.now;
 
   static final RecordingTransferCoordinator instance = RecordingTransferCoordinator._singleton();
@@ -98,6 +101,7 @@ class RecordingTransferCoordinator {
   RecordingTransferPass _refreshPending;
   RecordingTransferDrain _drain;
   bool Function() _autoUploadEnabled;
+  bool Function() _uploadsBlockedByPolicy;
   final DateTime Function() _clock;
   RecordingTransferCooldownScheduler? _scheduleCooldown;
 
@@ -125,6 +129,7 @@ class RecordingTransferCoordinator {
     required RecordingTransferPass refreshPending,
     required RecordingTransferDrain drain,
     required bool Function() autoUploadEnabled,
+    bool Function()? uploadsBlockedByPolicy,
     required Stream<bool> connectivityChanges,
     required bool initiallyConnected,
   }) {
@@ -133,6 +138,7 @@ class RecordingTransferCoordinator {
     _refreshPending = refreshPending;
     _drain = drain;
     _autoUploadEnabled = autoUploadEnabled;
+    _uploadsBlockedByPolicy = uploadsBlockedByPolicy ?? _disabled;
     _configured = true;
     _listenToConnectivity(connectivityChanges, initiallyConnected);
 
@@ -226,7 +232,10 @@ class RecordingTransferCoordinator {
       await _discover();
       await _refreshPending();
 
-      final mayUpload = trigger == WakeTrigger.userRetry || _autoUploadEnabled();
+      // The policy block must dominate BOTH terms of the OR below: a check
+      // placed only inside _autoUploadEnabled would still let an explicit
+      // WakeTrigger.userRetry upload audio (acceptance-matrix.md row 9; T6).
+      final mayUpload = !_uploadsBlockedByPolicy() && (trigger == WakeTrigger.userRetry || _autoUploadEnabled());
       if (!mayUpload) {
         if (reconcileFailed) _scheduleRetry('reconcile pass failed');
         return;

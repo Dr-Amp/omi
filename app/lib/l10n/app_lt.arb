@@ -3197,5 +3197,11 @@
     "whisperModelSizeSmall": "Mažas",
     "whisperModelSizeTiny": "Mažytis",
     "sendRawAudioToOmi": "Siųsti neapdorotą garsą į Omi",
-    "sendRawAudioToOmiDescription": "Išjunkite, kad neapdorotas garsas nebūtų siunčiamas į Omi. Transkripcijos ir debesies funkcijoms reikalingi duomenys vis tiek gali būti siunčiami į Omi."
+    "sendRawAudioToOmiDescription": "Išjunkite, kad neapdorotas garsas nebūtų siunčiamas į Omi. Transkripcijos ir debesies funkcijoms reikalingi duomenys vis tiek gali būti siunčiami į Omi.",
+    "sttPrivacyPolicyFullTitle": "Visas",
+    "sttPrivacyPolicyFullDescription": "Garsas ir transkriptas siunčiami į Omi, kad pokalbiai, santraukos ir veiksmų punktai būtų generuojami kaip įprasta.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Tik transkriptas",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Neapdorotas garsas lieka šiame įrenginyje. Transkriptas vis tiek siunčiamas į Omi, kad santraukos ir veiksmų punktai toliau veiktų.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Tik vietinis",
+    "sttPrivacyPolicyLocalOnlyDescription": "Garsas, transkriptas ir pokalbio turinys lieka šiame įrenginyje. Pokalbiai išsaugomi tik vietoje; santraukos, bendrinimas ir kitos debesijos funkcijos nepasiekiamos."
 }

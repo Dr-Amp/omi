@@ -9615,4 +9615,23 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get sendRawAudioToOmiDescription => 'オフにすると、未処理の音声は Omi に送信されません。文字起こしとクラウド機能に必要なデータは、引き続き Omi に送信される場合があります。';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'フル';
+
+  @override
+  String get sttPrivacyPolicyFullDescription => '音声と文字起こしがOmiに送信され、会話、要約、アクションアイテムが通常どおり生成されます。';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => '文字起こしのみ';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription => '生の音声はこのデバイスに残ります。要約とアクションアイテムが引き続き機能するよう、文字起こしはOmiに送信されます。';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'ローカルのみ';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      '音声、文字起こし、会話の内容はこのデバイスに残ります。会話はローカルにのみ保存され、要約、共有、その他のクラウド機能は利用できません。';
 }

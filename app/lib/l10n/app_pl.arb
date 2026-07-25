@@ -3232,5 +3232,11 @@
     "whisperModelSizeSmall": "Mały",
     "whisperModelSizeTiny": "Bardzo mały",
     "sendRawAudioToOmi": "Wysyłaj surowy dźwięk do Omi",
-    "sendRawAudioToOmiDescription": "Wyłącz, aby surowy dźwięk nie był wysyłany do Omi. Transkrypcje i dane wymagane przez funkcje chmurowe mogą nadal być wysyłane do Omi."
+    "sendRawAudioToOmiDescription": "Wyłącz, aby surowy dźwięk nie był wysyłany do Omi. Transkrypcje i dane wymagane przez funkcje chmurowe mogą nadal być wysyłane do Omi.",
+    "sttPrivacyPolicyFullTitle": "Pełny",
+    "sttPrivacyPolicyFullDescription": "Dźwięk i transkrypcja są wysyłane do Omi, dzięki czemu rozmowy, podsumowania i zadania są generowane jak zwykle.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Tylko transkrypcja",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Surowy dźwięk pozostaje na tym urządzeniu. Transkrypcja jest nadal wysyłana do Omi, dzięki czemu podsumowania i zadania nadal działają.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Tylko lokalnie",
+    "sttPrivacyPolicyLocalOnlyDescription": "Dźwięk, transkrypcja i treść rozmowy pozostają na tym urządzeniu. Rozmowy są zapisywane wyłącznie lokalnie; podsumowania, udostępnianie i inne funkcje chmurowe są niedostępne."
 }

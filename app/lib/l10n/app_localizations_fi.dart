@@ -9781,4 +9781,25 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Poista käytöstä, jotta käsittelemätöntä ääntä ei lähetetä Omille. Litterointeja ja pilviominaisuuksien tarvitsemia tietoja voidaan silti lähettää Omille.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Täysi';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Ääni ja litterointi lähetetään Omille, jotta keskustelut, yhteenvedot ja tehtävät luodaan normaalisti.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Vain litterointi';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Raakaääni pysyy tässä laitteessa. Litterointi lähetetään edelleen Omille, jotta yhteenvedot ja tehtävät toimivat edelleen.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Vain paikallinen';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Ääni, litterointi ja keskustelusisältö pysyvät tässä laitteessa. Keskustelut tallennetaan vain paikallisesti; yhteenvedot, jakaminen ja muut pilvitoiminnot eivät ole käytettävissä.';
 }

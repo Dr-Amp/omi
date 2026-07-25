@@ -3293,5 +3293,11 @@
     "whisperModelSizeSmall": "Kicsi",
     "whisperModelSizeTiny": "Apró",
     "sendRawAudioToOmi": "Nyers hang küldése az Ominak",
-    "sendRawAudioToOmiDescription": "Kapcsold ki, hogy a nyers hang ne kerüljön az Omihoz. Az átiratok és a felhőfunkciókhoz szükséges adatok továbbra is elküldhetők az Ominak."
+    "sendRawAudioToOmiDescription": "Kapcsold ki, hogy a nyers hang ne kerüljön az Omihoz. Az átiratok és a felhőfunkciókhoz szükséges adatok továbbra is elküldhetők az Ominak.",
+    "sttPrivacyPolicyFullTitle": "Teljes",
+    "sttPrivacyPolicyFullDescription": "A hang és az átirat elküldésre kerül az Omi-nak, így a beszélgetések, összefoglalók és teendők a szokásos módon jönnek létre.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Csak átirat",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "A nyers hang ezen az eszközön marad. Az átirat továbbra is elküldésre kerül az Omi-nak, így az összefoglalók és teendők továbbra is működnek.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Csak helyi",
+    "sttPrivacyPolicyLocalOnlyDescription": "A hang, az átirat és a beszélgetés tartalma ezen az eszközön marad. A beszélgetések csak helyben kerülnek mentésre; az összefoglalók, megosztás és egyéb felhőfunkciók nem érhetők el."
 }

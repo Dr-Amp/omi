@@ -9,6 +9,7 @@ import 'package:omi/backend/schema/transcript_segment.dart';
 import 'package:omi/env/env.dart';
 import 'package:omi/models/custom_stt_config.dart';
 import 'package:omi/models/stt_provider.dart';
+import 'package:omi/services/sockets/local_only_transcription_socket.dart';
 import 'package:omi/services/sockets/on_device_apple_provider.dart';
 import 'package:omi/services/sockets/on_device_whisper_provider.dart';
 import 'package:omi/services/sockets/pure_socket.dart';
@@ -354,6 +355,23 @@ class TranscriptSocketServiceFactory {
         ? _createStreamingSocket(sampleRate, codec, config)
         : _createPollingSocket(sampleRate, codec, config);
 
+    // localOnly: never construct the Omi secondary. The primary is wrapped
+    // directly and its messages are routed straight to the app listener — see
+    // LocalOnlyTranscriptionSocket for why this is a pass-through, not a
+    // translation layer.
+    if (config.isLocalOnlyPolicy) {
+      final localOnlySocket = LocalOnlyTranscriptionSocket(primarySocket: primarySocket);
+      return TranscriptSegmentSocketService.withSocket(
+        sampleRate,
+        codec,
+        effectiveLang,
+        localOnlySocket,
+        source: source,
+        customSttMode: true,
+        sttConfigId: sttConfigId,
+      );
+    }
+
     // Wrap with composite service (primary STT + Omi backend)
     return _createCompositeService(
       sampleRate,
@@ -363,7 +381,7 @@ class TranscriptSocketServiceFactory {
       source: source,
       sttConfigId: sttConfigId,
       sttProvider: config.provider.name,
-      forwardRawAudioToSecondary: config.sendRawAudioToOmi,
+      forwardRawAudioToSecondary: config.forwardsRawAudioToOmi,
     );
   }
 

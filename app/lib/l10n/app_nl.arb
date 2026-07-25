@@ -3197,5 +3197,11 @@
     "whisperModelSizeSmall": "Klein",
     "whisperModelSizeTiny": "Heel klein",
     "sendRawAudioToOmi": "Onbewerkte audio naar Omi sturen",
-    "sendRawAudioToOmiDescription": "Schakel uit om te voorkomen dat onbewerkte audio naar Omi wordt gestuurd. Transcripties en gegevens die cloudfuncties nodig hebben, kunnen nog steeds naar Omi worden gestuurd."
+    "sendRawAudioToOmiDescription": "Schakel uit om te voorkomen dat onbewerkte audio naar Omi wordt gestuurd. Transcripties en gegevens die cloudfuncties nodig hebben, kunnen nog steeds naar Omi worden gestuurd.",
+    "sttPrivacyPolicyFullTitle": "Volledig",
+    "sttPrivacyPolicyFullDescription": "Audio en transcript worden naar Omi gestuurd, zodat gesprekken, samenvattingen en actiepunten zoals gebruikelijk worden gegenereerd.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Alleen transcript",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Onbewerkte audio blijft op dit apparaat. Het transcript wordt nog steeds naar Omi gestuurd, zodat samenvattingen en actiepunten blijven werken.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Alleen lokaal",
+    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transcript en gespreksinhoud blijven op dit apparaat. Gesprekken worden alleen lokaal opgeslagen; samenvattingen, delen en andere cloudfuncties zijn niet beschikbaar."
 }

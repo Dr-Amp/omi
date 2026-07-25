@@ -18230,6 +18230,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Turn off to prevent raw audio from being sent to Omi. Transcripts and data needed by cloud features may still be sent to Omi.'**
   String get sendRawAudioToOmiDescription;
+
+  /// Title for the STT privacy policy option that sends audio and transcript to Omi
+  ///
+  /// In en, this message translates to:
+  /// **'Full'**
+  String get sttPrivacyPolicyFullTitle;
+
+  /// Explains what the full STT privacy policy sends to Omi
+  ///
+  /// In en, this message translates to:
+  /// **'Audio and transcript are sent to Omi so conversations, summaries, and action items are generated as usual.'**
+  String get sttPrivacyPolicyFullDescription;
+
+  /// Title for the STT privacy policy option that withholds raw audio from Omi
+  ///
+  /// In en, this message translates to:
+  /// **'Transcript only'**
+  String get sttPrivacyPolicyTranscriptOnlyTitle;
+
+  /// Explains what the transcriptOnly STT privacy policy sends to Omi
+  ///
+  /// In en, this message translates to:
+  /// **'Raw audio stays on this device. The transcript is still sent to Omi so summaries and action items keep working.'**
+  String get sttPrivacyPolicyTranscriptOnlyDescription;
+
+  /// Title for the STT privacy policy option that keeps conversation content off Omi
+  ///
+  /// In en, this message translates to:
+  /// **'Local only'**
+  String get sttPrivacyPolicyLocalOnlyTitle;
+
+  /// Explains what the localOnly STT privacy policy keeps off Omi
+  ///
+  /// In en, this message translates to:
+  /// **'Audio, transcript, and conversation content stay on this device. Conversations are saved locally only; summaries, sharing, and other cloud features are unavailable.'**
+  String get sttPrivacyPolicyLocalOnlyDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

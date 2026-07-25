@@ -10784,5 +10784,11 @@
     "whisperModelSizeSmall": "Mali",
     "whisperModelSizeTiny": "Sićušni",
     "sendRawAudioToOmi": "Šalji sirovi zvuk u Omi",
-    "sendRawAudioToOmiDescription": "Isključite da spriječite slanje sirovog zvuka u Omi. Transkripti i podaci potrebni za funkcije u oblaku i dalje se mogu slati u Omi."
+    "sendRawAudioToOmiDescription": "Isključite da spriječite slanje sirovog zvuka u Omi. Transkripti i podaci potrebni za funkcije u oblaku i dalje se mogu slati u Omi.",
+    "sttPrivacyPolicyFullTitle": "Puno",
+    "sttPrivacyPolicyFullDescription": "Zvuk i transkript se šalju u Omi kako bi se razgovori, sažeci i zadaci generisali kao i obično.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Samo transkript",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Neobrađeni zvuk ostaje na ovom uređaju. Transkript se i dalje šalje u Omi kako bi sažeci i zadaci nastavili raditi.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Samo lokalno",
+    "sttPrivacyPolicyLocalOnlyDescription": "Zvuk, transkript i sadržaj razgovora ostaju na ovom uređaju. Razgovori se čuvaju samo lokalno; sažeci, dijeljenje i druge funkcije u oblaku nisu dostupne."
 }

@@ -9772,4 +9772,25 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Vypnutím zabránite odosielaniu nespracovaného zvuku do Omi. Prepisy a údaje potrebné pre cloudové funkcie sa môžu naďalej odosielať do Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Úplný';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Zvuk a prepis sa odosielajú do Omi, takže konverzácie, súhrny a úlohy sa vytvárajú ako obvykle.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Iba prepis';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Nespracovaný zvuk zostáva v tomto zariadení. Prepis sa naďalej odosiela do Omi, takže súhrny a úlohy naďalej fungujú.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Iba lokálne';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Zvuk, prepis a obsah konverzácie zostávajú v tomto zariadení. Konverzácie sa ukladajú iba lokálne; súhrny, zdieľanie a ďalšie cloudové funkcie nie sú k dispozícii.';
 }

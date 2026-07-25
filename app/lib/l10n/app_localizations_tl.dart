@@ -9870,4 +9870,25 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'I-off para hindi maipadala ang raw na audio sa Omi. Maaari pa ring ipadala sa Omi ang mga transcript at data na kailangan ng mga cloud feature.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Buo';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Ipinapadala ang audio at transcript sa Omi upang mabuo ang mga usapan, buod, at aksyon gaya ng dati.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Transcript lamang';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Nananatili ang raw na audio sa device na ito. Ipinapadala pa rin ang transcript sa Omi upang patuloy na gumana ang mga buod at aksyon.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Lokal lamang';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Nananatili ang audio, transcript, at nilalaman ng usapan sa device na ito. Naka-save lamang lokal ang mga usapan; hindi available ang mga buod, pagbabahagi, at iba pang cloud feature.';
 }

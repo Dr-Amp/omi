@@ -9837,4 +9837,25 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Disattiva per impedire l\'invio dell\'audio grezzo a Omi. Le trascrizioni e i dati necessari alle funzioni cloud possono ancora essere inviati a Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Completo';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'L\'audio e la trascrizione vengono inviati a Omi in modo che le conversazioni, i riepiloghi e le azioni vengano generati come al solito.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Solo trascrizione';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'L\'audio grezzo rimane su questo dispositivo. La trascrizione viene comunque inviata a Omi in modo che i riepiloghi e le azioni continuino a funzionare.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Solo locale';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Audio, trascrizione e contenuto della conversazione rimangono su questo dispositivo. Le conversazioni vengono salvate solo localmente; riepiloghi, condivisione e altre funzionalità cloud non sono disponibili.';
 }

@@ -3232,5 +3232,11 @@
     "whisperModelSizeSmall": "Малая",
     "whisperModelSizeTiny": "Крошечная",
     "sendRawAudioToOmi": "Отправлять необработанный звук в Omi",
-    "sendRawAudioToOmiDescription": "Отключите, чтобы необработанный звук не отправлялся в Omi. Расшифровки и данные, необходимые облачным функциям, всё ещё могут отправляться в Omi."
+    "sendRawAudioToOmiDescription": "Отключите, чтобы необработанный звук не отправлялся в Omi. Расшифровки и данные, необходимые облачным функциям, всё ещё могут отправляться в Omi.",
+    "sttPrivacyPolicyFullTitle": "Полный",
+    "sttPrivacyPolicyFullDescription": "Аудио и транскрипт отправляются в Omi, поэтому разговоры, сводки и задачи создаются как обычно.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Только транскрипт",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Необработанное аудио остаётся на этом устройстве. Транскрипт по-прежнему отправляется в Omi, поэтому сводки и задачи продолжают работать.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Только локально",
+    "sttPrivacyPolicyLocalOnlyDescription": "Аудио, транскрипт и содержимое разговора остаются на этом устройстве. Разговоры сохраняются только локально; сводки, общий доступ и другие облачные функции недоступны."
 }

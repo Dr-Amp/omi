@@ -3202,5 +3202,11 @@
     "whisperModelSizeSmall": "Nhỏ",
     "whisperModelSizeTiny": "Rất nhỏ",
     "sendRawAudioToOmi": "Gửi âm thanh thô đến Omi",
-    "sendRawAudioToOmiDescription": "Tắt để ngăn âm thanh thô được gửi đến Omi. Bản chép lời và dữ liệu cần cho các tính năng đám mây vẫn có thể được gửi đến Omi."
+    "sendRawAudioToOmiDescription": "Tắt để ngăn âm thanh thô được gửi đến Omi. Bản chép lời và dữ liệu cần cho các tính năng đám mây vẫn có thể được gửi đến Omi.",
+    "sttPrivacyPolicyFullTitle": "Đầy đủ",
+    "sttPrivacyPolicyFullDescription": "Âm thanh và bản chép lời được gửi đến Omi để các cuộc trò chuyện, bản tóm tắt và mục hành động được tạo như bình thường.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Chỉ bản chép lời",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Âm thanh gốc được giữ trên thiết bị này. Bản chép lời vẫn được gửi đến Omi để các bản tóm tắt và mục hành động tiếp tục hoạt động.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Chỉ cục bộ",
+    "sttPrivacyPolicyLocalOnlyDescription": "Âm thanh, bản chép lời và nội dung cuộc trò chuyện được giữ trên thiết bị này. Cuộc trò chuyện chỉ được lưu cục bộ; bản tóm tắt, chia sẻ và các tính năng đám mây khác không khả dụng."
 }

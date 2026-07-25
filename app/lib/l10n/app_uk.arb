@@ -3197,5 +3197,11 @@
     "whisperModelSizeSmall": "Мала",
     "whisperModelSizeTiny": "Крихітна",
     "sendRawAudioToOmi": "Надсилати необроблений звук до Omi",
-    "sendRawAudioToOmiDescription": "Вимкніть, щоб необроблений звук не надсилався до Omi. Транскрипти й дані, потрібні хмарним функціям, усе ще можуть надсилатися до Omi."
+    "sendRawAudioToOmiDescription": "Вимкніть, щоб необроблений звук не надсилався до Omi. Транскрипти й дані, потрібні хмарним функціям, усе ще можуть надсилатися до Omi.",
+    "sttPrivacyPolicyFullTitle": "Повний",
+    "sttPrivacyPolicyFullDescription": "Звук і транскрипт надсилаються до Omi, щоб розмови, підсумки та завдання створювалися як завжди.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Лише транскрипт",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Необроблений звук залишається на цьому пристрої. Транскрипт усе одно надсилається до Omi, щоб підсумки та завдання продовжували працювати.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Лише локально",
+    "sttPrivacyPolicyLocalOnlyDescription": "Звук, транскрипт і вміст розмови залишаються на цьому пристрої. Розмови зберігаються лише локально; підсумки, надсилання спільного доступу та інші хмарні функції недоступні."
 }

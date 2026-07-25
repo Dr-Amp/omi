@@ -10784,5 +10784,11 @@
     "whisperModelSizeSmall": "Majhen",
     "whisperModelSizeTiny": "Najmanjši",
     "sendRawAudioToOmi": "Pošiljaj neobdelan zvok v Omi",
-    "sendRawAudioToOmiDescription": "Izklopite, da preprečite pošiljanje neobdelanega zvoka v Omi. Prepisi in podatki, potrebni za funkcije v oblaku, se lahko še vedno pošiljajo v Omi."
+    "sendRawAudioToOmiDescription": "Izklopite, da preprečite pošiljanje neobdelanega zvoka v Omi. Prepisi in podatki, potrebni za funkcije v oblaku, se lahko še vedno pošiljajo v Omi.",
+    "sttPrivacyPolicyFullTitle": "Popolno",
+    "sttPrivacyPolicyFullDescription": "Zvok in prepis se pošljeta v Omi, tako da se pogovori, povzetki in opravila ustvarijo kot običajno.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Samo prepis",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Neobdelan zvok ostane v tej napravi. Prepis se še vedno pošlje v Omi, tako da povzetki in opravila še naprej delujejo.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Samo lokalno",
+    "sttPrivacyPolicyLocalOnlyDescription": "Zvok, prepis in vsebina pogovora ostanejo v tej napravi. Pogovori se shranjujejo samo lokalno; povzetki, deljenje in druge oblačne funkcije niso na voljo."
 }

@@ -9797,4 +9797,25 @@ class AppLocalizationsLt extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Išjunkite, kad neapdorotas garsas nebūtų siunčiamas į Omi. Transkripcijos ir debesies funkcijoms reikalingi duomenys vis tiek gali būti siunčiami į Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Visas';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Garsas ir transkriptas siunčiami į Omi, kad pokalbiai, santraukos ir veiksmų punktai būtų generuojami kaip įprasta.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Tik transkriptas';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Neapdorotas garsas lieka šiame įrenginyje. Transkriptas vis tiek siunčiamas į Omi, kad santraukos ir veiksmų punktai toliau veiktų.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Tik vietinis';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Garsas, transkriptas ir pokalbio turinys lieka šiame įrenginyje. Pokalbiai išsaugomi tik vietoje; santraukos, bendrinimas ir kitos debesijos funkcijos nepasiekiamos.';
 }

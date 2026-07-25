@@ -9808,4 +9808,25 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Izklopite, da preprečite pošiljanje neobdelanega zvoka v Omi. Prepisi in podatki, potrebni za funkcije v oblaku, se lahko še vedno pošiljajo v Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Popolno';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Zvok in prepis se pošljeta v Omi, tako da se pogovori, povzetki in opravila ustvarijo kot običajno.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Samo prepis';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Neobdelan zvok ostane v tej napravi. Prepis se še vedno pošlje v Omi, tako da povzetki in opravila še naprej delujejo.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Samo lokalno';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Zvok, prepis in vsebina pogovora ostanejo v tej napravi. Pogovori se shranjujejo samo lokalno; povzetki, deljenje in druge oblačne funkcije niso na voljo.';
 }

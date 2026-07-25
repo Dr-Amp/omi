@@ -9794,4 +9794,25 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'خام آڈیو کو Omi بھیجے جانے سے روکنے کے لیے اسے بند کریں۔ ٹرانسکرپٹس اور کلاؤڈ فیچرز کے لیے درکار ڈیٹا اب بھی Omi کو بھیجا جا سکتا ہے۔';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'مکمل';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'آڈیو اور نقل Omi کو بھیجی جاتی ہے تاکہ گفتگو، خلاصے اور ایکشن آئٹمز معمول کے مطابق تیار ہوں۔';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'صرف نقل';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'خام آڈیو اس ڈیوائس پر رہتی ہے۔ نقل اب بھی Omi کو بھیجی جاتی ہے تاکہ خلاصے اور ایکشن آئٹمز کام کرتے رہیں۔';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'صرف مقامی';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'آڈیو، نقل اور گفتگو کا مواد اس ڈیوائس پر رہتا ہے۔ گفتگو صرف مقامی طور پر محفوظ کی جاتی ہے؛ خلاصے، شیئرنگ اور دیگر کلاؤڈ خصوصیات دستیاب نہیں ہیں۔';
 }

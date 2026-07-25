@@ -4,6 +4,47 @@ import 'package:omi/models/stt_provider.dart';
 import 'package:omi/models/stt_response_schema.dart';
 import 'package:omi/utils/logger.dart';
 
+/// Privacy guarantee for a Custom STT session, in increasing order of
+/// isolation from Omi:
+///
+/// - [full] — raw audio, transcript, and conversation data all flow to Omi
+///   (the pre-#10447 default).
+/// - [transcriptOnly] — raw audio never reaches Omi, but the transcript is
+///   still forwarded as `suggested_transcript` so conversation
+///   processing/summaries stay Omi-hosted (PR #10447).
+/// - [localOnly] — no Omi secondary socket is constructed at all: no audio,
+///   no transcript, no conversation/summary content reaches Omi. Firebase
+///   auth, Crashlytics, Intercom, analytics event counts, and subscription
+///   endpoints are out of scope for this guarantee and still egress.
+enum SttPrivacyPolicy { full, transcriptOnly, localOnly }
+
+SttPrivacyPolicy? _parsePrivacyPolicy(dynamic value) {
+  if (value is! String) return null;
+  for (final policy in SttPrivacyPolicy.values) {
+    if (policy.name == value) return policy;
+  }
+  return null;
+}
+
+/// Migration precedence (must match exactly — see architecture.md §5.1):
+/// 1. `privacy_policy` key present and parses -> use it.
+/// 2. `privacy_policy` key present but unknown/garbage -> [SttPrivacyPolicy.full]
+///    (fail closed to existing behavior, never to a half-configured private
+///    mode — a present-but-corrupt key means this record was already written
+///    by the new code, so the legacy boolean below is not consulted).
+/// 3. `privacy_policy` key absent, `send_raw_audio_to_omi == false` ->
+///    [SttPrivacyPolicy.transcriptOnly] (preserves PR #10447 behavior for
+///    existing pre-migration users).
+/// 4. `privacy_policy` key absent, otherwise -> [SttPrivacyPolicy.full]
+///    (unchanged default).
+SttPrivacyPolicy _migratePrivacyPolicy(Map<String, dynamic> json) {
+  if (json.containsKey('privacy_policy')) {
+    return _parsePrivacyPolicy(json['privacy_policy']) ?? SttPrivacyPolicy.full;
+  }
+  if (json['send_raw_audio_to_omi'] == false) return SttPrivacyPolicy.transcriptOnly;
+  return SttPrivacyPolicy.full;
+}
+
 class CustomSttConfig {
   final SttProvider provider;
   final String? apiKey;
@@ -17,7 +58,7 @@ class CustomSttConfig {
   final Map<String, String>? params;
   final String? audioFieldName;
   final Map<String, dynamic>? schemaJson;
-  final bool sendRawAudioToOmi;
+  final SttPrivacyPolicy privacyPolicy;
 
   const CustomSttConfig({
     required this.provider,
@@ -32,7 +73,7 @@ class CustomSttConfig {
     this.params,
     this.audioFieldName,
     this.schemaJson,
-    this.sendRawAudioToOmi = true,
+    this.privacyPolicy = SttPrivacyPolicy.full,
   });
 
   /// Determine if live/streaming based on request_type
@@ -41,6 +82,15 @@ class CustomSttConfig {
   bool get isPolling => SttRequestType.isPolling(effectiveRequestType);
 
   bool get isEnabled => provider != SttProvider.omi;
+
+  /// Whether raw audio frames are forwarded to the Omi secondary socket.
+  /// Only [SttPrivacyPolicy.full] forwards raw audio; both [SttPrivacyPolicy.transcriptOnly]
+  /// and [SttPrivacyPolicy.localOnly] withhold it.
+  bool get forwardsRawAudioToOmi => privacyPolicy == SttPrivacyPolicy.full;
+
+  /// Whether this config must never construct an Omi secondary socket at all
+  /// (no audio, no transcript, no conversation content reaches Omi).
+  bool get isLocalOnlyPolicy => privacyPolicy == SttPrivacyPolicy.localOnly;
 
   SttProviderConfig get providerConfig => SttProviderConfig.get(provider);
 
@@ -116,7 +166,11 @@ class CustomSttConfig {
       'request_type': requestType,
       'headers': headers,
       'params': params,
-      'send_raw_audio_to_omi': sendRawAudioToOmi,
+      // Correctness requirement, not cosmetics: SocketServicePool.socket()
+      // reuses a live socket whenever sttConfigId is unchanged, so the policy
+      // must participate in the hash or a policy change would leave the old
+      // composite (and its live Omi socket) running. See sockets.dart:62-72.
+      'privacy_policy': privacyPolicy.name,
     };
 
     final jsonStr = jsonEncode(configData);
@@ -139,7 +193,7 @@ class CustomSttConfig {
         'params': params,
         'audio_field_name': audioFieldName,
         'schema': schemaJson,
-        'send_raw_audio_to_omi': sendRawAudioToOmi,
+        'privacy_policy': privacyPolicy.name,
       };
 
   factory CustomSttConfig.fromJson(Map<String, dynamic> json) {
@@ -165,7 +219,7 @@ class CustomSttConfig {
       params: safeStringMap(json['params']),
       audioFieldName: json['audio_field_name'],
       schemaJson: json['schema'] != null ? Map<String, dynamic>.from(json['schema']) : null,
-      sendRawAudioToOmi: json['send_raw_audio_to_omi'] != false,
+      privacyPolicy: _migratePrivacyPolicy(json),
     );
   }
 
@@ -185,7 +239,7 @@ class CustomSttConfig {
     Map<String, String>? params,
     String? audioFieldName,
     Map<String, dynamic>? schemaJson,
-    bool? sendRawAudioToOmi,
+    SttPrivacyPolicy? privacyPolicy,
   }) {
     return CustomSttConfig(
       provider: provider ?? this.provider,
@@ -200,7 +254,7 @@ class CustomSttConfig {
       params: params ?? this.params,
       audioFieldName: audioFieldName ?? this.audioFieldName,
       schemaJson: schemaJson ?? this.schemaJson,
-      sendRawAudioToOmi: sendRawAudioToOmi ?? this.sendRawAudioToOmi,
+      privacyPolicy: privacyPolicy ?? this.privacyPolicy,
     );
   }
 

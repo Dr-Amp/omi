@@ -9832,4 +9832,25 @@ class AppLocalizationsMk extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Исклучете за да спречите испраќање необработено аудио до Omi. Транскриптите и податоците потребни за облачните функции сè уште може да се испраќаат до Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Целосно';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Звукот и транскриптот се испраќаат до Omi за разговорите, резимеата и задачите да се генерираат како и обично.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Само транскрипт';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Необработениот звук останува на овој уред. Транскриптот сè уште се испраќа до Omi за резимеата и задачите да продолжат да функционираат.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Само локално';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Звукот, транскриптот и содржината на разговорот остануваат на овој уред. Разговорите се зачувуваат само локално; резимеата, споделувањето и другите облак-функции не се достапни.';
 }

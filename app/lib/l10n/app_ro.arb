@@ -3197,5 +3197,11 @@
     "whisperModelSizeSmall": "Mic",
     "whisperModelSizeTiny": "Foarte mic",
     "sendRawAudioToOmi": "Trimite sunetul brut către Omi",
-    "sendRawAudioToOmiDescription": "Dezactivează pentru a împiedica trimiterea sunetului brut către Omi. Transcrierile și datele necesare funcțiilor cloud pot fi trimise în continuare către Omi."
+    "sendRawAudioToOmiDescription": "Dezactivează pentru a împiedica trimiterea sunetului brut către Omi. Transcrierile și datele necesare funcțiilor cloud pot fi trimise în continuare către Omi.",
+    "sttPrivacyPolicyFullTitle": "Complet",
+    "sttPrivacyPolicyFullDescription": "Sunetul și transcrierea sunt trimise către Omi, astfel încât conversațiile, rezumatele și elementele de acțiune sunt generate ca de obicei.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Doar transcriere",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Sunetul brut rămâne pe acest dispozitiv. Transcrierea este în continuare trimisă către Omi, astfel încât rezumatele și elementele de acțiune continuă să funcționeze.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Doar local",
+    "sttPrivacyPolicyLocalOnlyDescription": "Sunetul, transcrierea și conținutul conversației rămân pe acest dispozitiv. Conversațiile sunt salvate doar local; rezumatele, partajarea și alte funcții cloud nu sunt disponibile."
 }

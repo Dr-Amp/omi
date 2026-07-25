@@ -3232,5 +3232,11 @@
     "whisperModelSizeSmall": "Petit",
     "whisperModelSizeTiny": "Minuscule",
     "sendRawAudioToOmi": "Envoyer l'audio brut à Omi",
-    "sendRawAudioToOmiDescription": "Désactivez cette option pour empêcher l'envoi de l'audio brut à Omi. Les transcriptions et les données nécessaires aux fonctions cloud peuvent toujours être envoyées à Omi."
+    "sendRawAudioToOmiDescription": "Désactivez cette option pour empêcher l'envoi de l'audio brut à Omi. Les transcriptions et les données nécessaires aux fonctions cloud peuvent toujours être envoyées à Omi.",
+    "sttPrivacyPolicyFullTitle": "Complet",
+    "sttPrivacyPolicyFullDescription": "L'audio et la transcription sont envoyés à Omi afin que les conversations, résumés et actions soient générés comme d'habitude.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Transcription uniquement",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "L'audio brut reste sur cet appareil. La transcription est toujours envoyée à Omi afin que les résumés et les actions continuent de fonctionner.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Local uniquement",
+    "sttPrivacyPolicyLocalOnlyDescription": "L'audio, la transcription et le contenu des conversations restent sur cet appareil. Les conversations sont enregistrées uniquement en local ; les résumés, le partage et les autres fonctionnalités cloud ne sont pas disponibles."
 }

@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:omi/backend/preferences.dart';
 import 'package:omi/backend/schema/bt_device/bt_device.dart';
 import 'package:omi/models/custom_stt_config.dart';
 import 'package:omi/services/sockets/transcription_service.dart';
+import 'package:omi/utils/debug_log_manager.dart';
 import 'package:omi/utils/logger.dart';
 import 'package:omi/utils/mutex.dart';
 
@@ -138,6 +140,19 @@ class SocketServicePool extends ISocketService {
     String? source,
   }) async {
     Logger.debug("socket speech profile > $codec $sampleRate $force source: $source");
+
+    // Speech-profile onboarding is a separate audio egress path, independent
+    // of the conversation transcription socket policy — it always builds a
+    // live Omi socket (see architecture.md §3, adjacent seam 1). It must not
+    // silently stream audio to Omi while localOnly is active, so it is
+    // disabled here rather than built and connected.
+    if (SharedPreferencesUtil().customSttConfig.isLocalOnlyPolicy) {
+      Logger.debug("socket speech profile > blocked: localOnly policy active");
+      DebugLogManager.logWarning('speech_profile_socket_blocked_local_only', {
+        'reason': 'speech_profile_is_a_separate_egress_path_not_covered_by_local_only',
+      });
+      return null;
+    }
 
     await _mutex.acquire();
     try {

@@ -3215,5 +3215,11 @@
     "whisperModelSizeSmall": "Lille",
     "whisperModelSizeTiny": "Meget lille",
     "sendRawAudioToOmi": "Send rå lyd til Omi",
-    "sendRawAudioToOmiDescription": "Slå fra for at forhindre, at rå lyd sendes til Omi. Transskriptioner og data, som cloudfunktioner kræver, kan stadig blive sendt til Omi."
+    "sendRawAudioToOmiDescription": "Slå fra for at forhindre, at rå lyd sendes til Omi. Transskriptioner og data, som cloudfunktioner kræver, kan stadig blive sendt til Omi.",
+    "sttPrivacyPolicyFullTitle": "Fuld",
+    "sttPrivacyPolicyFullDescription": "Lyd og transskription sendes til Omi, så samtaler, resuméer og handlingspunkter genereres som normalt.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Kun transskription",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Rå lyd forbliver på denne enhed. Transskriptionen sendes stadig til Omi, så resuméer og handlingspunkter fortsat fungerer.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Kun lokalt",
+    "sttPrivacyPolicyLocalOnlyDescription": "Lyd, transskription og samtaleindhold forbliver på denne enhed. Samtaler gemmes kun lokalt; resuméer, deling og andre skyfunktioner er ikke tilgængelige."
 }

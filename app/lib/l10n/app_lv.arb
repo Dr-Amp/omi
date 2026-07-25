@@ -3197,5 +3197,11 @@
     "whisperModelSizeSmall": "Mazs",
     "whisperModelSizeTiny": "Sīks",
     "sendRawAudioToOmi": "Sūtīt neapstrādātu audio uz Omi",
-    "sendRawAudioToOmiDescription": "Izslēdziet, lai neapstrādāts audio netiktu sūtīts uz Omi. Transkripcijas un mākoņfunkcijām nepieciešamie dati joprojām var tikt sūtīti uz Omi."
+    "sendRawAudioToOmiDescription": "Izslēdziet, lai neapstrādāts audio netiktu sūtīts uz Omi. Transkripcijas un mākoņfunkcijām nepieciešamie dati joprojām var tikt sūtīti uz Omi.",
+    "sttPrivacyPolicyFullTitle": "Pilns",
+    "sttPrivacyPolicyFullDescription": "Audio un transkripts tiek nosūtīti uz Omi, lai sarunas, kopsavilkumi un uzdevumi tiktu ģenerēti kā parasti.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Tikai transkripts",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Neapstrādāts audio paliek šajā ierīcē. Transkripts joprojām tiek nosūtīts uz Omi, lai kopsavilkumi un uzdevumi turpinātu darboties.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Tikai lokāli",
+    "sttPrivacyPolicyLocalOnlyDescription": "Audio, transkripts un sarunas saturs paliek šajā ierīcē. Sarunas tiek saglabātas tikai lokāli; kopsavilkumi, koplietošana un citas mākoņa funkcijas nav pieejamas."
 }

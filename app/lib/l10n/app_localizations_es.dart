@@ -9802,4 +9802,25 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Desactívalo para impedir que se envíe audio sin procesar a Omi. Las transcripciones y los datos necesarios para las funciones en la nube aún pueden enviarse a Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Completo';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'El audio y la transcripción se envían a Omi para que las conversaciones, los resúmenes y las tareas se generen como de costumbre.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Solo transcripción';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'El audio sin procesar permanece en este dispositivo. La transcripción se sigue enviando a Omi para que los resúmenes y las tareas sigan funcionando.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Solo local';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'El audio, la transcripción y el contenido de la conversación permanecen en este dispositivo. Las conversaciones se guardan solo localmente; los resúmenes, el uso compartido y otras funciones en la nube no están disponibles.';
 }

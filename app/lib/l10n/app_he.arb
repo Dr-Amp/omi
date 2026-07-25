@@ -10784,5 +10784,11 @@
     "whisperModelSizeSmall": "קטן",
     "whisperModelSizeTiny": "זעיר",
     "sendRawAudioToOmi": "שליחת שמע גולמי ל-Omi",
-    "sendRawAudioToOmiDescription": "כבו כדי למנוע שליחת שמע גולמי ל-Omi. תמלילים ונתונים הדרושים לתכונות הענן עדיין עשויים להישלח ל-Omi."
+    "sendRawAudioToOmiDescription": "כבו כדי למנוע שליחת שמע גולמי ל-Omi. תמלילים ונתונים הדרושים לתכונות הענן עדיין עשויים להישלח ל-Omi.",
+    "sttPrivacyPolicyFullTitle": "מלא",
+    "sttPrivacyPolicyFullDescription": "האודיו והתמלול נשלחים ל-Omi כך ששיחות, סיכומים ופריטי פעולה נוצרים כרגיל.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "תמלול בלבד",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "האודיו הגולמי נשאר במכשיר זה. התמלול עדיין נשלח ל-Omi כך שסיכומים ופריטי פעולה ממשיכים לפעול.",
+    "sttPrivacyPolicyLocalOnlyTitle": "מקומי בלבד",
+    "sttPrivacyPolicyLocalOnlyDescription": "האודיו, התמלול ותוכן השיחה נשארים במכשיר זה. שיחות נשמרות מקומית בלבד; סיכומים, שיתוף ותכונות ענן אחרות אינם זמינים."
 }

@@ -9782,4 +9782,25 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'برای جلوگیری از ارسال صدای خام به Omi این گزینه را خاموش کنید. متن پیاده‌شده و داده‌های مورد نیاز قابلیت‌های ابری ممکن است همچنان به Omi ارسال شوند.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'کامل';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'صدا و متن پیاده‌شده به Omi ارسال می‌شود تا گفتگوها، خلاصه‌ها و موارد اقدام مانند همیشه ایجاد شوند.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'فقط متن پیاده‌شده';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'صدای خام روی این دستگاه باقی می‌ماند. متن پیاده‌شده همچنان به Omi ارسال می‌شود تا خلاصه‌ها و موارد اقدام به کار خود ادامه دهند.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'فقط محلی';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'صدا، متن پیاده‌شده و محتوای گفتگو روی این دستگاه باقی می‌مانند. گفتگوها فقط به‌صورت محلی ذخیره می‌شوند؛ خلاصه‌ها، اشتراک‌گذاری و سایر ویژگی‌های ابری در دسترس نیستند.';
 }

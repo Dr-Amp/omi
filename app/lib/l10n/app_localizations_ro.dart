@@ -9827,4 +9827,25 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Dezactivează pentru a împiedica trimiterea sunetului brut către Omi. Transcrierile și datele necesare funcțiilor cloud pot fi trimise în continuare către Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Complet';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Sunetul și transcrierea sunt trimise către Omi, astfel încât conversațiile, rezumatele și elementele de acțiune sunt generate ca de obicei.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Doar transcriere';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Sunetul brut rămâne pe acest dispozitiv. Transcrierea este în continuare trimisă către Omi, astfel încât rezumatele și elementele de acțiune continuă să funcționeze.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Doar local';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Sunetul, transcrierea și conținutul conversației rămân pe acest dispozitiv. Conversațiile sunt salvate doar local; rezumatele, partajarea și alte funcții cloud nu sunt disponibile.';
 }

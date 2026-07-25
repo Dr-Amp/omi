@@ -3174,5 +3174,11 @@
     "whisperModelSizeSmall": "Klein",
     "whisperModelSizeTiny": "Winzig",
     "sendRawAudioToOmi": "Roh-Audio an Omi senden",
-    "sendRawAudioToOmiDescription": "Deaktivieren, damit kein Roh-Audio an Omi gesendet wird. Transkripte und für Cloud-Funktionen benötigte Daten können weiterhin an Omi gesendet werden."
+    "sendRawAudioToOmiDescription": "Deaktivieren, damit kein Roh-Audio an Omi gesendet wird. Transkripte und für Cloud-Funktionen benötigte Daten können weiterhin an Omi gesendet werden.",
+    "sttPrivacyPolicyFullTitle": "Vollständig",
+    "sttPrivacyPolicyFullDescription": "Audio und Transkript werden an Omi gesendet, damit Unterhaltungen, Zusammenfassungen und Aufgaben wie gewohnt erstellt werden.",
+    "sttPrivacyPolicyTranscriptOnlyTitle": "Nur Transkript",
+    "sttPrivacyPolicyTranscriptOnlyDescription": "Rohes Audio bleibt auf diesem Gerät. Das Transkript wird weiterhin an Omi gesendet, damit Zusammenfassungen und Aufgaben weiterhin funktionieren.",
+    "sttPrivacyPolicyLocalOnlyTitle": "Nur lokal",
+    "sttPrivacyPolicyLocalOnlyDescription": "Audio, Transkript und Unterhaltungsinhalte bleiben auf diesem Gerät. Unterhaltungen werden nur lokal gespeichert; Zusammenfassungen, Teilen und andere Cloud-Funktionen sind nicht verfügbar."
 }

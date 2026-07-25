@@ -9810,4 +9810,25 @@ class AppLocalizationsBe extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Выключыце, каб не адпраўляць у Omi неапрацаванае аўдыя. Расшыфроўкі і даныя, патрэбныя воблачным функцыям, усё яшчэ могуць адпраўляцца ў Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Поўны';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Аудыё і транскрыпт адпраўляюцца ў Omi, каб размовы, зводкі і задачы ствараліся як звычайна.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Толькі транскрыпт';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Неапрацаванае аудыё застаецца на гэтай прыладзе. Транскрыпт па-ранейшаму адпраўляецца ў Omi, каб зводкі і задачы працягвалі працаваць.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Толькі лакальна';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Аудыё, транскрыпт і змест размовы застаюцца на гэтай прыладзе. Размовы захоўваюцца толькі лакальна; зводкі, супольны доступ і іншыя воблачныя функцыі недаступныя.';
 }

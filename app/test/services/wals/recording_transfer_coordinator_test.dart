@@ -195,6 +195,49 @@ void main() {
       expect(harness.scheduledCooldowns, hasLength(1));
       expect(harness.coordinator.nextCooldownAt, DateTime.utc(2026, 1, 1, 0, 0, 5));
     });
+
+    // T6: localOnly must dominate BOTH terms of `trigger == userRetry ||
+    // autoUploadEnabled()` — a policy check placed only inside
+    // autoUploadEnabled would still let an explicit user retry upload audio.
+    group('uploadsBlockedByPolicy (T6)', () {
+      test('blocks an explicit user retry, not just auto-upload', () async {
+        final harness = _TransferHarness(uploadsBlockedByPolicy: true);
+        addTearDown(harness.dispose);
+
+        await harness.coordinator.wake(WakeTrigger.userRetry);
+
+        expect(harness.drainPasses, 0);
+      });
+
+      test('blocks auto-upload too', () async {
+        final harness = _TransferHarness(uploadsBlockedByPolicy: true);
+        addTearDown(harness.dispose);
+
+        await harness.coordinator.wake(WakeTrigger.startup);
+
+        expect(harness.drainPasses, 0);
+      });
+
+      test('still reconciles and discovers while uploads are policy-blocked', () async {
+        final harness = _TransferHarness(uploadsBlockedByPolicy: true);
+        addTearDown(harness.dispose);
+
+        await harness.coordinator.wake(WakeTrigger.startup);
+
+        expect(harness.reconcilePasses, 1);
+        expect(harness.discoveryPasses, 1);
+        expect(harness.drainPasses, 0);
+      });
+
+      test('unblocked coordinator still drains a user retry (control)', () async {
+        final harness = _TransferHarness(uploadsBlockedByPolicy: false, autoUploadEnabled: false);
+        addTearDown(harness.dispose);
+
+        await harness.coordinator.wake(WakeTrigger.userRetry);
+
+        expect(harness.drainPasses, 1);
+      });
+    });
   });
 }
 
@@ -208,8 +251,13 @@ class _ScheduledCooldown {
 }
 
 class _TransferHarness {
-  _TransferHarness({bool autoUploadEnabled = true, List<String>? backlog, List<String>? drainedWalIds})
-      : _autoUploadEnabled = autoUploadEnabled,
+  _TransferHarness({
+    bool autoUploadEnabled = true,
+    bool uploadsBlockedByPolicy = false,
+    List<String>? backlog,
+    List<String>? drainedWalIds,
+  })  : _autoUploadEnabled = autoUploadEnabled,
+        _uploadsBlockedByPolicy = uploadsBlockedByPolicy,
         backlog = backlog ?? <String>['wal-1'],
         drainedWalIds = drainedWalIds ?? <String>[] {
     coordinator = RecordingTransferCoordinator(
@@ -218,6 +266,7 @@ class _TransferHarness {
       refreshPending: _refreshPending,
       drain: _drain,
       autoUploadEnabled: () => _autoUploadEnabled,
+      uploadsBlockedByPolicy: () => _uploadsBlockedByPolicy,
       connectivityChanges: connectivity.stream,
       initiallyConnected: true,
       clock: () => DateTime.utc(2026, 1, 1),
@@ -226,6 +275,7 @@ class _TransferHarness {
   }
 
   final bool _autoUploadEnabled;
+  final bool _uploadsBlockedByPolicy;
   final StreamController<bool> connectivity = StreamController<bool>.broadcast(sync: true);
   final List<String> backlog;
   final List<String> drainedWalIds;

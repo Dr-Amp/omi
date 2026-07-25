@@ -9704,4 +9704,25 @@ class AppLocalizationsHe extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'כבו כדי למנוע שליחת שמע גולמי ל-Omi. תמלילים ונתונים הדרושים לתכונות הענן עדיין עשויים להישלח ל-Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'מלא';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'האודיו והתמלול נשלחים ל-Omi כך ששיחות, סיכומים ופריטי פעולה נוצרים כרגיל.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'תמלול בלבד';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'האודיו הגולמי נשאר במכשיר זה. התמלול עדיין נשלח ל-Omi כך שסיכומים ופריטי פעולה ממשיכים לפעול.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'מקומי בלבד';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'האודיו, התמלול ותוכן השיחה נשארים במכשיר זה. שיחות נשמרות מקומית בלבד; סיכומים, שיתוף ותכונות ענן אחרות אינם זמינים.';
 }

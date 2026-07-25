@@ -381,6 +381,14 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
         drain: _drainEligibleWals,
         autoUploadEnabled: () =>
             !SharedPreferencesUtil().useCustomStt && SharedPreferencesUtil().autoSyncOfflineRecordings,
+        // localOnly: WAL/offline recording bytes must never reach Omi, under
+        // an explicit user retry as well as auto-upload (acceptance-matrix.md
+        // row 9; T6) — this must dominate both terms of the coordinator's
+        // upload gate, not just live inside autoUploadEnabled above.
+        uploadsBlockedByPolicy: () {
+          final config = SharedPreferencesUtil().customSttConfig;
+          return config.isEnabled && config.isLocalOnlyPolicy;
+        },
         connectivityChanges: ConnectivityService().onConnectionChange,
         initiallyConnected: ConnectivityService().isConnected,
       );

@@ -9792,4 +9792,25 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Ham sesin Omi\'ye gönderilmesini önlemek için kapatın. Transkriptler ve bulut özelliklerinin gerektirdiği veriler yine de Omi\'ye gönderilebilir.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Tam';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Ses ve döküm, konuşmaların, özetlerin ve eylem öğelerinin her zamanki gibi oluşturulması için Omi\'ye gönderilir.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Yalnızca döküm';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Ham ses bu cihazda kalır. Döküm, özetlerin ve eylem öğelerinin çalışmaya devam etmesi için yine de Omi\'ye gönderilir.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Yalnızca yerel';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Ses, döküm ve konuşma içeriği bu cihazda kalır. Konuşmalar yalnızca yerel olarak kaydedilir; özetler, paylaşım ve diğer bulut özellikleri kullanılamaz.';
 }

@@ -9776,4 +9776,25 @@ class AppLocalizationsEt extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Lülita välja, et töötlemata heli Omisse ei saadetaks. Transkriptsioone ja pilvefunktsioonide jaoks vajalikke andmeid võidakse endiselt Omisse saata.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Täielik';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Heli ja transkriptsioon saadetakse Omile, et vestlused, kokkuvõtted ja tegevusüksused luuakse tavapäraselt.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Ainult transkriptsioon';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Töötlemata heli jääb sellesse seadmesse. Transkriptsioon saadetakse endiselt Omile, et kokkuvõtted ja tegevusüksused toimiksid edasi.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Ainult kohalik';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Heli, transkriptsioon ja vestluse sisu jäävad sellesse seadmesse. Vestlused salvestatakse ainult kohalikult; kokkuvõtted, jagamine ja muud pilvefunktsioonid pole saadaval.';
 }

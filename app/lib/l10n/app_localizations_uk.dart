@@ -9800,4 +9800,25 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Вимкніть, щоб необроблений звук не надсилався до Omi. Транскрипти й дані, потрібні хмарним функціям, усе ще можуть надсилатися до Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Повний';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'Звук і транскрипт надсилаються до Omi, щоб розмови, підсумки та завдання створювалися як завжди.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Лише транскрипт';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'Необроблений звук залишається на цьому пристрої. Транскрипт усе одно надсилається до Omi, щоб підсумки та завдання продовжували працювати.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Лише локально';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'Звук, транскрипт і вміст розмови залишаються на цьому пристрої. Розмови зберігаються лише локально; підсумки, надсилання спільного доступу та інші хмарні функції недоступні.';
 }

@@ -9820,4 +9820,25 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'Kapcsold ki, hogy a nyers hang ne kerüljön az Omihoz. Az átiratok és a felhőfunkciókhoz szükséges adatok továbbra is elküldhetők az Ominak.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'Teljes';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'A hang és az átirat elküldésre kerül az Omi-nak, így a beszélgetések, összefoglalók és teendők a szokásos módon jönnek létre.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'Csak átirat';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'A nyers hang ezen az eszközön marad. Az átirat továbbra is elküldésre kerül az Omi-nak, így az összefoglalók és teendők továbbra is működnek.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'Csak helyi';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'A hang, az átirat és a beszélgetés tartalma ezen az eszközön marad. A beszélgetések csak helyben kerülnek mentésre; az összefoglalók, megosztás és egyéb felhőfunkciók nem érhetők el.';
 }

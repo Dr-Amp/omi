@@ -9720,4 +9720,25 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get sendRawAudioToOmiDescription =>
       'أوقف هذا الخيار لمنع إرسال الصوت الخام إلى Omi. قد يستمر إرسال النصوص والبيانات اللازمة للميزات السحابية إلى Omi.';
+
+  @override
+  String get sttPrivacyPolicyFullTitle => 'كامل';
+
+  @override
+  String get sttPrivacyPolicyFullDescription =>
+      'يتم إرسال الصوت والنص المكتوب إلى Omi حتى يتم إنشاء المحادثات والملخصات وعناصر الإجراءات كالمعتاد.';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyTitle => 'النص المكتوب فقط';
+
+  @override
+  String get sttPrivacyPolicyTranscriptOnlyDescription =>
+      'يبقى الصوت الخام على هذا الجهاز. لا يزال النص المكتوب يُرسل إلى Omi حتى تستمر الملخصات وعناصر الإجراءات في العمل.';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyTitle => 'محلي فقط';
+
+  @override
+  String get sttPrivacyPolicyLocalOnlyDescription =>
+      'يبقى الصوت والنص المكتوب ومحتوى المحادثة على هذا الجهاز. تُحفظ المحادثات محليًا فقط؛ الملخصات والمشاركة وميزات السحابة الأخرى غير متوفرة.';
 }
