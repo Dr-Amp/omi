@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:omi/backend/http/api/conversations.dart';
+import 'package:omi/backend/http/api/folders.dart';
 
 /// T13 (acceptance-matrix.md): a `local_`-prefixed conversation id must be
 /// rejected at the Omi conversation HTTP boundary, not just at whichever
@@ -115,6 +116,29 @@ void main() {
     test('uploadLocalFilesV2 rejects a local_ conversationId', () async {
       await expectLater(
         uploadLocalFilesV2(<File>[], conversationId: 'local_x'),
+        throwsA(isA<LocalOnlyConversationIdRejectedException>()),
+      );
+    });
+  });
+
+  group('folder HTTP boundary rejects a local_ id before any network call (T13)', () {
+    test('moveConversationToFolderApi', () async {
+      await expectLater(
+        moveConversationToFolderApi('local_x', 'folder-1'),
+        throwsA(isA<LocalOnlyConversationIdRejectedException>()),
+      );
+    });
+
+    test('bulkMoveConversationsToFolderApi rejects a single local_ id', () async {
+      await expectLater(
+        bulkMoveConversationsToFolderApi('folder-1', ['local_x']),
+        throwsA(isA<LocalOnlyConversationIdRejectedException>()),
+      );
+    });
+
+    test('bulkMoveConversationsToFolderApi rejects if any id in the list is local_-prefixed', () async {
+      await expectLater(
+        bulkMoveConversationsToFolderApi('folder-1', ['normal-id', 'also-normal', 'local_x']),
         throwsA(isA<LocalOnlyConversationIdRejectedException>()),
       );
     });

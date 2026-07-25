@@ -198,13 +198,14 @@ class GetSummaryWidgets extends StatelessWidget {
                 icon: Icons.people,
                 onTap: () => _showCalendarEventDetails(context, conversation.calendarEvent!),
               ),
-            // Folder chip
-            _buildFolderChip(
-              context: context,
-              folder: folder,
-              conversationId: conversation.id,
-              currentFolderId: conversation.folderId,
-            ),
+            // Folder chip — hidden for localOnly conversations
+            if (!conversation.isLocalOnly)
+              _buildFolderChip(
+                context: context,
+                folder: folder,
+                conversationId: conversation.id,
+                currentFolderId: conversation.folderId,
+              ),
             // Visibility chip — needs its own Selector to detect mutation on the same object
             Selector<ConversationDetailProvider, ConversationVisibility>(
               selector: (_, provider) => provider.conversation.visibility,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:omi/backend/http/api/conversations.dart';
 import 'package:omi/backend/http/shared.dart';
 import 'package:omi/backend/schema/folder.dart';
 import 'package:omi/backend/schema/gen/action_items_folders_wire.g.dart' as wire;
@@ -91,6 +92,7 @@ Future<bool> deleteFolderApi(String folderId, {String? moveToFolderId}) async {
 
 /// Move a conversation to a different folder.
 Future<bool> moveConversationToFolderApi(String conversationId, String? folderId) async {
+  rejectLocalOnlyConversationId(conversationId);
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/conversations/$conversationId/folder',
     headers: {},
@@ -104,6 +106,9 @@ Future<bool> moveConversationToFolderApi(String conversationId, String? folderId
 
 /// Bulk move multiple conversations to a folder.
 Future<int> bulkMoveConversationsToFolderApi(String folderId, List<String> conversationIds) async {
+  for (final id in conversationIds) {
+    rejectLocalOnlyConversationId(id);
+  }
   var response = await makeApiCall(
     url: '${Env.apiBaseUrl}v1/folders/$folderId/conversations/bulk-move',
     headers: {},
